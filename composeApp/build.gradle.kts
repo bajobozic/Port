@@ -32,22 +32,29 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            // Koin Android
             implementation(libs.koin.android)
         }
         commonMain.dependencies {
+            // Compose Multiplatform defaults, added by the plugin
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            // Kotlin datetime
             implementation(libs.kotlinx.datetime)
+            // jetpack libraries  equivalents for androidx in common
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            // Serialization
             implementation(libs.kotlinx.serialization.json)
+            // Room common
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
-
+            // Koin common
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
