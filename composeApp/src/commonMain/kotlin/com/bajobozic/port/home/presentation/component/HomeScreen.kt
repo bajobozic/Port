@@ -112,15 +112,14 @@ fun HomeScreen(
 
         if (uiState.loadState.append is LoadState.Error && uiState.loadState.hasError && endOfList) {
             LaunchedEffect(uiState.loadState.append) {
-                action(HomeAction.ShowSnackbar(message = "Loading error"))
-                uiState.retry()
+                action(HomeAction.ShowSnackbar(message = "Loading error") { uiState.retry() })
             }
         } else  //don't use loadState SOURCE or MEDIATOR here, this way we can show errors and still have data from above MEDIATOR
             if (uiState.loadState.refresh is LoadState.Error && uiState.loadState.hasError) {
                 LaunchedEffect(endOfList) {
                     if (endOfList)
-                        action(HomeAction.ShowSnackbar(message = "Loading error"))
-                    uiState.retry()
+                        action(HomeAction.ShowSnackbar(message = "Loading error") { uiState.retry() })
+
                 }
 //                Toast.makeText(
 //                    context,
