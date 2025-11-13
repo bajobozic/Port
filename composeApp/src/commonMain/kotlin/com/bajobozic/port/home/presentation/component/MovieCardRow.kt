@@ -1,7 +1,6 @@
 package com.bajobozic.port.home.presentation.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,9 +29,7 @@ import coil3.network.NetworkHeaders
 import coil3.network.httpHeaders
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-
 import com.bajobozic.port.home.domain.model.Movie
-
 import org.jetbrains.compose.resources.painterResource
 import port.composeapp.generated.resources.Res
 import port.composeapp.generated.resources.compose_multiplatform
@@ -43,10 +39,9 @@ private const val HEADER_TOKEN =
     "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwY2VjY2FhNzcyN2UyZGM2YTU2NWIxMzA2NTAzOWRmNyIsInN1YiI6IjU4N2Y3MzA3YzNhMzY4MmU5ZjAwOTY4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WgePLgtvzGV-iui6VBQA6J-ARJBzBo13vfPUih7V17s"
 
 @Composable
-fun MovieCardRow(movie: Movie, onDelete: (Movie) -> Unit) {
+fun MovieCardRow(modifier: Modifier = Modifier, movie: Movie, onDelete: (Movie) -> Unit) {
     Column(
-        modifier = Modifier
-            .clickable { onDelete(movie) }
+        modifier = modifier
             .clip(
                 RoundedCornerShape(
                     topStart = 20.dp,

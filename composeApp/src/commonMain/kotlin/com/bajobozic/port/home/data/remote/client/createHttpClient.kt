@@ -9,7 +9,6 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.plugins.observer.ResponseObserver
 import io.ktor.client.request.accept
 import io.ktor.client.request.header
 import io.ktor.http.ContentType
@@ -41,16 +40,10 @@ fun createHttpClient(engine: HttpClientEngine): HttpClient {
         install(Logging) {
             logger = object : Logger {
                 override fun log(message: String) {
-
+                    println(message)
                 }
             }
             level = LogLevel.ALL
-        }
-
-        install(ResponseObserver) {
-            onResponse { response ->
-//                Log.d("HTTP status:", "${response.status.value}")
-            }
         }
 
         install(DefaultRequest) {
