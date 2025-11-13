@@ -1,5 +1,6 @@
 package com.bajobozic.port.home.data.locale.db
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -73,9 +74,9 @@ interface MovieDao {
         }
     }
 
-   /* @Transaction
+    @Transaction
     @Query("SELECT * FROM movies ORDER BY popularity DESC")
-    fun pagingSource(): PagingSource<Int, MovieWithGenres>*/
+    fun pagingSource(): PagingSource<Int, MovieWithGenres>
 
     @Delete
     @Transaction

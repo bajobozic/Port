@@ -46,6 +46,9 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            // Compose Navigation
+            implementation(libs.navigation.compose)
+
             // Kotlin coroutines
             implementation(libs.kotlinx.coroutines.core)
             // Kotlin datetime
@@ -57,6 +60,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             // Room common
             implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.room.paging)
             implementation(libs.androidx.sqlite.bundled)
             // Koin common
             api(libs.koin.core)
@@ -64,6 +68,9 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             //Ktor for networking
             implementation(libs.bundles.ktor)
+            // Paging
+            implementation(libs.androidx.paging.common)
+            implementation(libs.androidx.paging.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
