@@ -46,6 +46,8 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            // Kotlin coroutines
+            implementation(libs.kotlinx.coroutines.core)
             // Kotlin datetime
             implementation(libs.kotlinx.datetime)
             // jetpack libraries  equivalents for androidx in common
@@ -62,6 +64,8 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             //Ktor for networking
             implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
