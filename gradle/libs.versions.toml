@@ -58,3 +58,6 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidx-room = { id = "androidx.room", version.ref = "room" }
+
+[bundles]
+ktor = ["ktor-client-core", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
