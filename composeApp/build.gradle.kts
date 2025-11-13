@@ -35,6 +35,8 @@ kotlin {
 
             // Koin Android
             implementation(libs.koin.android)
+            // Ktor Android
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             // Compose Multiplatform defaults, added by the plugin
@@ -58,12 +60,15 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+            //Ktor for networking
+            implementation(libs.ktor.client.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
         iosMain.dependencies {
-
+            // Ktor iOS
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
