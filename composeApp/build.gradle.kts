@@ -71,6 +71,10 @@ kotlin {
             // Paging
             implementation(libs.androidx.paging.common)
             implementation(libs.androidx.paging.compose)
+            // Coil image loading
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

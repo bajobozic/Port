@@ -23,6 +23,7 @@ coroutinesVersion = "1.10.2"
 nav-compose = "2.9.1"
 pagingRuntime = "3.4.0-alpha04"
 pagingCompose = "3.4.0-alpha04"
+coil = "3.3.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -55,6 +56,8 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "nav-compose" }
 androidx-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "pagingRuntime" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingCompose" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
