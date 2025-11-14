@@ -1,6 +1,7 @@
 package com.bajobozic.port.home.presentation.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -39,9 +40,9 @@ private const val HEADER_TOKEN =
     "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwY2VjY2FhNzcyN2UyZGM2YTU2NWIxMzA2NTAzOWRmNyIsInN1YiI6IjU4N2Y3MzA3YzNhMzY4MmU5ZjAwOTY4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WgePLgtvzGV-iui6VBQA6J-ARJBzBo13vfPUih7V17s"
 
 @Composable
-fun MovieCardRow(modifier: Modifier = Modifier, movie: Movie, onDelete: (Movie) -> Unit) {
+fun MovieCardRow(modifier: Modifier = Modifier, movie: Movie, onClick: (Int) -> Unit) {
     Column(
-        modifier = modifier
+        modifier = modifier.clickable { onClick(movie.id) }
             .clip(
                 RoundedCornerShape(
                     topStart = 20.dp,

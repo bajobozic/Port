@@ -87,7 +87,7 @@ fun HomeScreen(
                     val movie = uiState[index]
                     if (movie != null)
                         MovieCardRow(modifier = Modifier.animateItem(), movie = movie) {
-                            action(HomeAction.NavigateToDetailsScreen(it.id))
+                            action(HomeAction.NavigateToDetailsScreen(it))
                         }
                 }
                 if (uiState.loadState.mediator?.append is LoadState.Loading)

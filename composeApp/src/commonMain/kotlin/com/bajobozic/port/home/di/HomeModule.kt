@@ -9,6 +9,7 @@ import com.bajobozic.port.home.data.remote.client.MovieRemoteMediator
 import com.bajobozic.port.home.data.repository.HomeRepositoryImp
 import com.bajobozic.port.home.domain.ErrorHandler
 import com.bajobozic.port.home.domain.repository.HomeRepository
+import com.bajobozic.port.home.presentation.DetailViewModel
 import com.bajobozic.port.home.presentation.HomeViewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -22,4 +23,5 @@ val homeModule = module {
     singleOf(::HomeRepositoryImp).bind<HomeRepository>()
     factory { MovieRemoteMediator(get(), get()) }
     viewModelOf(::HomeViewModel)
+    viewModelOf(::DetailViewModel)
 }

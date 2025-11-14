@@ -14,10 +14,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.bajobozic.port.home.presentation.DetailViewModel
 import com.bajobozic.port.home.presentation.HomeViewModel
 import com.bajobozic.port.home.presentation.Routes
+import com.bajobozic.port.home.presentation.Routes.Details
 import com.bajobozic.port.home.presentation.component.DetailsScreen
 import com.bajobozic.port.home.presentation.component.HomeAction
 import com.bajobozic.port.home.presentation.component.HomeScreen
@@ -74,27 +75,47 @@ fun App() {
                                 homeViewModel.homePagingData.collectAsLazyPagingItems()
                             HomeScreen(
                                 uiState = homePaginationData,
-                                action = {
-                                    when (it) {
+                                action = { homeAction ->
+                                    when (homeAction) {
                                         is HomeAction.NavigateToDetailsScreen -> {
-                                            navController.navigate(Routes.Details(it.movieId)) {
+                                            navController.navigate(Details(homeAction.movieId)) {
                                                 launchSingleTop = true
                                             }
                                         }
 
-                                        else -> homeViewModel::actionHandler
+                                        HomeAction.OnBackPressed -> homeViewModel.actionHandler(
+                                            homeAction
+                                        )
+
+                                        HomeAction.PullToRefresh -> homeViewModel.actionHandler(
+                                            homeAction
+                                        )
+
+                                        is HomeAction.DeleteMove -> homeViewModel.actionHandler(
+                                            homeAction
+                                        )
+
+                                        is HomeAction.Init -> homeViewModel.actionHandler(homeAction)
+                                        is HomeAction.LoadDetails -> homeViewModel.actionHandler(
+                                            homeAction
+                                        )
+
+                                        is HomeAction.ShowSnackbar -> homeViewModel.actionHandler(
+                                            homeAction
+                                        )
+
+                                        is HomeAction.Toggle -> homeViewModel.actionHandler(
+                                            homeAction
+                                        )
                                     }
                                 }
                             )
                         }
-                        composable<Routes.Details>()
+                        composable<Details>()
                         { navBackStackEntry ->
-                            val homeViewModel = koinViewModel<HomeViewModel>()
-                            val movieId = navBackStackEntry.toRoute<Int>()
+                            val detailViewModel = koinViewModel<DetailViewModel>()
                             DetailsScreen(
-                                movieId,
-                                homeViewModel.movie.collectAsStateWithLifecycle(),
-                                homeViewModel::actionHandler
+                                detailViewModel.movie.collectAsStateWithLifecycle()
                             )
                         }
 
