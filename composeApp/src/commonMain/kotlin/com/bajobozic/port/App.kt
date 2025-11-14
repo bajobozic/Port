@@ -7,8 +7,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -22,6 +28,7 @@ import com.bajobozic.port.home.presentation.Routes.Details
 import com.bajobozic.port.home.presentation.component.DetailsScreen
 import com.bajobozic.port.home.presentation.component.HomeAction
 import com.bajobozic.port.home.presentation.component.HomeScreen
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -35,6 +42,8 @@ fun App() {
             color = MaterialTheme.colorScheme.background
         ) {
             val navController = rememberNavController()
+            val snackbarHostState = remember { SnackbarHostState() }
+            val coroutineScope = rememberCoroutineScope()
             Scaffold(
                 modifier = Modifier,
                 content = { paddingValues ->
@@ -100,9 +109,23 @@ fun App() {
                                             homeAction
                                         )
 
-                                        is HomeAction.ShowSnackbar -> homeViewModel.actionHandler(
-                                            homeAction
-                                        )
+                                        is HomeAction.ShowSnackbar -> {
+                                            coroutineScope.launch {
+                                                snackbarHostState.showSnackbar(
+                                                    message = homeAction.message.orEmpty(),
+                                                    actionLabel = "Retry",
+                                                    duration = SnackbarDuration.Short
+                                                ).apply {
+                                                    when (this) {
+                                                        SnackbarResult.ActionPerformed -> {
+                                                            homeAction.action?.invoke()
+                                                        }
+
+                                                        else -> println("Snackbar dismissed")
+                                                    }
+                                                }
+                                            }
+                                        }
 
                                         is HomeAction.Toggle -> homeViewModel.actionHandler(
                                             homeAction
@@ -121,7 +144,7 @@ fun App() {
 
                     }
                 },
-                snackbarHost = { }
+                snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
             )
         }
     }
