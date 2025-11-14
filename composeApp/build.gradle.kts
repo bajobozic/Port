@@ -78,6 +78,7 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
     }
+    compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
 }
 
 android {

@@ -6,10 +6,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
+import androidx.paging.RemoteMediator
 import androidx.paging.map
 import com.bajobozic.port.home.data.locale.HomeLocalDataSource
 import com.bajobozic.port.home.data.remote.client.HomeRemoteDataSource
-import com.bajobozic.port.home.data.remote.client.MovieRemoteMediator
 import com.bajobozic.port.home.data.remote.dto.initKeys
 import com.bajobozic.port.home.data.remote.dto.toEntity
 import com.bajobozic.port.home.domain.ErrorHandler
@@ -17,6 +17,7 @@ import com.bajobozic.port.home.domain.model.GetMoviesWithGenres
 import com.bajobozic.port.home.domain.model.Movie
 import com.bajobozic.port.home.domain.model.MovieDetail
 import com.bajobozic.port.home.domain.repository.HomeRepository
+import home.data.local.db.MovieWithGenres
 import home.data.local.db.toModel
 import home.data.local.db.toModelDetail
 import kotlinx.coroutines.flow.Flow
@@ -31,7 +32,7 @@ import kotlinx.coroutines.flow.merge
 
 @OptIn(ExperimentalPagingApi::class)
 internal class HomeRepositoryImp(
-    private val movieRemoteMediatorFactory: MovieRemoteMediator,
+    private val movieRemoteMediatorFactory: RemoteMediator<Int, MovieWithGenres>,
     private val homeRemoteDataSource: HomeRemoteDataSource,
     private val homeLocalDataSource: HomeLocalDataSource,
     private val errorHandler: ErrorHandler
@@ -41,7 +42,7 @@ internal class HomeRepositoryImp(
         try {
             homeLocalDataSource.deleteMovie(movieId)
         } catch (t: Throwable) {
-//            Log.d("ToDeleteApp", "deleteMovie: ${t.message.orEmpty()}")
+            println(t.message.orEmpty())
         }
     }
 
