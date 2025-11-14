@@ -32,9 +32,6 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-
-            // Koin Android
-            implementation(libs.koin.android)
             // Ktor Android
             implementation(libs.ktor.client.okhttp)
         }
@@ -48,9 +45,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             // Compose Navigation
             implementation(libs.navigation.compose)
-
-            // Kotlin coroutines
-            implementation(libs.kotlinx.coroutines.core)
             // Kotlin datetime
             implementation(libs.kotlinx.datetime)
             // jetpack libraries  equivalents for androidx in common
