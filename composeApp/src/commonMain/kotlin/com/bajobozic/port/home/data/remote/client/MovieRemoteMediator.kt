@@ -31,8 +31,8 @@ class MovieRemoteMediator(
             }
 
             val moviesResponse =
-                homeRemoteDataSource.getMovies("en", loadKey).initRemoteKeys().movies
-            val genreResponse = homeRemoteDataSource.getGenres("en").genres
+                homeRemoteDataSource.getMovies("en-us", loadKey).initRemoteKeys().movies
+            val genreResponse = homeRemoteDataSource.getGenres("en-us").genres
             val genreIdsPerMovie = moviesResponse.map { it.genreIds }
             homeLocalDataSource.batchTransaction {
                 if (loadType == LoadType.REFRESH)
