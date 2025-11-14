@@ -9,35 +9,21 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 
 class MoviesApiClient(private val client: HttpClient) : ApiClient {
-    override suspend fun getMovies(language: String, page: Int): PopularMoviesResponse? {
-        val response = try {
-            client.get(urlString = "https://api.themoviedb.org/3/movie/popular") {
-                parameter("language", language)
-                parameter("page", page)
-            }
-        } catch (t: Throwable) {
-            null
-        }
-        return response?.body<PopularMoviesResponse>()
+    override suspend fun getMovies(language: String, page: Int): PopularMoviesResponse {
+        return client.get(urlString = "https://api.themoviedb.org/3/movie/popular") {
+            parameter("language", language)
+            parameter("page", page)
+        }.body<PopularMoviesResponse>()
     }
 
-    override suspend fun getGenres(): GenreResponse? {
-        val response = try {
-            client.get(urlString = "https://api.themoviedb.org/3/genre/movie/list")
-        } catch (t: Throwable) {
-            null
-        }
-        return response?.body<GenreResponse>()
+    override suspend fun getGenres(): GenreResponse {
+        return client.get(urlString = "https://api.themoviedb.org/3/genre/movie/list")
+            .body<GenreResponse>()
     }
 
-    override suspend fun getMovie(movieId: Int, language: String): MoviesResponse? {
-        val response = try {
-            client.get(urlString = "https://api.themoviedb.org/3/movie/{movie_id}") {
-                parameter("language", language)
-            }
-        } catch (t: Throwable) {
-            null
-        }
-        return response?.body<MoviesResponse>()
+    override suspend fun getMovie(movieId: Int, language: String): MoviesResponse {
+        return client.get(urlString = "https://api.themoviedb.org/3/movie/{movie_id}") {
+            parameter("language", language)
+        }.body<MoviesResponse>()
     }
 }

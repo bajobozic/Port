@@ -21,7 +21,7 @@ val homeModule = module {
     singleOf(::HomeLocalDataSourceImpl).bind<HomeLocalDataSource>()
     singleOf(::HomeRemoteDataSourceImpl).bind<HomeRemoteDataSource>()
     singleOf(::HomeRepositoryImp).bind<HomeRepository>()
-    factory { MovieRemoteMediator(get(), get()) }
+    singleOf(::MovieRemoteMediator)
     viewModelOf(::HomeViewModel)
     viewModelOf(::DetailViewModel)
 }

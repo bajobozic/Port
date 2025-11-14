@@ -31,7 +31,6 @@ import kotlinx.coroutines.flow.merge
 
 @OptIn(ExperimentalPagingApi::class)
 internal class HomeRepositoryImp(
-    //this will be needed in for api calls that are not using paging
     private val movieRemoteMediatorFactory: MovieRemoteMediator,
     private val homeRemoteDataSource: HomeRemoteDataSource,
     private val homeLocalDataSource: HomeLocalDataSource,
@@ -59,7 +58,6 @@ internal class HomeRepositoryImp(
             pagingSourceFactory = {
                 homeLocalDataSource.getPagingSource()
             },
-//            remoteMediator = koinApplication().koin.get<MovieRemoteMediator> { parametersOf(language) }
             remoteMediator = movieRemoteMediatorFactory
         )
         return pager.flow.map { pagingData -> pagingData.map { movieWithGenres -> movieWithGenres.toModel() } }

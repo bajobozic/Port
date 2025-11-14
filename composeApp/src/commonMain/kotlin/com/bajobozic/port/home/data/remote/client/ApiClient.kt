@@ -5,7 +5,7 @@ import com.bajobozic.port.home.data.remote.dto.MoviesResponse
 import com.bajobozic.port.home.data.remote.dto.PopularMoviesResponse
 
 interface ApiClient {
-    suspend fun getMovies(language: String, page: Int): PopularMoviesResponse?
-    suspend fun getGenres(): GenreResponse?
-    suspend fun getMovie(movieId: Int, language: String): MoviesResponse?
+    suspend fun getMovies(language: String, page: Int): PopularMoviesResponse
+    suspend fun getGenres(): GenreResponse
+    suspend fun getMovie(movieId: Int, language: String): MoviesResponse
 }
