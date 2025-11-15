@@ -3,11 +3,14 @@ package com.bajobozic.port.home.presentation.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -29,7 +32,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import coil3.compose.LocalPlatformContext
 import com.bajobozic.port.home.domain.model.Movie
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -50,7 +52,6 @@ fun HomeScreen(
         val endOfList by remember {
             derivedStateOf { !listState.canScrollForward }
         }
-        val context = LocalPlatformContext.current
         val coroutineScope = rememberCoroutineScope()
         var refreshButtonEnabled by remember { mutableStateOf(true) }
 
@@ -86,22 +87,23 @@ fun HomeScreen(
                     contentType = uiState.itemContentType { "contentType" }) { index ->
                     val movie = uiState[index]
                     if (movie != null)
-                        MovieCardRow(modifier = Modifier.animateItem(), movie = movie) {
+                        MovieCardRow(modifier = Modifier.animateItem(), movie = movie, onClick = {
                             action(HomeAction.NavigateToDetailsScreen(it))
-                        }
+                        })
                 }
                 if (uiState.loadState.mediator?.append is LoadState.Loading)
-                    item {
-                        CircularProgressIndicator(
-                            Modifier
-                                .align(Alignment.Center)
-                                .size(56.dp)
-                        )
+                    item(span = StaggeredGridItemSpan.FullLine) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            CircularProgressIndicator(Modifier.size(32.dp))
+                        }
                     }
             }
         }
         if (uiState.loadState.mediator?.refresh is LoadState.Loading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center).size(56.dp))
         } else {
             LaunchedEffect(refreshButtonEnabled) {
                 if (!refreshButtonEnabled)
@@ -119,13 +121,7 @@ fun HomeScreen(
                 LaunchedEffect(endOfList) {
                     if (endOfList)
                         action(HomeAction.ShowSnackbar(message = "Loading error") { uiState.retry() })
-
                 }
-//                Toast.makeText(
-//                    context,
-//                    (uiState.loadState.refresh as LoadState.Error).error.toString(),
-//                    Toast.LENGTH_SHORT
-//                ).show()
             }
     }
 }
