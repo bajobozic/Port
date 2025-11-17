@@ -28,6 +28,7 @@ import com.bajobozic.port.home.presentation.Routes.Details
 import com.bajobozic.port.home.presentation.component.DetailsScreen
 import com.bajobozic.port.home.presentation.component.HomeAction
 import com.bajobozic.port.home.presentation.component.HomeScreen
+import com.bajobozic.port.home.theme.PortAppTheme
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
@@ -35,7 +36,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
+    PortAppTheme {
         // A surface container using the 'background' color from the theme
         Surface(
             modifier = Modifier.fillMaxSize(),
