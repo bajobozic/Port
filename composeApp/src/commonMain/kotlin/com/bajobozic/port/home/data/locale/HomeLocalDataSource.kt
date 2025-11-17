@@ -14,6 +14,12 @@ interface HomeLocalDataSource {
         genreIdsPerMovie: List<List<Int>>
     )
 
+    suspend fun deleteThenInsertAllMovies(
+        list: List<MovieEntity>,
+        genreList: List<GenreEntity>,
+        genreIdsPerMovie: List<List<Int>>
+    )
+
     suspend fun deleteMovie(movieId: Int)
     suspend fun clearAll()
 

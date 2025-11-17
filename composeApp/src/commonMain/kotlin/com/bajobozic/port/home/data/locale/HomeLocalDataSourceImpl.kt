@@ -17,6 +17,14 @@ internal class HomeLocalDataSourceImpl(private val appDatabase: AppDatabase) :
         appDatabase.getMovieDao().insertAll(list, genreList, genreIdsPerMovie)
     }
 
+    override suspend fun deleteThenInsertAllMovies(
+        list: List<MovieEntity>,
+        genreList: List<GenreEntity>,
+        genreIdsPerMovie: List<List<Int>>
+    ) {
+        appDatabase.getMovieDao().deleteThenInsertAll(list, genreList, genreIdsPerMovie)
+    }
+
     override suspend fun deleteMovie(movieId: Int) {
         appDatabase.getMovieDao().deleteMovie(movieId)
     }

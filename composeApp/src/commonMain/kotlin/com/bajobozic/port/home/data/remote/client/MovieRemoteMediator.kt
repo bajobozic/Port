@@ -38,14 +38,18 @@ class MovieRemoteMediator(
             val genreIdsPerMovie = moviesResponse.map { it.genreIds }
             homeLocalDataSource.batchTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    homeLocalDataSource.clearAll()
+                    homeLocalDataSource.deleteThenInsertAllMovies(
+                        list = moviesResponse.map { it.toEntity() },
+                        genreList = genreResponse,
+                        genreIdsPerMovie = genreIdsPerMovie
+                    )
+                } else {
+                    homeLocalDataSource.insertAllMovies(
+                        list = moviesResponse.map { it.toEntity() },
+                        genreList = genreResponse,
+                        genreIdsPerMovie = genreIdsPerMovie
+                    )
                 }
-
-                homeLocalDataSource.insertAllMovies(
-                    list = moviesResponse.map { it.toEntity() },
-                    genreList = genreResponse,
-                    genreIdsPerMovie = genreIdsPerMovie
-                )
             }
 
             MediatorResult.Success(
