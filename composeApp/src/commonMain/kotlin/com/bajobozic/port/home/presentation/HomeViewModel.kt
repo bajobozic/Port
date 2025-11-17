@@ -6,7 +6,6 @@ import androidx.compose.material3.SnackbarResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.bajobozic.port.home.domain.model.Movie
 import com.bajobozic.port.home.domain.repository.HomeRepository
 import com.bajobozic.port.home.presentation.component.DetailUiState
@@ -28,8 +27,7 @@ class HomeViewModel(
     var _language = MutableStateFlow("en-US")
     val language: StateFlow<String> = _language
     */
-    val homePagingData: Flow<PagingData<Movie>> = homeRepository.getPagingData(language = "en-us")
-        .cachedIn(viewModelScope)
+    val homePagingData: Flow<PagingData<Movie>> = homeRepository.getPagingData(language = "en-US")
 
     private var _movie = MutableStateFlow(DetailUiState(isLoading = true))
     val movie = _movie.asStateFlow()
@@ -63,7 +61,7 @@ class HomeViewModel(
                             }
 
                             else -> {
-                                println("Snackbar Snackbar dismissed")
+                                println("Snackbar, Snackbar dismissed")
                             }
                         }
                     }
