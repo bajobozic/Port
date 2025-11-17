@@ -6,8 +6,8 @@ import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import androidx.room.TypeConverters
 import com.bajobozic.port.home.data.locale.entity.GenreEntity
-import core.data.local.entity.MovieEntity
-import core.data.local.entity.MovieGenreCrossRef
+import com.bajobozic.port.home.data.locale.entity.MovieEntity
+import com.bajobozic.port.home.data.locale.entity.MovieGenreCrossRef
 
 @Database(
     entities = [MovieEntity::class, GenreEntity::class, MovieGenreCrossRef::class],

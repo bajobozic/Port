@@ -17,9 +17,9 @@ import com.bajobozic.port.home.domain.model.GetMoviesWithGenres
 import com.bajobozic.port.home.domain.model.Movie
 import com.bajobozic.port.home.domain.model.MovieDetail
 import com.bajobozic.port.home.domain.repository.HomeRepository
-import home.data.local.db.MovieWithGenres
-import home.data.local.db.toModel
-import home.data.local.db.toModelDetail
+import com.bajobozic.port.home.data.locale.entity.MovieWithGenres
+import com.bajobozic.port.home.data.locale.entity.toModel
+import com.bajobozic.port.home.data.locale.entity.toModelDetail
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.catch

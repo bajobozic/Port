@@ -1,4 +1,4 @@
-package core.data.local.entity
+package com.bajobozic.port.home.data.locale.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

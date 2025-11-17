@@ -8,9 +8,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.bajobozic.port.home.data.locale.entity.GenreEntity
-import core.data.local.entity.MovieEntity
-import core.data.local.entity.MovieGenreCrossRef
-import home.data.local.db.MovieWithGenres
+import com.bajobozic.port.home.data.locale.entity.MovieEntity
+import com.bajobozic.port.home.data.locale.entity.MovieGenreCrossRef
+import com.bajobozic.port.home.data.locale.entity.MovieWithGenres
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -43,7 +43,7 @@ interface MovieDao {
 
     @Transaction
 //    @Query("SELECT * FROM movies WHERE movie_id == :movieId")
-    @Query("SELECT m.*,mg.*,g.* FROM movies AS m INNER JOIN moviegenrecrossref AS mg ON m.movie_id == mg.movie_id INNER JOIN genres as g ON g.genre_id == mg.genre_id WHERE m.movie_id == :movieId")
+    @Query("SELECT m.*,mg.*,g.* FROM movies AS m INNER JOIN moviegenrecrossref AS mg ON m.movie_id == mg.movie_id INNER JOIN genres as g ON g.genre_id == mg.genre_id WHERE m.movie_id == :movieId ORDER BY popularity DESC")
     fun getMovieFlow(movieId: Int): Flow<MovieWithGenres>
 
     @Query("SELECT * FROM genres")

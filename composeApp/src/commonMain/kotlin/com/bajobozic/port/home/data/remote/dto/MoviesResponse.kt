@@ -1,6 +1,6 @@
 package com.bajobozic.port.home.data.remote.dto
 
-import core.data.local.entity.MovieEntity
+import com.bajobozic.port.home.data.locale.entity.MovieEntity
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,12 +1,8 @@
-package home.data.local.db
+package com.bajobozic.port.home.data.locale.entity
 
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
-import com.bajobozic.port.home.data.locale.entity.GenreEntity
-import core.data.local.entity.MovieEntity
-import core.data.local.entity.MovieGenreCrossRef
-import com.bajobozic.port.home.data.locale.entity.toModel
 import com.bajobozic.port.home.domain.model.GetMoviesWithGenres
 import com.bajobozic.port.home.domain.model.Movie
 import com.bajobozic.port.home.domain.model.MovieDetail

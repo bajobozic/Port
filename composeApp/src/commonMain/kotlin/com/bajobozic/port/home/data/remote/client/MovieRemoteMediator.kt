@@ -10,7 +10,7 @@ import com.bajobozic.port.home.data.locale.HomeLocalDataSource
 import com.bajobozic.port.home.data.locale.entity.GenreEntity
 import com.bajobozic.port.home.data.remote.dto.initRemoteKeys
 import com.bajobozic.port.home.data.remote.dto.toEntity
-import home.data.local.db.MovieWithGenres
+import com.bajobozic.port.home.data.locale.entity.MovieWithGenres
 
 class MovieRemoteMediator(
     private val homeRemoteDataSource: HomeRemoteDataSource,

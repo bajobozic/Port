@@ -3,8 +3,8 @@ package com.bajobozic.port.home.data.locale
 
 import androidx.paging.PagingSource
 import com.bajobozic.port.home.data.locale.entity.GenreEntity
-import core.data.local.entity.MovieEntity
-import home.data.local.db.MovieWithGenres
+import com.bajobozic.port.home.data.locale.entity.MovieEntity
+import com.bajobozic.port.home.data.locale.entity.MovieWithGenres
 import kotlinx.coroutines.flow.Flow
 
 interface HomeLocalDataSource {
