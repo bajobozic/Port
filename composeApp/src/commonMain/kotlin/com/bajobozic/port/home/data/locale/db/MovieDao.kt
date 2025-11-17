@@ -57,7 +57,7 @@ interface MovieDao {
             deleteAllMovieGenreCrossRef(getMovieGenreCrossRef(movieId))
         }
     }
-
+    @Transaction
     suspend fun insertAll(
         list: List<MovieEntity>,
         genresList: List<GenreEntity>,
