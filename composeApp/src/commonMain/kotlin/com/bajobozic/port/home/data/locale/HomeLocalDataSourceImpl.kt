@@ -41,4 +41,8 @@ internal class HomeLocalDataSourceImpl(private val appDatabase: AppDatabase) :
     override fun getMovie(movieId: Int): Flow<MovieWithGenres> {
         return appDatabase.getMovieDao().getMovieFlow(movieId)
     }
+
+    override suspend fun getAllGenres(): List<GenreEntity> {
+        return appDatabase.getMovieDao().getAllGenres()
+    }
 }

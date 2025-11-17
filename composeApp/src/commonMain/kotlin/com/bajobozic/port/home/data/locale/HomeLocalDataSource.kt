@@ -24,4 +24,6 @@ interface HomeLocalDataSource {
     fun getPagingSource(): PagingSource<Int, MovieWithGenres>
 
     fun getMovie(movieId: Int): Flow<MovieWithGenres>
+
+    suspend fun getAllGenres(): List<GenreEntity>
 }

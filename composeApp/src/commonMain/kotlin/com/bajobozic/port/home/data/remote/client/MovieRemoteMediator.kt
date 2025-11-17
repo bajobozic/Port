@@ -7,6 +7,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.bajobozic.port.home.data.locale.HomeLocalDataSource
+import com.bajobozic.port.home.data.locale.entity.GenreEntity
 import com.bajobozic.port.home.data.remote.dto.initRemoteKeys
 import com.bajobozic.port.home.data.remote.dto.toEntity
 import home.data.local.db.MovieWithGenres
@@ -15,6 +16,7 @@ class MovieRemoteMediator(
     private val homeRemoteDataSource: HomeRemoteDataSource,
     private val homeLocalDataSource: HomeLocalDataSource
 ) : RemoteMediator<Int, MovieWithGenres>() {
+    var firstTimeUpdateGenres = true
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, MovieWithGenres>
@@ -31,8 +33,8 @@ class MovieRemoteMediator(
             }
 
             val moviesResponse =
-                homeRemoteDataSource.getMovies("en-us", loadKey).initRemoteKeys().movies
-            val genreResponse = homeRemoteDataSource.getGenres("en-us").genres
+                homeRemoteDataSource.getMovies("en-US", loadKey).initRemoteKeys().movies
+            val genreResponse = getAllGenres()
             val genreIdsPerMovie = moviesResponse.map { it.genreIds }
             homeLocalDataSource.batchTransaction {
                 if (loadType == LoadType.REFRESH)
@@ -40,7 +42,7 @@ class MovieRemoteMediator(
 
                 homeLocalDataSource.insertAllMovies(
                     moviesResponse.map { it.toEntity() },
-                    genreResponse.map { it.toEntity() },
+                    genreResponse,
                     genreIdsPerMovie
                 )
             }
@@ -55,5 +57,16 @@ class MovieRemoteMediator(
 
     override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
+    }
+
+    private suspend fun getAllGenres(): List<GenreEntity> {
+        val genresList = homeLocalDataSource.getAllGenres()
+        if (genresList.isEmpty() || firstTimeUpdateGenres) {
+            firstTimeUpdateGenres = false
+            val genreResponse = homeRemoteDataSource.getGenres("en-US").genres
+            return genreResponse.map { it.toEntity() }
+        } else {
+            return genresList
+        }
     }
 }

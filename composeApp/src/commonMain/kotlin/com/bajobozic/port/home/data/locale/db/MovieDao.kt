@@ -46,6 +46,9 @@ interface MovieDao {
     @Query("SELECT m.*,mg.*,g.* FROM movies AS m INNER JOIN moviegenrecrossref AS mg ON m.movie_id == mg.movie_id INNER JOIN genres as g ON g.genre_id == mg.genre_id WHERE m.movie_id == :movieId")
     fun getMovieFlow(movieId: Int): Flow<MovieWithGenres>
 
+    @Query("SELECT * FROM genres")
+    suspend fun getAllGenres(): List<GenreEntity>
+
     @Delete
     @Transaction
     suspend fun deleteMovie(movieId: Int) {
