@@ -11,21 +11,16 @@ internal class HomeRemoteDataSourceImpl(private val apiClient: ApiClient) :
     HomeRemoteDataSource {
     override suspend fun getMovies(language: String, page: Int): PopularMoviesResponse {
         val moviesResponse = apiClient.getMovies(language, page)
-        moviesResponse?.movies?.forEach { it.initKeys(page) }
-        return moviesResponse ?: PopularMoviesResponse(
-            page = 0,
-            movies = emptyList(),
-            totalPages = 0,
-            totalResults = 0
-        )
+        moviesResponse.movies.forEach { it.initKeys(page) }
+        return moviesResponse
     }
 
     override suspend fun getGenres(language: String): GenreResponse {
-        return apiClient.getGenres() ?: GenreResponse(genres = emptyList())
+        return apiClient.getGenres()
     }
 
     override suspend fun getMovie(language: String, movieId: Int): MoviesResponse {
-        return apiClient.getMovie(movieId, language)!!
+        return apiClient.getMovie(movieId, language)
     }
 
     override suspend fun getMovieWithRelationships(
@@ -33,9 +28,7 @@ internal class HomeRemoteDataSourceImpl(private val apiClient: ApiClient) :
         movieId: Int
     ): ManyToManyDto<MoviesResponse, GenreDto, Int> {
         val movie = apiClient.getMovie(movieId, language)
-        val genres = apiClient.getGenres()?.genres
-        if (movie == null || genres == null)
-            return ManyToManyDto(emptyList(), emptyList(), listOf(emptyList()))
+        val genres = apiClient.getGenres().genres
         val list = listOf(movie).map { it.genreIds }
         return ManyToManyDto(listOf(movie), genres, list)
     }
