@@ -17,13 +17,13 @@ import kotlinx.coroutines.flow.Flow
 interface MovieDao {
     //**********************************************************************************************
     //PAGING 3 start
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMovies(movies: List<MovieEntity>): List<Long>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertGenres(genres: List<GenreEntity>): List<Long>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMovieGenreCrosRef(movieGenreCrossRef: MovieGenreCrossRef)
 
     @Delete
@@ -58,7 +58,7 @@ interface MovieDao {
         }
     }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     @Transaction
     suspend fun insertAll(
         list: List<MovieEntity>,

@@ -61,12 +61,9 @@ class MovieRemoteMediator(
 
     private suspend fun getAllGenres(): List<GenreEntity> {
         val genresList = homeLocalDataSource.getAllGenres()
-        if (genresList.isEmpty() || firstTimeUpdateGenres) {
-            firstTimeUpdateGenres = false
-            val genreResponse = homeRemoteDataSource.getGenres("en-US").genres
-            return genreResponse.map { it.toEntity() }
-        } else {
-            return genresList
-        }
+        if (genresList.isNotEmpty() && !firstTimeUpdateGenres) return genresList
+
+        firstTimeUpdateGenres = false
+        return homeRemoteDataSource.getGenres("en-US").genres.map { it.toEntity() }
     }
 }
