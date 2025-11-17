@@ -8,9 +8,9 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.bajobozic.port.home.data.locale.HomeLocalDataSource
 import com.bajobozic.port.home.data.locale.entity.GenreEntity
+import com.bajobozic.port.home.data.locale.entity.MovieWithGenres
 import com.bajobozic.port.home.data.remote.dto.initRemoteKeys
 import com.bajobozic.port.home.data.remote.dto.toEntity
-import com.bajobozic.port.home.data.locale.entity.MovieWithGenres
 
 class MovieRemoteMediator(
     private val homeRemoteDataSource: HomeRemoteDataSource,
@@ -37,13 +37,14 @@ class MovieRemoteMediator(
             val genreResponse = getAllGenres()
             val genreIdsPerMovie = moviesResponse.map { it.genreIds }
             homeLocalDataSource.batchTransaction {
-                if (loadType == LoadType.REFRESH)
+                if (loadType == LoadType.REFRESH) {
                     homeLocalDataSource.clearAll()
+                }
 
                 homeLocalDataSource.insertAllMovies(
-                    moviesResponse.map { it.toEntity() },
-                    genreResponse,
-                    genreIdsPerMovie
+                    list = moviesResponse.map { it.toEntity() },
+                    genreList = genreResponse,
+                    genreIdsPerMovie = genreIdsPerMovie
                 )
             }
 

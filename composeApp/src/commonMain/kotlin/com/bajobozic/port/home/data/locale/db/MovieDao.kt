@@ -58,8 +58,6 @@ interface MovieDao {
         }
     }
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    @Transaction
     suspend fun insertAll(
         list: List<MovieEntity>,
         genresList: List<GenreEntity>,
@@ -67,14 +65,12 @@ interface MovieDao {
     ) {
         val movieIdsList = insertMovies(list)
         insertGenres(genresList)
-        movieIdsList.forEachIndexed { index, id ->
-            val movieGenresIdsList = genreIdsPerMovie[index]
-            movieGenresIdsList.forEach { genreId ->
-                val movieGenreCrossRef = MovieGenreCrossRef(id.toInt(), genreId)
-                insertMovieGenreCrosRef(movieGenreCrossRef)
+        val crossRefs = movieIdsList.flatMapIndexed { index, id ->
+            genreIdsPerMovie[index].map { genreId ->
+                MovieGenreCrossRef(id.toInt(), genreId)
             }
-
         }
+        crossRefs.forEach { insertMovieGenreCrosRef(it) }
     }
 
     @Transaction
