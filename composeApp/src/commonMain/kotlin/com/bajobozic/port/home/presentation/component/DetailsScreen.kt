@@ -139,7 +139,7 @@ fun DetailsScreen(
                         ) {
                             FloatingActionButton(
                                 onClick = { onEvent(DetailScreenEvent.ToggleVideoFullscreen(true)) },
-                                containerColor = MaterialTheme.colorScheme.error,
+                                containerColor = Color(0xFFB00020),
                                 shape = androidx.compose.foundation.shape.CircleShape,
                                 modifier = Modifier.size(72.dp)
                             ) {
