@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bajobozic.port.home.domain.repository.HomeRepository
 import com.bajobozic.port.home.presentation.component.DetailUiState
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -23,22 +23,19 @@ class DetailViewModel(
 
     init {
         viewModelScope.launch {
-            homeRepository.getMovieDetail(movieId, "en-US")
-                .map { movieDetail -> DetailUiState(data = movieDetail, isLoading = false) }
-                .collect { state ->
-                    _movie.update { state }
-                }
-            val video = homeRepository.getMovieVideo(movieId, "en-US").firstOrNull()
-            video?.let { movieVideo ->
-                _movie.update { currentState ->
-                    currentState.copy(
-                        data = currentState.data.copy(
-                            key = movieVideo.key,
-                            site = movieVideo.site,
-                            size = movieVideo.size
-                        )
-                    )
-                }
+            val movieDetail = async { homeRepository.getMovieDetail(movieId, "en-US") }
+            val movieVideos = async { homeRepository.getMovieVideo(movieId, "en-US") }
+            val video = movieVideos.await().firstOrNull()
+            _movie.update {
+                DetailUiState(
+                    data = movieDetail.await().copy(
+                        key = video?.key.orEmpty(),
+                        site = video?.site.orEmpty(),
+                        size = video?.size ?: 0
+                    ),
+                    isLoading = false,
+                    error = ""
+                )
             }
         }
     }

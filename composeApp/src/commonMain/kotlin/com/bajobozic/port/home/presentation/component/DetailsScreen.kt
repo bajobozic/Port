@@ -39,7 +39,7 @@ fun DetailsScreen(
     state: State<DetailUiState>
 ) {
     Column(modifier = Modifier.fillMaxWidth().padding(top = 32.dp)) {
-        AnimatedVisibility(state.value.data.key.isNotEmpty()){
+        AnimatedVisibility(state.value.data.key.isNotEmpty()) {
             VideoPlayer(
                 url = state.value.data.key,
                 modifier = Modifier.fillMaxWidth().height(200.dp)
@@ -58,7 +58,6 @@ fun DetailsScreen(
                     .crossfade(true)
                     .build(),
                 error = painterResource(Res.drawable.compose_multiplatform),
-                placeholder = painterResource(Res.drawable.compose_multiplatform),
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

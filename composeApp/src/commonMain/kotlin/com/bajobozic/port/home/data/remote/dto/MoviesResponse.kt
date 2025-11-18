@@ -1,6 +1,8 @@
 package com.bajobozic.port.home.data.remote.dto
 
 import com.bajobozic.port.home.data.locale.entity.MovieEntity
+import com.bajobozic.port.home.domain.model.Genre
+import com.bajobozic.port.home.domain.model.MovieDetail
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -61,5 +63,22 @@ fun MoviesResponse.toEntity(): MovieEntity {
         previousPage = previousPage,
         currentPage = currentPage,
         nextPage = nextPage
+    )
+}
+
+fun MoviesResponse.toMovieDetail(): MovieDetail {
+    return MovieDetail(
+        adult = adult,
+        backdropPath = backdropPath.orEmpty(),
+        genreIds = genreIds.map { Genre(id = it, name = "") },
+        originalLanguage = originalLanguage.orEmpty(),
+        overview = overview.orEmpty(),
+        popularity = popularity,
+        posterPath = posterPath.orEmpty(),
+        releaseDate = releaseDate,
+        title = title.orEmpty(),
+        video = video,
+        voteAverage = voteAverage,
+        voteCount = voteCount
     )
 }

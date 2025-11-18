@@ -11,10 +11,8 @@ import androidx.paging.map
 import com.bajobozic.port.home.data.locale.HomeLocalDataSource
 import com.bajobozic.port.home.data.locale.entity.MovieWithGenres
 import com.bajobozic.port.home.data.locale.entity.toModel
-import com.bajobozic.port.home.data.locale.entity.toModelDetail
 import com.bajobozic.port.home.data.remote.client.HomeRemoteDataSource
-import com.bajobozic.port.home.data.remote.dto.initKeys
-import com.bajobozic.port.home.data.remote.dto.toEntity
+import com.bajobozic.port.home.data.remote.dto.toMovieDetail
 import com.bajobozic.port.home.data.remote.dto.toMovieVideo
 import com.bajobozic.port.home.domain.ErrorHandler
 import com.bajobozic.port.home.domain.model.GetMoviesWithGenres
@@ -23,13 +21,7 @@ import com.bajobozic.port.home.domain.model.MovieDetail
 import com.bajobozic.port.home.domain.model.MovieVideo
 import com.bajobozic.port.home.domain.repository.HomeRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
 
 
 @OptIn(ExperimentalPagingApi::class)
@@ -66,30 +58,9 @@ internal class HomeRepositoryImp(
         return pager.flow.map { pagingData -> pagingData.map { movieWithGenres -> movieWithGenres.toModel() } }
     }
 
-    override suspend fun getMovieDetail(movieId: Int, language: String): Flow<MovieDetail> {
-        val movieFunction = suspend {
-            homeRemoteDataSource.getMovieWithRelationships(language, movieId)
-        }
-        return merge(
-            homeLocalDataSource.getMovie(movieId).distinctUntilChanged()
-                .map { it.toModelDetail() },//this will be emitted instantly
-            movieFunction.asFlow()//this is just to update database in case something change while navigating
-                .map { movieGenresDto ->
-                    homeLocalDataSource.insertAllMovies(
-                        movieGenresDto.listOne.map {
-                            it.initKeys(
-                                homeLocalDataSource.getMovie(
-                                    movieId
-                                ).distinctUntilChanged()
-                                    .first().movie.currentPage!!
-                            )
-                        }.map { it.toEntity() },
-                        movieGenresDto.listTwo.map { it.toEntity() },
-                        movieGenresDto.listThree
-                    )
-                }.filterIsInstance(MovieDetail::class)//we are not interested in emission
-        )
-            .catch { errorHandler.handleError(it) }
+    override suspend fun getMovieDetail(movieId: Int, language: String): MovieDetail {
+        return homeRemoteDataSource.getMovie(language, movieId)
+            .toMovieDetail()
     }
 
     override suspend fun getMovieVideo(

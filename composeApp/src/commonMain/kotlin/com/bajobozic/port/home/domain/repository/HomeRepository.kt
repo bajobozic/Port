@@ -16,7 +16,7 @@ interface HomeRepository {
 
     fun getPagingData(language: String): Flow<PagingData<Movie>>
 
-    suspend fun getMovieDetail(movieId: Int, language: String): Flow<MovieDetail>
+    suspend fun getMovieDetail(movieId: Int, language: String): MovieDetail
 
     suspend fun getMovieVideo(id: Int, language: String): List<MovieVideo>
 }

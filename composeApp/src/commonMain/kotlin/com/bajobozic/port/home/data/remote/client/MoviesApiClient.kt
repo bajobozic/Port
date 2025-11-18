@@ -1,7 +1,6 @@
 package com.bajobozic.port.home.data.remote.client
 
 import com.bajobozic.port.home.data.remote.dto.GenreResponse
-import com.bajobozic.port.home.data.remote.dto.MovieVideoDto
 import com.bajobozic.port.home.data.remote.dto.MovieVideoResponse
 import com.bajobozic.port.home.data.remote.dto.MoviesResponse
 import com.bajobozic.port.home.data.remote.dto.PopularMoviesResponse
@@ -24,7 +23,7 @@ class MoviesApiClient(private val client: HttpClient) : ApiClient {
     }
 
     override suspend fun getMovie(movieId: Int, language: String): MoviesResponse {
-        return client.get(urlString = "https://api.themoviedb.org/3/movie/{movie_id}") {
+        return client.get(urlString = "https://api.themoviedb.org/3/movie/${movieId}") {
             parameter("language", language)
         }.body<MoviesResponse>()
     }
