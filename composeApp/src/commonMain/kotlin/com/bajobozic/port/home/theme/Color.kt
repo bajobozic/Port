@@ -16,7 +16,7 @@ private val DarkColorScheme = darkColorScheme(
     onBackground = Color.White,
     surface = Color(0xFF1E1E1E),      // Slightly lighter dark gray for cards/containers
     onSurface = Color.White,
-    error = Color(0xFFCF6679),
+    error = Color(0xFFB00020),
     onError = Color.Black
 )
 

@@ -204,9 +204,11 @@ fun DetailsScreen(
 
                         // 3. Metadata Row (Genres - Placeholder)
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            SuggestionChip(onClick = { /* no-op */ }, label = { Text("Action") })
-                            SuggestionChip(onClick = { /* no-op */ }, label = { Text("Sci-Fi") })
-                            SuggestionChip(onClick = { /* no-op */ }, label = { Text("Horror") })
+                            state.value.data.genreIds.forEach { genre ->
+                                SuggestionChip(
+                                    onClick = { /* no-op */ },
+                                    label = { Text(genre.name) })
+                            }
                         }
                     }
                 }

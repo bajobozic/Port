@@ -3,10 +3,12 @@ package com.bajobozic.port.home.data.remote.client
 import com.bajobozic.port.home.data.remote.dto.GenreDto
 import com.bajobozic.port.home.data.remote.dto.GenreResponse
 import com.bajobozic.port.home.data.remote.dto.ManyToManyDto
+import com.bajobozic.port.home.data.remote.dto.MovieDetailResponse
 import com.bajobozic.port.home.data.remote.dto.MovieVideoDto
 import com.bajobozic.port.home.data.remote.dto.MoviesResponse
 import com.bajobozic.port.home.data.remote.dto.PopularMoviesResponse
 import com.bajobozic.port.home.data.remote.dto.initKeys
+import com.bajobozic.port.home.data.remote.dto.toMoviesResponse
 
 internal class HomeRemoteDataSourceImpl(private val apiClient: ApiClient) :
     HomeRemoteDataSource {
@@ -20,7 +22,7 @@ internal class HomeRemoteDataSourceImpl(private val apiClient: ApiClient) :
         return apiClient.getGenres()
     }
 
-    override suspend fun getMovie(language: String, movieId: Int): MoviesResponse {
+    override suspend fun getMovie(language: String, movieId: Int): MovieDetailResponse {
         return apiClient.getMovie(movieId, language)
     }
 
@@ -28,7 +30,7 @@ internal class HomeRemoteDataSourceImpl(private val apiClient: ApiClient) :
         language: String,
         movieId: Int
     ): ManyToManyDto<MoviesResponse, GenreDto, Int> {
-        val movie = apiClient.getMovie(movieId, language)
+        val movie = apiClient.getMovie(movieId, language).toMoviesResponse()
         val genres = apiClient.getGenres().genres
         val list = listOf(movie).map { it.genreIds }
         return ManyToManyDto(listOf(movie), genres, list)

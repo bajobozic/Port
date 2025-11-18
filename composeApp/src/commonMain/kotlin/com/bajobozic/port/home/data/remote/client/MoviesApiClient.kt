@@ -1,8 +1,8 @@
 package com.bajobozic.port.home.data.remote.client
 
 import com.bajobozic.port.home.data.remote.dto.GenreResponse
+import com.bajobozic.port.home.data.remote.dto.MovieDetailResponse
 import com.bajobozic.port.home.data.remote.dto.MovieVideoResponse
-import com.bajobozic.port.home.data.remote.dto.MoviesResponse
 import com.bajobozic.port.home.data.remote.dto.PopularMoviesResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -22,10 +22,10 @@ class MoviesApiClient(private val client: HttpClient) : ApiClient {
             .body<GenreResponse>()
     }
 
-    override suspend fun getMovie(movieId: Int, language: String): MoviesResponse {
+    override suspend fun getMovie(movieId: Int, language: String): MovieDetailResponse {
         return client.get(urlString = "https://api.themoviedb.org/3/movie/${movieId}") {
             parameter("language", language)
-        }.body<MoviesResponse>()
+        }.body<MovieDetailResponse>()
     }
 
     override suspend fun getMovieVideos(
