@@ -4,9 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.UIKitViewController
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.readValue
+import platform.CoreGraphics.CGRectZero
 import platform.Foundation.NSURL
 import platform.UIKit.UIViewController
+import platform.WebKit.WKAudiovisualMediaTypeAll
 import platform.WebKit.WKWebView
+import platform.WebKit.WKWebViewConfiguration
 
 
 @OptIn(ExperimentalForeignApi::class)
@@ -38,19 +42,18 @@ actual fun VideoPlayer(url: String, modifier: Modifier) {
 
     // 2. Embed the native WKWebView using a UIViewController
     UIKitViewController(
+        modifier = modifier,
         factory = {
-            val webView = WKWebView().apply {
-                // Load the HTML content with the base URL for origin security
-                // Note: The base URL must be a valid file or http/https URL.
-                loadHTMLString(
-                    string = htmlData,
-                    baseURL = NSURL(string = "https://www.example.com")
-                )
+            val config = WKWebViewConfiguration().apply {
+                allowsInlineMediaPlayback = true
+                mediaTypesRequiringUserActionForPlayback = WKAudiovisualMediaTypeAll
             }
-            UIViewController().apply {
-                view = webView
+
+            val webView = WKWebView(frame = CGRectZero.readValue(), configuration = config).apply {
+                loadHTMLString(htmlData, NSURL(string = "https://www.example.com"))
             }
-        },
-        modifier = modifier
+
+            UIViewController().apply { view = webView }
+        }
     )
 }
