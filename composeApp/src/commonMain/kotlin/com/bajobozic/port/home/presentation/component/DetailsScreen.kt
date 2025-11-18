@@ -5,6 +5,7 @@ package com.bajobozic.port.home.presentation.component
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,9 +18,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
@@ -193,6 +196,14 @@ fun DetailsScreen(
                                 )
                             }
                             // Placeholder for action icon (e.g., Heart/Share)
+                            Icon(
+                                imageVector = Icons.Filled.Create,
+                                contentDescription = "Take Image",
+                                modifier = Modifier.padding(top = 8.dp).clickable {
+
+                                }
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
                             Icon(
                                 imageVector = Icons.Default.FavoriteBorder,
                                 contentDescription = "Add to Watchlist",
