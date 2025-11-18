@@ -136,7 +136,10 @@ fun App() {
                         { navBackStackEntry ->
                             val detailViewModel = koinViewModel<DetailViewModel>()
                             DetailsScreen(
-                                detailViewModel.movie.collectAsStateWithLifecycle()
+                                state = detailViewModel.movie.collectAsStateWithLifecycle(),
+                                onEvent = { event ->
+                                    detailViewModel.onEvent(event)
+                                },
                             )
                         }
 

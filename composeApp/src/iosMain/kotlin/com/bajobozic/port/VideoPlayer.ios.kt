@@ -8,7 +8,7 @@ import kotlinx.cinterop.readValue
 import platform.CoreGraphics.CGRectZero
 import platform.Foundation.NSURL
 import platform.UIKit.UIViewController
-import platform.WebKit.WKAudiovisualMediaTypeAll
+import platform.WebKit.WKAudiovisualMediaTypeNone
 import platform.WebKit.WKWebView
 import platform.WebKit.WKWebViewConfiguration
 
@@ -31,7 +31,7 @@ actual fun VideoPlayer(url: String, modifier: Modifier) {
             <iframe 
                 width="100%" 
                 height="100%" 
-                src="https://www.youtube.com/embed/$url?playsinline=1&rel=0" 
+                src="https://www.youtube.com/embed/$url?playsinline=1&rel=0&autoplay=1" // <-- CHANGED: Added autoplay=1
                 frameborder="0" 
                 allow="autoplay; encrypted-media picture-in-picture; fullscreen" 
                 allowfullscreen
@@ -46,7 +46,8 @@ actual fun VideoPlayer(url: String, modifier: Modifier) {
         factory = {
             val config = WKWebViewConfiguration().apply {
                 allowsInlineMediaPlayback = true
-                mediaTypesRequiringUserActionForPlayback = WKAudiovisualMediaTypeAll
+                // CHANGED: Setting this to None means playback does NOT require a user action (i.e., it can autoplay)
+                mediaTypesRequiringUserActionForPlayback = WKAudiovisualMediaTypeNone
             }
 
             val webView = WKWebView(frame = CGRectZero.readValue(), configuration = config).apply {

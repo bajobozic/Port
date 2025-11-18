@@ -25,13 +25,6 @@ actual fun VideoPlayer(url: String, modifier: Modifier) {
             var customViewCallback: WebChromeClient.CustomViewCallback? = null
             val webView = WebView(context)
 
-            val fullscreenContainer = FrameLayout(context).apply {
-                layoutParams = FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.MATCH_PARENT
-                )
-            }
-
             val root = context.findActivity().window.decorView as FrameLayout
 
             webView.settings.apply {
@@ -82,7 +75,7 @@ actual fun VideoPlayer(url: String, modifier: Modifier) {
                     <iframe
                         width="100%"
                         height="100%"
-                        src="https://www.youtube.com/embed/$url?playsinline=1&rel=0"
+                        src="https://www.youtube.com/embed/$url?playsinline=1&rel=0&autoplay=1"
                         allowfullscreen
                         allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
                         frameborder="0"

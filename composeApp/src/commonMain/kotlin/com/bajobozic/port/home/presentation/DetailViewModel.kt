@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bajobozic.port.home.domain.repository.HomeRepository
+import com.bajobozic.port.home.presentation.component.DetailScreenEvent
 import com.bajobozic.port.home.presentation.component.DetailUiState
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,6 +37,16 @@ class DetailViewModel(
                     isLoading = false,
                     error = ""
                 )
+            }
+        }
+    }
+
+    fun onEvent(event: DetailScreenEvent) {
+        when (event) {
+            is DetailScreenEvent.ToggleVideoFullscreen -> {
+                _movie.update {
+                    it.copy(isVideoFullscreen = event.toggleToFullScreen)
+                }
             }
         }
     }
