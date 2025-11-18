@@ -4,6 +4,7 @@ package com.bajobozic.port.home.presentation.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -161,7 +162,12 @@ fun DetailsScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
                         // Offset moves the card up to overlap the poster area
-                        .offset(y = (-64).dp),
+                        .offset(y = (-64).dp)
+                        .border(
+                            0.5.dp,
+                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+                            RoundedCornerShape(12.dp)
+                        ),
                     shape = RoundedCornerShape(12.dp),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
