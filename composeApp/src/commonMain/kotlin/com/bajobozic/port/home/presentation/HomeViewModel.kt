@@ -13,8 +13,6 @@ import com.bajobozic.port.home.presentation.component.HomeAction
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -74,19 +72,8 @@ class HomeViewModel(
                 }
             }
 
-            is HomeAction.LoadDetails -> {
-                viewModelScope.launch {
-                    homeRepository.getMovieDetail(action.movieId, "en-US")
-                        .map { movieDetail -> DetailUiState(data = movieDetail, isLoading = false) }
-                        .collect { state ->
-                            _movie.update { state }
-                        }
-                }
-
-            }
-
             is HomeAction.NavigateToDetailsScreen -> {
-
+                //no op, handled in navController
             }
         }
     }

@@ -106,9 +106,6 @@ fun App() {
                                         )
 
                                         is HomeAction.Init -> homeViewModel.actionHandler(homeAction)
-                                        is HomeAction.LoadDetails -> homeViewModel.actionHandler(
-                                            homeAction
-                                        )
 
                                         is HomeAction.ShowSnackbar -> {
                                             coroutineScope.launch {
