@@ -3,6 +3,7 @@
 package com.bajobozic.port.home.presentation.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,7 +43,9 @@ fun DetailsScreen(
         AnimatedVisibility(state.value.data.key.isNotEmpty()) {
             VideoPlayer(
                 url = state.value.data.key,
-                modifier = Modifier.fillMaxWidth().height(200.dp)
+                modifier = Modifier.border(1.dp, androidx.compose.ui.graphics.Color.Red)
+                    .fillMaxWidth()
+                    .height(200.dp)
             )
         }
         Box(modifier = Modifier.fillMaxSize()) {
