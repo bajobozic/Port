@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -62,12 +63,23 @@ fun DetailsScreen(
     // If the video is in fullscreen, cover the entire screen with the VideoPlayer
     AnimatedVisibility(
         visible = state.value.isVideoFullscreen,
-        modifier = Modifier.fillMaxSize()
+        // Add fillMaxSize() and a background color to ensure it fully covers the screen
+        modifier = Modifier.fillMaxSize().background(Color.Black)
     ) {
-        VideoPlayer(
-            url = state.value.data.key,
-            modifier = Modifier.fillMaxSize() // Make it fill the whole screen
-        )
+        // Wrap the VideoPlayer in a Box aligned to the center
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center // Crucial for centering the content
+        ) {
+            VideoPlayer(
+                url = state.value.data.key,
+                // Keep fillMaxWidth() and use a dynamic height to force aspect ratio
+                // or just use fillMaxSize() for the WebView container
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f) // Standard video aspect ratio (16:9)
+            )
+        }
     }
 
     // --- Main Screen Content (Visible when video is NOT fullscreen) ---
