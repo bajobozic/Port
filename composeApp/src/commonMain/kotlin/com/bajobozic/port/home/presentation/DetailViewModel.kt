@@ -28,6 +28,18 @@ class DetailViewModel(
                 .collect { state ->
                     _movie.update { state }
                 }
+            val video = homeRepository.getMovieVideo(movieId, "en-US").firstOrNull()
+            video?.let { movieVideo ->
+                _movie.update { currentState ->
+                    currentState.copy(
+                        data = currentState.data.copy(
+                            key = movieVideo.key,
+                            site = movieVideo.site,
+                            size = movieVideo.size
+                        )
+                    )
+                }
+            }
         }
     }
 }

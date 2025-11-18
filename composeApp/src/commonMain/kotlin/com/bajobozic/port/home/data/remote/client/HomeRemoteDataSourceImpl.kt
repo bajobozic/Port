@@ -3,6 +3,7 @@ package com.bajobozic.port.home.data.remote.client
 import com.bajobozic.port.home.data.remote.dto.GenreDto
 import com.bajobozic.port.home.data.remote.dto.GenreResponse
 import com.bajobozic.port.home.data.remote.dto.ManyToManyDto
+import com.bajobozic.port.home.data.remote.dto.MovieVideoDto
 import com.bajobozic.port.home.data.remote.dto.MoviesResponse
 import com.bajobozic.port.home.data.remote.dto.PopularMoviesResponse
 import com.bajobozic.port.home.data.remote.dto.initKeys
@@ -31,6 +32,13 @@ internal class HomeRemoteDataSourceImpl(private val apiClient: ApiClient) :
         val genres = apiClient.getGenres().genres
         val list = listOf(movie).map { it.genreIds }
         return ManyToManyDto(listOf(movie), genres, list)
+    }
+
+    override suspend fun getMovieVideos(
+        language: String,
+        id: Int
+    ): List<MovieVideoDto> {
+        return apiClient.getMovieVideos(id, language).results.orEmpty()
     }
 }
 

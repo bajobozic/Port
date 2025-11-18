@@ -2,9 +2,12 @@
 
 package com.bajobozic.port.home.presentation.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +24,7 @@ import coil3.network.NetworkHeaders
 import coil3.network.httpHeaders
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.bajobozic.port.VideoPlayer
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import port.composeapp.generated.resources.Res
@@ -34,45 +38,53 @@ private const val HEADER_TOKEN =
 fun DetailsScreen(
     state: State<DetailUiState>
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalPlatformContext.current)
-                .httpHeaders(
-                    NetworkHeaders.Builder().add(
-                        HEADER_TYPE_AUTHORIZATION,
-                        HEADER_TOKEN
-                    ).build()
-                )
-                .data("https://image.tmdb.org/t/p/w500" + state.value.data.backdropPath)
-                .crossfade(true)
-                .build(),
-            error = painterResource(Res.drawable.compose_multiplatform),
-            placeholder = painterResource(Res.drawable.compose_multiplatform),
-            contentDescription = "",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxSize()
-        )
-        Column(
-            modifier = Modifier
-                .align(Alignment.Center)
-        ) {
-            Text(
-                text = state.value.data.title,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-            Text(
-                text = state.value.data.releaseDate.toString(),
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-            Text(
-                text = state.value.data.overview,
-                fontStyle = FontStyle.Italic,
-                modifier = Modifier.padding(start = 16.dp, top = 16.dp)
+    Column(modifier = Modifier.fillMaxWidth().padding(top = 32.dp)) {
+        AnimatedVisibility(state.value.data.key.isNotEmpty()){
+            VideoPlayer(
+                url = state.value.data.key,
+                modifier = Modifier.fillMaxWidth().height(200.dp)
             )
         }
+        Box(modifier = Modifier.fillMaxSize()) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalPlatformContext.current)
+                    .httpHeaders(
+                        NetworkHeaders.Builder().add(
+                            HEADER_TYPE_AUTHORIZATION,
+                            HEADER_TOKEN
+                        ).build()
+                    )
+                    .data("https://image.tmdb.org/t/p/w500" + state.value.data.backdropPath)
+                    .crossfade(true)
+                    .build(),
+                error = painterResource(Res.drawable.compose_multiplatform),
+                placeholder = painterResource(Res.drawable.compose_multiplatform),
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+            )
+            Column(
+                modifier = Modifier
+                    .align(Alignment.Center)
+            ) {
+                Text(
+                    text = state.value.data.title,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+                Text(
+                    text = state.value.data.releaseDate.toString(),
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+                Text(
+                    text = state.value.data.overview,
+                    fontStyle = FontStyle.Italic,
+                    modifier = Modifier.padding(start = 16.dp, top = 16.dp)
+                )
+            }
 
+        }
     }
 }

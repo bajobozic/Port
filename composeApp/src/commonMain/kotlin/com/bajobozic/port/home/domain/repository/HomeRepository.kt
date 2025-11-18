@@ -5,6 +5,7 @@ import androidx.paging.PagingSource
 import com.bajobozic.port.home.domain.model.GetMoviesWithGenres
 import com.bajobozic.port.home.domain.model.Movie
 import com.bajobozic.port.home.domain.model.MovieDetail
+import com.bajobozic.port.home.domain.model.MovieVideo
 import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
@@ -16,4 +17,6 @@ interface HomeRepository {
     fun getPagingData(language: String): Flow<PagingData<Movie>>
 
     suspend fun getMovieDetail(movieId: Int, language: String): Flow<MovieDetail>
+
+    suspend fun getMovieVideo(id: Int, language: String): List<MovieVideo>
 }

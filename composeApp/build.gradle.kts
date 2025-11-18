@@ -33,6 +33,10 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             // Ktor Android
             implementation(libs.ktor.client.okhttp)
+            // ExoPlayer for video playback
+            implementation(libs.androidx.media3.exoplayer)
+            // ExoPlayer UI components (for PlayerView)
+            implementation(libs.androidx.media3.ui)
         }
         commonMain.dependencies {
             // Compose Multiplatform defaults, added by the plugin

@@ -14,5 +14,8 @@ data class MovieDetail(
     val title: String = "",
     val video: Boolean = false,
     val voteAverage: Double = 0.0,
-    val voteCount: Int = 0
+    val voteCount: Int = 0,
+    val key: String = "",
+    val site: String = "",
+    val size: Int = 0
 )
