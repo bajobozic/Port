@@ -22,11 +22,16 @@ private val DarkColorScheme = darkColorScheme(
 
 // You could define a LightColorScheme here if needed, but a Dark theme is often preferred for movies.
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF6200EE),
+    primary = Color(0xFF6200EE),        // Darker, saturated purple
     onPrimary = Color.White,
-    background = Color.White,
+    primaryContainer = Color(0xFFBB86FC), // Using the dark theme's primary for the container
+    onPrimaryContainer = Color.Black,
+    secondary = Color(0xFF018786),      // Darker teal/cyan
+    onSecondary = Color.White,
+    background = Color.White,           // Standard white background
     onBackground = Color.Black,
-    surface = Color.White,
-    onSurface = Color.Black
-    /* ... other light color properties */
+    surface = Color(0xFFF7F7F7),        // Very light gray surface
+    onSurface = Color.Black,
+    error = Color(0xFFB00020),          // Darker red for error
+    onError = Color.White
 )
