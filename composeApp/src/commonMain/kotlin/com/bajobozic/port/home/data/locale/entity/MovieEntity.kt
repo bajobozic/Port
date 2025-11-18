@@ -3,7 +3,6 @@ package com.bajobozic.port.home.data.locale.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.bajobozic.port.home.domain.model.Movie
 import kotlinx.datetime.LocalDate
 
 @Entity(tableName = "movies")
@@ -12,11 +11,8 @@ data class MovieEntity(
     @ColumnInfo(name = "movie_id")
     val id: Int,
     val adult: Boolean,
+    @ColumnInfo(name = "backdrop_path")
     val backdropPath: String,
-    //add to  Genres entity MovieEntity id
-    //to be able to have onetomany relation
-    /* @SerialName(value = "genre_ids")
-     val genreIds: List<Int>,*/
     @ColumnInfo(name = "original_language")
     val originalLanguage: String,
     @ColumnInfo(name = "original_title", defaultValue = "")
@@ -40,13 +36,3 @@ data class MovieEntity(
     @ColumnInfo(name = "next_page")
     val nextPage: Int?,
 )
-
-fun MovieEntity.toModel(): Movie {
-    return Movie(
-        genreIds = emptyList(),
-        id = id,
-        overview = overview,
-        posterPath = posterPath,
-        title = title
-    )
-}

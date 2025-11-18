@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "108604bb89ed75c72d4e0076141f881d",
+    "identityHash": "7b754893a47735b0af049103ae5740e8",
     "entities": [
       {
         "tableName": "movies",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movie_id` INTEGER NOT NULL, `adult` INTEGER NOT NULL, `backdropPath` TEXT NOT NULL, `original_language` TEXT NOT NULL, `original_title` TEXT NOT NULL DEFAULT '', `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `poster_path` TEXT NOT NULL DEFAULT '', `release_date` TEXT NOT NULL, `title` TEXT NOT NULL, `video` INTEGER NOT NULL, `vote_average` REAL NOT NULL DEFAULT 0.0, `vote_count` INTEGER NOT NULL DEFAULT 0, `previous_page` INTEGER, `current_page` INTEGER, `next_page` INTEGER, PRIMARY KEY(`movie_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movie_id` INTEGER NOT NULL, `adult` INTEGER NOT NULL, `backdrop_path` TEXT NOT NULL, `original_language` TEXT NOT NULL, `original_title` TEXT NOT NULL DEFAULT '', `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `poster_path` TEXT NOT NULL DEFAULT '', `release_date` TEXT NOT NULL, `title` TEXT NOT NULL, `video` INTEGER NOT NULL, `vote_average` REAL NOT NULL DEFAULT 0.0, `vote_count` INTEGER NOT NULL DEFAULT 0, `previous_page` INTEGER, `current_page` INTEGER, `next_page` INTEGER, PRIMARY KEY(`movie_id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -22,7 +22,7 @@
           },
           {
             "fieldPath": "backdropPath",
-            "columnName": "backdropPath",
+            "columnName": "backdrop_path",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -165,7 +165,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '108604bb89ed75c72d4e0076141f881d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7b754893a47735b0af049103ae5740e8')"
     ]
   }
 }

@@ -39,13 +39,14 @@ private const val HEADER_TOKEN =
 fun DetailsScreen(
     state: State<DetailUiState>
 ) {
-    Column(modifier = Modifier.fillMaxWidth().padding(top = 32.dp)) {
+    Column(modifier = Modifier.fillMaxWidth()) {
         AnimatedVisibility(state.value.data.key.isNotEmpty()) {
             VideoPlayer(
                 url = state.value.data.key,
                 modifier = Modifier.border(1.dp, androidx.compose.ui.graphics.Color.Red)
                     .fillMaxWidth()
                     .height(200.dp)
+                    .padding(vertical = 32.dp)
             )
         }
         Box(modifier = Modifier.fillMaxSize()) {
@@ -57,7 +58,7 @@ fun DetailsScreen(
                             HEADER_TOKEN
                         ).build()
                     )
-                    .data("https://image.tmdb.org/t/p/w500" + state.value.data.backdropPath)
+                    .data("https://image.tmdb.org/t/p/w500" + state.value.data.posterPath)
                     .crossfade(true)
                     .build(),
                 error = painterResource(Res.drawable.compose_multiplatform),

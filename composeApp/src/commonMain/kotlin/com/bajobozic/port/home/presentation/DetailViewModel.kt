@@ -25,7 +25,7 @@ class DetailViewModel(
         viewModelScope.launch {
             val movieDetail = async { homeRepository.getMovieDetail(movieId, "en-US") }
             val movieVideos = async { homeRepository.getMovieVideo(movieId, "en-US") }
-            val video = movieVideos.await().firstOrNull()
+            val video = movieVideos.await().lastOrNull()
             _movie.update {
                 DetailUiState(
                     data = movieDetail.await().copy(
