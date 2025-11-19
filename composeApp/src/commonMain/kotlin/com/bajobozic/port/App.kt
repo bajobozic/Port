@@ -25,9 +25,11 @@ import com.bajobozic.port.home.presentation.DetailViewModel
 import com.bajobozic.port.home.presentation.HomeViewModel
 import com.bajobozic.port.home.presentation.Routes
 import com.bajobozic.port.home.presentation.Routes.Details
+import com.bajobozic.port.home.presentation.SignInViewModel
 import com.bajobozic.port.home.presentation.component.DetailsScreen
 import com.bajobozic.port.home.presentation.component.HomeAction
 import com.bajobozic.port.home.presentation.component.HomeScreen
+import com.bajobozic.port.home.presentation.component.SignInScreen
 import com.bajobozic.port.home.theme.PortAppTheme
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -128,6 +130,12 @@ fun App() {
                                         is HomeAction.Toggle -> homeViewModel.actionHandler(
                                             homeAction
                                         )
+
+                                        HomeAction.NavigateToSignInScreen -> {
+                                            navController.navigate(Routes.SignIn) {
+                                                launchSingleTop = true
+                                            }
+                                        }
                                     }
                                 }
                             )
@@ -136,11 +144,19 @@ fun App() {
                         { navBackStackEntry ->
                             val detailViewModel = koinViewModel<DetailViewModel>()
                             DetailsScreen(
-                                state = detailViewModel.movie.collectAsStateWithLifecycle(),
+                                state = detailViewModel.movie.collectAsStateWithLifecycle().value,
                                 onEvent = { event ->
                                     detailViewModel.onEvent(event)
                                 },
                             )
+                        }
+                        composable<Routes.SignIn>()
+                        { navBackStackEntry ->
+                            val signInViewModel = koinViewModel<SignInViewModel>()
+                            SignInScreen(uiState = signInViewModel.signInState.collectAsStateWithLifecycle().value) { action ->
+
+                            }
+
                         }
 
                     }

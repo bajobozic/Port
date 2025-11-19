@@ -75,6 +75,10 @@ class HomeViewModel(
             is HomeAction.NavigateToDetailsScreen -> {
                 //no op, handled in navController
             }
+
+            HomeAction.NavigateToSignInScreen -> {
+                //no op, handled in navController
+            }
         }
     }
 

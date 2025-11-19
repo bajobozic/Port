@@ -7,5 +7,8 @@ sealed interface Routes {
     data object Home : Routes
 
     @Serializable
+    data object SignIn : Routes
+
+    @Serializable
     data class Details(val movieId: Int) : Routes
 }

@@ -13,4 +13,5 @@ sealed interface HomeAction {
         HomeAction
 
     data class DeleteMove(val movie: Movie) : HomeAction
+    data object NavigateToSignInScreen : HomeAction
 }

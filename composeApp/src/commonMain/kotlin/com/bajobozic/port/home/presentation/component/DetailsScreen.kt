@@ -33,7 +33,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -60,13 +59,13 @@ private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
 
 @Composable
 fun DetailsScreen(
-    state: State<DetailUiState>,
+    state: DetailUiState,
     onEvent: (DetailScreenEvent) -> Unit
 ) {
     // --- Fullscreen Video Player Overlay ---
     // If the video is in fullscreen, cover the entire screen with the VideoPlayer
     AnimatedVisibility(
-        visible = state.value.isVideoFullscreen,
+        visible = state.isVideoFullscreen,
         // Add fillMaxSize() and a background color to ensure it fully covers the screen
         modifier = Modifier.fillMaxSize().background(Color.Black)
     ) {
@@ -76,7 +75,7 @@ fun DetailsScreen(
             contentAlignment = Alignment.Center // Crucial for centering the content
         ) {
             VideoPlayer(
-                url = state.value.data.key,
+                url = state.data.key,
                 // Keep fillMaxWidth() and use a dynamic height to force aspect ratio
                 // or just use fillMaxSize() for the WebView container
                 modifier = Modifier
@@ -88,7 +87,7 @@ fun DetailsScreen(
 
     // --- Main Screen Content (Visible when video is NOT fullscreen) ---
     AnimatedVisibility(
-        visible = !state.value.isVideoFullscreen, // Hide when fullscreen
+        visible = !state.isVideoFullscreen, // Hide when fullscreen
         modifier = Modifier.fillMaxSize()
     ) {
         // Use LazyColumn to allow scrolling of the entire screen content
@@ -109,7 +108,7 @@ fun DetailsScreen(
                                     .add(HEADER_TYPE_AUTHORIZATION, HEADER_TOKEN)
                                     .build()
                             )
-                            .data(POSTER_BASE_URL + state.value.data.posterPath)
+                            .data(POSTER_BASE_URL + state.data.posterPath)
                             .crossfade(true)
                             .build(),
                         error = painterResource(Res.drawable.compose_multiplatform),
@@ -134,7 +133,7 @@ fun DetailsScreen(
                     )
 
                     // Trailer Play Button (Centered on the poster)
-                    if (state.value.data.key.isNotEmpty()) {
+                    if (state.data.key.isNotEmpty()) {
                         Box(
                             modifier = Modifier
                                 .align(Alignment.Center),
@@ -183,14 +182,14 @@ fun DetailsScreen(
                         ) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = state.value.data.title,
+                                    text = state.data.title,
                                     style = MaterialTheme.typography.headlineLarge,
                                     color = MaterialTheme.colorScheme.primary, // Primary color for impact
                                     fontWeight = FontWeight.Bold
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Text(
-                                    text = state.value.data.releaseDate.toString(),
+                                    text = state.data.releaseDate.toString(),
                                     style = MaterialTheme.typography.titleMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -215,7 +214,7 @@ fun DetailsScreen(
 
                         // 3. Metadata Row (Genres - Placeholder)
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            state.value.data.genreIds.forEach { genre ->
+                            state.data.genreIds.forEach { genre ->
                                 SuggestionChip(
                                     onClick = { /* no-op */ },
                                     label = { Text(genre.name) })
@@ -238,7 +237,7 @@ fun DetailsScreen(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = state.value.data.overview,
+                        text = state.data.overview,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )

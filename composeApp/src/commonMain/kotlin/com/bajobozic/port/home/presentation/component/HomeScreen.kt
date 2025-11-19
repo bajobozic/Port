@@ -151,7 +151,9 @@ fun HomeScreen(
         FloatingActionButton(
             modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
             containerColor = MaterialTheme.colorScheme.primary,
-            onClick = { },
+            onClick = {
+                action(HomeAction.NavigateToSignInScreen)
+            },
         ) {
             Icon(Icons.Filled.Face, "Floating action button.")
         }
