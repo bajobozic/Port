@@ -1,0 +1,45 @@
+# Android-specific
+build/
+captures/
+release/
+output.json
+
+# Jetpack Compose-specific
+.compose-cache/
+
+# IDE Files (app module specific)
+.idea/compose.xml
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/vcs.xml
+.idea/shelf
+.idea/artifacts
+.idea/remote-targets.xml
+.idea/modules
+.idea/gradle.xml
+.idea/compiler.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/.name
+.idea/jarRepositories.xml
+.idea/csv-plugin.xml
+.idea/libraries-with-intellij-classes.xml
+.idea/misc.xml
+.idea/protoeditor.xml
+.idea/uiDesigner.xml
+.idea/runConfigurations/JPS_*.xml
+.idea/runConfigurations/_JPS_*.xml
+.idea/runConfigurations/PILL_*.xml
+.idea/runConfigurations/_FP_*.xml
+.idea/runConfigurations/_MT_*.xml
+android-studio/sdk
+
+.idea/testData/debugger/tinyApp/classes*
+/jps-plugin/testData/kannotator
+/js/js.translator/testData/out/
+/js/js.translator/testData/out-min/
+/js/js.translator/testData/out-pir/
+
+*.jks

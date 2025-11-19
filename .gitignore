@@ -1,12 +1,9 @@
-*.iml
 .kotlin
 .gradle
 **/build/
 xcuserdata
 !src/**/build/
-local.properties
 .idea
-.DS_Store
 captures
 .externalNativeBuild
 .cxx
@@ -16,4 +13,70 @@ captures
 !*.xcodeproj/project.xcworkspace/
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# IntelliJ IDEA/Android Studio/CLion IDE Files
+.idea/
+
+# Android-specific
+local.properties
+.externalNativeBuild/
+buildSrcTmp/
+distTmp/
+outTmp/
+
+# Gradle
+gradle-app.setting
+.gradle/
+
+# Node.js/JavaScript-Specific
 node_modules/
+.rpt2_cache/
+
+# Kotlin/Jetpack Compose-specific
+*.kotlin_metadata
+kotlin-native/dist
+kotlin-ide/
+
+# Test Outputs
+/test.output
+
+# General Build/Output Folders
+out/
+dist/
+tmp/
+
+# Temporary Files
+*.iml
+*.lock
+*.tmp
+*.temp
+*.bak
+*.orig
+*.hprof
+*.log
+
+# Exceptions for Build/Test Directories
+!**/src/**/build
+!**/test/**/build
+!**/testData/**/*.iml
+
+# TeamCity
+.teamcity/
+
+# Keystore Files
+*.jks
+
+# IDE SDKs
+ideaSDK/
+clionSDK/
+
+# Personal/Local Configurations
+workspace.xml
+*.versionsBackup
