@@ -1,5 +1,6 @@
 package com.bajobozic.port.home.presentation.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,11 +32,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import coil3.Uri
+import com.bajobozic.port.rememberCameraManager
 import org.jetbrains.compose.resources.vectorResource
 import port.composeapp.generated.resources.Res
 import port.composeapp.generated.resources.camera
@@ -48,17 +51,22 @@ fun SignInScreen(
     uiState: SignInUiState,
     event: (SignInEvent) -> Unit
 ) {
+
+    var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+
+    // Initialize the camera manager
+    val cameraLauncher = rememberCameraManager { result ->
+        imageBitmap = result
+    }
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    // Placeholder for the actual image state (e.g., a URI or Bitmap)
-    var userImageUri by remember { mutableStateOf<Uri?>(null) }
 
     // In a real app, you would use an ActivityResultLauncher
     // for camera and image picking permissions and results.
     val onCameraButtonClick: () -> Unit = {
-        // Logic to launch camera or image picker
-        println("UserCreationScreen, Camera button clicked!")
+        cameraLauncher.capture()
     }
     Column(
         modifier = Modifier
@@ -71,7 +79,7 @@ fun SignInScreen(
 
         // 1. User Image and Camera Button
         UserImagePicker(
-            userImageUri = userImageUri,
+            imageBitmap = imageBitmap,
             onCameraButtonClick = onCameraButtonClick
         )
 
@@ -111,7 +119,7 @@ fun SignInScreen(
 
 @Composable
 fun UserImagePicker(
-    userImageUri: Uri?,
+    imageBitmap: ImageBitmap?,
     onCameraButtonClick: () -> Unit
 ) {
     Box(
@@ -124,14 +132,12 @@ fun UserImagePicker(
             color = MaterialTheme.colorScheme.surfaceVariant,
             modifier = Modifier.size(120.dp)
         ) {
-            if (userImageUri != null) {
-                // In a real app, use Coil or Glide for image loading from Uri
-                // AsyncImage(model = userImageUri, contentDescription = "User Profile Picture")
-                Icon(
-                    imageVector = Icons.Default.Person,
+            if (imageBitmap != null) {
+                Image(
+                    bitmap = imageBitmap,
                     contentDescription = "User Profile Picture",
                     modifier = Modifier.size(80.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                    contentScale = ContentScale.Crop
                 )
             } else {
                 Icon(
