@@ -12,8 +12,13 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -38,6 +43,7 @@ import com.bajobozic.port.home.domain.model.Movie
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import port.composeapp.generated.resources.Res
 import port.composeapp.generated.resources.no_items
 
@@ -142,5 +148,24 @@ fun HomeScreen(
                         action(HomeAction.ShowSnackbar(message = "Loading error") { uiState.retry() })
                 }
             }
+        FloatingActionButton(
+            modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
+            containerColor = MaterialTheme.colorScheme.primary,
+            onClick = { },
+        ) {
+            Icon(Icons.Filled.Face, "Floating action button.")
+        }
+    }
+}
+
+@Preview
+@Composable
+fun HomeScreenPreview() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.LightGray)
+    ) {
+        Text(text = "Home Screen Preview", modifier = Modifier.align(Alignment.Center))
     }
 }
