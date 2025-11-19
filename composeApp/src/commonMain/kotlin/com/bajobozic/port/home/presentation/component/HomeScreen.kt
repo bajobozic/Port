@@ -103,7 +103,7 @@ fun HomeScreen(
             }
         }
         if (uiState.loadState.mediator?.refresh is LoadState.Loading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center).size(56.dp))
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center).size(32.dp))
         } else {
             LaunchedEffect(refreshButtonEnabled) {
                 if (!refreshButtonEnabled)
