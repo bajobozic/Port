@@ -61,7 +61,9 @@ class MovieRemoteMediator(
     }
 
     override suspend fun initialize(): InitializeAction {
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
+        // Decide whether to trigger initial refresh or not.In this case, we want to refresh
+        // data on first launch, so we return LAUNCH_INITIAL_REFRESH the first time.
+        return if (firstTimeUpdateGenres) InitializeAction.LAUNCH_INITIAL_REFRESH else InitializeAction.SKIP_INITIAL_REFRESH
     }
 
     private suspend fun getAllGenres(): List<GenreEntity> {

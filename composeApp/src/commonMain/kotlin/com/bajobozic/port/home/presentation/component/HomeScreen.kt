@@ -16,12 +16,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +35,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.bajobozic.port.home.domain.model.Movie
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import port.composeapp.generated.resources.Res
@@ -48,13 +51,20 @@ fun HomeScreen(
             .fillMaxSize()
             .background(Color.LightGray)
     ) {
-        val listState = rememberLazyStaggeredGridState()
+        var selectedIndex by remember { mutableStateOf(0) }
+        var firstVisibleItemIndex by rememberSaveable { mutableStateOf(0) }
+        val listState = rememberLazyStaggeredGridState(firstVisibleItemIndex)
         val endOfList by remember {
             derivedStateOf { !listState.canScrollForward }
         }
         val coroutineScope = rememberCoroutineScope()
         var refreshButtonEnabled by remember { mutableStateOf(true) }
-
+        //save scroll position on process death or navigation
+        DisposableEffect(Unit) {
+            onDispose {
+                firstVisibleItemIndex = selectedIndex
+            }
+        }
         if (uiState.itemCount <= 0)
             Button(
                 modifier = Modifier.align(Alignment.Center),
@@ -87,8 +97,9 @@ fun HomeScreen(
                     contentType = uiState.itemContentType { "contentType" }) { index ->
                     val movie = uiState[index]
                     if (movie != null)
-                        MovieCardRow(modifier = Modifier.animateItem(), movie = movie, onClick = {
+                        MovieCardRow(modifier = Modifier, movie = movie, onClick = {
                             action(HomeAction.NavigateToDetailsScreen(it))
+                            selectedIndex = index
                         })
                 }
                 if (uiState.loadState.mediator?.append is LoadState.Loading)
@@ -101,6 +112,14 @@ fun HomeScreen(
                         }
                     }
             }
+            //restore scroll position after process death or navigation back, do it here to ensure LazyColumn is already composed
+            LaunchedEffect(firstVisibleItemIndex) {
+                if (firstVisibleItemIndex > 0) {
+                    delay(50)
+                    listState.animateScrollToItem(firstVisibleItemIndex)
+                }
+            }
+
         }
         if (uiState.loadState.mediator?.refresh is LoadState.Loading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center).size(32.dp))

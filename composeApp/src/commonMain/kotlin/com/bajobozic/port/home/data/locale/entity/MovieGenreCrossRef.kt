@@ -2,8 +2,13 @@ package com.bajobozic.port.home.data.locale.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 
-@Entity(tableName = "moviegenrecrossref", primaryKeys = ["movie_id", "genre_id"])
+@Entity(
+    tableName = "moviegenrecrossref", primaryKeys = ["movie_id", "genre_id"], indices = [
+        Index(value = ["genre_id"])
+    ]
+)
 data class MovieGenreCrossRef(
     @ColumnInfo(name = "movie_id")
     val movieId: Int,

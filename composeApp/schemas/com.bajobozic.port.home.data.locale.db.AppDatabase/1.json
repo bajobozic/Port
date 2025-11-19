@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7b754893a47735b0af049103ae5740e8",
+    "identityHash": "d5c5f78dfeedb45fe987b3c1488e28c1",
     "entities": [
       {
         "tableName": "movies",
@@ -160,12 +160,23 @@
             "movie_id",
             "genre_id"
           ]
-        }
+        },
+        "indices": [
+          {
+            "name": "index_moviegenrecrossref_genre_id",
+            "unique": false,
+            "columnNames": [
+              "genre_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_moviegenrecrossref_genre_id` ON `${TABLE_NAME}` (`genre_id`)"
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7b754893a47735b0af049103ae5740e8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd5c5f78dfeedb45fe987b3c1488e28c1')"
     ]
   }
 }
