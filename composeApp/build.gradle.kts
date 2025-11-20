@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -104,11 +105,27 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    signingConfigs {
+        create("release") {
+            val localProperties = gradleLocalProperties(rootDir, providers)
+            storeFile =
+                file(localProperties.getProperty("storeFilePath")) // Path to your keystore file
+            storePassword =
+                localProperties.getProperty("storePassword") // Password for your keystore
+            keyAlias =
+                localProperties.getProperty("keyAlias") // Alias of the key within the keystore
+            keyPassword = localProperties.getProperty("keyPassword") // Password for the key
+        }
+    }
+
     buildTypes {
         getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
