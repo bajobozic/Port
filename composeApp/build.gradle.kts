@@ -96,6 +96,7 @@ kotlin {
             implementation(libs.androidx.camera.video)
             implementation(libs.androidx.camera.view)
             implementation(libs.androidx.camera.extensions)
+            implementation(libs.androidx.exifinterface)
         }
         commonMain.dependencies {
             // Compose Multiplatform defaults, added by the plugin
