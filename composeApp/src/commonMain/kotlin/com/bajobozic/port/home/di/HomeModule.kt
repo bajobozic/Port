@@ -14,6 +14,7 @@ import com.bajobozic.port.home.domain.ErrorHandler
 import com.bajobozic.port.home.domain.repository.HomeRepository
 import com.bajobozic.port.home.presentation.DetailViewModel
 import com.bajobozic.port.home.presentation.HomeViewModel
+import com.bajobozic.port.home.presentation.MapsViewModel
 import com.bajobozic.port.home.presentation.SignInViewModel
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
@@ -31,4 +32,5 @@ val homeModule = module {
     viewModelOf(::HomeViewModel)
     viewModelOf(::DetailViewModel)
     viewModelOf(::SignInViewModel)
+    viewModelOf(::MapsViewModel)
 }

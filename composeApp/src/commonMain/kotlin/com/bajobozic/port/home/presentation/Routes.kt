@@ -10,5 +10,8 @@ sealed interface Routes {
     data object SignIn : Routes
 
     @Serializable
+    data object Maps : Routes
+
+    @Serializable
     data class Details(val movieId: Int) : Routes
 }

@@ -23,12 +23,15 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.bajobozic.port.home.presentation.DetailViewModel
 import com.bajobozic.port.home.presentation.HomeViewModel
+import com.bajobozic.port.home.presentation.MapsViewModel
 import com.bajobozic.port.home.presentation.Routes
 import com.bajobozic.port.home.presentation.Routes.Details
 import com.bajobozic.port.home.presentation.SignInViewModel
+import com.bajobozic.port.home.presentation.component.DetailScreenEvent
 import com.bajobozic.port.home.presentation.component.DetailsScreen
 import com.bajobozic.port.home.presentation.component.HomeAction
 import com.bajobozic.port.home.presentation.component.HomeScreen
+import com.bajobozic.port.home.presentation.component.MapsScreen
 import com.bajobozic.port.home.presentation.component.SignInScreen
 import com.bajobozic.port.home.theme.PortAppTheme
 import kotlinx.coroutines.launch
@@ -145,8 +148,17 @@ fun App() {
                             val detailViewModel = koinViewModel<DetailViewModel>()
                             DetailsScreen(
                                 state = detailViewModel.movie.collectAsStateWithLifecycle().value,
-                                onEvent = { event ->
-                                    detailViewModel.onEvent(event)
+                                onEvent = { event: DetailScreenEvent ->
+                                    when (event) {
+                                        is DetailScreenEvent.OpenMaps -> {
+                                            navController.navigate(Routes.Maps) {
+                                                launchSingleTop = true
+                                            }
+                                        }
+
+                                        else ->
+                                            detailViewModel.onEvent(event)
+                                    }
                                 },
                             )
                         }
@@ -156,7 +168,14 @@ fun App() {
                             SignInScreen(uiState = signInViewModel.signInState.collectAsStateWithLifecycle().value) { action ->
 
                             }
+                        }
 
+                        composable<Routes.Maps>()
+                        { navBackStackEntry ->
+                            val mapsViewModel = koinViewModel<MapsViewModel>()
+                            MapsScreen(uiState = mapsViewModel.mapsState.collectAsStateWithLifecycle().value) { action ->
+
+                            }
                         }
 
                     }

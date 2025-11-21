@@ -189,7 +189,7 @@ fun DetailsScreen(
                                 imageVector = vectorResource(Res.drawable.map),
                                 contentDescription = "Take Image",
                                 modifier = Modifier.padding(top = 8.dp).clickable {
-
+                                    onEvent(DetailScreenEvent.OpenMaps)
                                 }
                             )
                             Spacer(modifier = Modifier.width(8.dp))

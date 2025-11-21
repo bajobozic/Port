@@ -48,6 +48,8 @@ class DetailViewModel(
                     it.copy(isVideoFullscreen = event.toggleToFullScreen)
                 }
             }
+
+            is DetailScreenEvent.OpenMaps -> {}
         }
     }
 }
