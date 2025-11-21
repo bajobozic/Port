@@ -7,7 +7,7 @@ import androidx.compose.ui.viewinterop.UIKitView
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.cValue
 import platform.CoreLocation.CLLocationCoordinate2D
-import platform.MapKit.MKMapCamera
+import platform.MapKit.MKCoordinateSpan
 import platform.MapKit.MKMapView
 
 @OptIn(ExperimentalForeignApi::class)
@@ -20,21 +20,19 @@ actual fun PortMapView() {
             val nyLat = 40.7128
             val nyLong = -74.0060
 
-            // FIX: Create the struct directly using cValue
-            // instead of calling the inline function CLLocationCoordinate2DMake
+            // Create the struct directly using cValue
+            // instead of calling the inline function CLLocationCoordinate2DMake that can't be linked
             val coordinate = cValue<CLLocationCoordinate2D> {
                 latitude = nyLat
                 longitude = nyLong
             }
+            val span = cValue<MKCoordinateSpan> {
+                latitudeDelta = 0.05
+                longitudeDelta = 0.05
+            }
 
-            val camera = MKMapCamera.cameraLookingAtCenterCoordinate(
-                centerCoordinate = coordinate,
-                fromDistance = 12000.0,
-                pitch = 0.0,
-                heading = 0.0
-            )
-
-            mapView.setCamera(camera, animated = true)
+            val region = platform.MapKit.MKCoordinateRegionMake(coordinate, span)
+            mapView.setRegion(region, animated = true)
             mapView
         },
         modifier = Modifier.fillMaxSize(),
