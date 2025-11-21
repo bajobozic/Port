@@ -43,8 +43,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
-import coil3.network.NetworkHeaders
-import coil3.network.httpHeaders
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.bajobozic.port.VideoPlayer
@@ -53,9 +51,6 @@ import org.jetbrains.compose.resources.painterResource
 import port.composeapp.generated.resources.Res
 import port.composeapp.generated.resources.compose_multiplatform
 
-private const val HEADER_TYPE_AUTHORIZATION = "Authorization"
-private const val HEADER_TOKEN =
-    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwY2VjY2FhNzcyN2UyZGM2YTU2NWIxMzA2NTAzOWRmNyIsInN1YiI6IjU4N2Y3MzA3YzNhMzY4MmU5ZjAwOTY4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WgePLgtvzGV-iui6VBQA6J-ARJBzBo13vfPUih7V17s"
 private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
 
 @Composable
@@ -104,11 +99,6 @@ fun DetailsScreen(
                     // Background Poster Image
                     AsyncImage(
                         model = ImageRequest.Builder(LocalPlatformContext.current)
-                            .httpHeaders(
-                                NetworkHeaders.Builder()
-                                    .add(HEADER_TYPE_AUTHORIZATION, HEADER_TOKEN)
-                                    .build()
-                            )
                             .data(POSTER_BASE_URL + state.data.posterPath)
                             .crossfade(true)
                             .build(),

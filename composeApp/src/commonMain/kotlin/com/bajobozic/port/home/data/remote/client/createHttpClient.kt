@@ -1,5 +1,6 @@
 package com.bajobozic.port.home.data.remote.client
 
+import com.bajobozic.port.AppConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.DefaultRequest
@@ -50,7 +51,7 @@ fun createHttpClient(engine: HttpClientEngine): HttpClient {
             header(HttpHeaders.ContentType, ContentType.Application.Json)
             header(
                 HttpHeaders.Authorization,
-                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwY2VjY2FhNzcyN2UyZGM2YTU2NWIxMzA2NTAzOWRmNyIsInN1YiI6IjU4N2Y3MzA3YzNhMzY4MmU5ZjAwOTY4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WgePLgtvzGV-iui6VBQA6J-ARJBzBo13vfPUih7V17s"
+                "Bearer ${AppConfig.API_KEY}"
             )
         }
 

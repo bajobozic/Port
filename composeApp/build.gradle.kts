@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.google.devtools.ksp.gradle.KspTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -9,6 +10,48 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.room)
+}
+
+
+// 1. Define a proper Task class.
+// This isolates the logic so Gradle can cache it safely.
+abstract class GenerateConfigTask : DefaultTask() {
+
+    @get:Input
+    abstract val apiKey: Property<String>
+
+    @get:OutputDirectory
+    abstract val outputDir: DirectoryProperty
+
+    @TaskAction
+    fun generate() {
+        val fileContent = """
+            package com.bajobozic.port
+            
+            object AppConfig {
+                const val API_KEY = "${apiKey.get()}"
+            }
+        """.trimIndent()
+
+        val dir = outputDir.get().asFile
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        File(dir, "AppConfig.kt").writeText(fileContent)
+    }
+}
+
+// 2. Register the task using the class above
+val buildConfigDir = layout.buildDirectory.dir("generated/kotlin/config")
+
+val generateConfig by tasks.registering(GenerateConfigTask::class) {
+    // Read property safely
+    val keyProperty =
+        gradleLocalProperties(rootDir, providers).getProperty("API_KEY") ?: "MISSING_KEY"
+
+    // Connect inputs
+    apiKey.set(keyProperty)
+    outputDir.set(buildConfigDir)
 }
 
 kotlin {
@@ -28,7 +71,13 @@ kotlin {
         }
     }
 
+
     sourceSets {
+        commonMain {
+            // This tells Gradle: "This source set depends on this task finishing first."
+            kotlin.srcDir(generateConfig)
+        }
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -87,6 +136,10 @@ kotlin {
         }
     }
     compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
+}
+
+tasks.withType<KspTask> {
+    dependsOn(generateConfig)
 }
 
 android {
