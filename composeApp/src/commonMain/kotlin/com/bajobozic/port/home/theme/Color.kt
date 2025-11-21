@@ -4,34 +4,42 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
+// Defining the base green colors
+private val EmeraldGreen = Color(0xFF00C853) // A vibrant, appealing green
+private val DeepGreen = Color(0xFF00796B)    // A darker green for containers
+private val MintGreen = Color(0xFF69F0AE)    // A lighter accent for secondary/surface tint
+
 // Define the custom dark color scheme suitable for a cinematic app
-private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFFBB86FC),      // Vibrant accent color for high-visibility elements (e.g., buttons, progress)
-    onPrimary = Color.Black,
-    primaryContainer = Color(0xFF3700B3),
-    onPrimaryContainer = Color.White,
-    secondary = Color(0xFF03DAC5),    // Secondary accent color (e.g., ratings, icons)
+val DarkColorScheme = darkColorScheme(
+    primary = EmeraldGreen,             // Vibrant emerald green for high-visibility elements
+    onPrimary = Color.Black,            // Black text/icon on the green primary
+    primaryContainer = DeepGreen,       // Darker, rich green for contained primary elements
+    onPrimaryContainer = Color.White,   // White text/icon on the dark green container
+    secondary = MintGreen,              // Lighter mint for secondary accents (e.g., ratings, icons)
     onSecondary = Color.Black,
-    background = Color(0xFF121212),   // Very dark background, standard for media apps
+    background = Color(0xFF121212),     // Very dark background
     onBackground = Color.White,
-    surface = Color(0xFF1E1E1E),      // Slightly lighter dark gray for cards/containers
+    surface = Color(0xFF1E1E1E),        // Slightly lighter dark gray for cards/containers
     onSurface = Color.White,
-    error = Color(0xFFB00020),
+    error = Color(0xFFCF6679),          // Soft red for dark theme error
     onError = Color.Black
 )
 
-// You could define a LightColorScheme here if needed, but a Dark theme is often preferred for movies.
-private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF6200EE),        // Darker, saturated purple
+// LightColorScheme using a medium green
+private val MediumGreen = Color(0xFF388E3C)  // A pleasant, medium shade of green
+private val LightMintGreen = Color(0xFFC8E6C9) // Very light green for containers
+
+val LightColorScheme = lightColorScheme(
+    primary = MediumGreen,              // Medium green for primary elements
     onPrimary = Color.White,
-    primaryContainer = Color(0xFFBB86FC), // Using the dark theme's primary for the container
+    primaryContainer = LightMintGreen,  // Very light green for contained primary elements
     onPrimaryContainer = Color.Black,
-    secondary = Color(0xFF018786),      // Darker teal/cyan
+    secondary = DeepGreen,              // Deep green for secondary accents
     onSecondary = Color.White,
     background = Color.White,           // Standard white background
     onBackground = Color.Black,
     surface = Color(0xFFF7F7F7),        // Very light gray surface
     onSurface = Color.Black,
-    error = Color(0xFFB00020),          // Darker red for error
+    error = Color(0xFFB00020),          // Standard dark red for error
     onError = Color.White
 )

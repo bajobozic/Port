@@ -191,7 +191,7 @@ fun App() {
                     BottomAppBar(
                         modifier = Modifier.fillMaxWidth(),
                         containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        contentColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     ) {
                         BottomBarTab(
                             Modifier.weight(1f),
