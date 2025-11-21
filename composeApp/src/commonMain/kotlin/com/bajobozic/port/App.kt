@@ -4,7 +4,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -27,6 +29,7 @@ import com.bajobozic.port.home.presentation.MapsViewModel
 import com.bajobozic.port.home.presentation.Routes
 import com.bajobozic.port.home.presentation.Routes.Details
 import com.bajobozic.port.home.presentation.SignInViewModel
+import com.bajobozic.port.home.presentation.component.BottomBarTab
 import com.bajobozic.port.home.presentation.component.DetailScreenEvent
 import com.bajobozic.port.home.presentation.component.DetailsScreen
 import com.bajobozic.port.home.presentation.component.HomeAction
@@ -37,6 +40,10 @@ import com.bajobozic.port.home.theme.PortAppTheme
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
+import port.composeapp.generated.resources.Res
+import port.composeapp.generated.resources.account
+import port.composeapp.generated.resources.movie
+import port.composeapp.generated.resources.tv
 
 @Composable
 @Preview
@@ -178,6 +185,37 @@ fun App() {
                             }
                         }
 
+                    }
+                },
+                bottomBar = {
+                    BottomAppBar(
+                        modifier = Modifier.fillMaxWidth(),
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.primary,
+                    ) {
+                        BottomBarTab(
+                            Modifier.weight(1f),
+                            drawableResource = Res.drawable.movie,
+                            title = "Movies"
+                        ) {
+                            navController.popBackStack(Routes.Home, false)
+                        }
+                        BottomBarTab(
+                            Modifier.weight(1f),
+                            drawableResource = Res.drawable.tv,
+                            title = "Tv Shows"
+                        ) {
+
+                        }
+                        BottomBarTab(
+                            Modifier.weight(1f),
+                            drawableResource = Res.drawable.account,
+                            title = "Profile"
+                        ) {
+                            navController.navigate(Routes.SignIn) {
+                                launchSingleTop = true
+                            }
+                        }
                     }
                 },
                 snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
