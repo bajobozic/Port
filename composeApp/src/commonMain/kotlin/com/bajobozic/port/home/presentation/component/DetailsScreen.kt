@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
@@ -46,10 +45,14 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.bajobozic.port.VideoPlayer
+import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.vectorResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import port.composeapp.generated.resources.Res
 import port.composeapp.generated.resources.compose_multiplatform
+import port.composeapp.generated.resources.map
 
 private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
 
@@ -183,7 +186,7 @@ fun DetailsScreen(
                             }
                             // Placeholder for action icon (e.g., Heart/Share)
                             Icon(
-                                imageVector = Icons.Filled.Create,
+                                imageVector = vectorResource(Res.drawable.map),
                                 contentDescription = "Take Image",
                                 modifier = Modifier.padding(top = 8.dp).clickable {
 
@@ -232,4 +235,27 @@ fun DetailsScreen(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun DetailsScreenPreview() {
+    DetailsScreen(
+        state = DetailUiState(
+            data = com.bajobozic.port.home.domain.model.MovieDetail(
+                title = "Sample Movie",
+                overview = "This is a sample movie overview to demonstrate the DetailsScreen layout in Jetpack Compose Multiplatform.",
+                posterPath = "/samplePoster.jpg",
+                releaseDate = LocalDate.fromEpochDays(1L),
+                genreIds = listOf(
+                    com.bajobozic.port.home.domain.model.Genre(28, "Action"),
+                    com.bajobozic.port.home.domain.model.Genre(12, "Adventure"),
+                    com.bajobozic.port.home.domain.model.Genre(16, "Animation")
+                ),
+                key = "dQw4w9WgXcQ"
+            ),
+            isVideoFullscreen = false,
+        ),
+        onEvent = {}
+    )
 }
