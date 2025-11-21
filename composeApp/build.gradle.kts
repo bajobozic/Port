@@ -46,8 +46,14 @@ val buildConfigDir = layout.buildDirectory.dir("generated/kotlin/config")
 
 val generateConfig by tasks.registering(GenerateConfigTask::class) {
     // Read property safely
-    val keyProperty =
-        gradleLocalProperties(rootDir, providers).getProperty("API_KEY") ?: "MISSING_KEY"
+    //for CI/CD use environment variables, for local development use the local.properties file
+    val keyProperty = if (gradleLocalProperties(rootDir, providers).isEmpty)
+        System.getenv("API_KEY")
+    else
+        gradleLocalProperties(
+            rootDir,
+            providers
+        ).getProperty("API_KEY")
 
     // Connect inputs
     apiKey.set(keyProperty)
@@ -161,14 +167,24 @@ android {
 
     signingConfigs {
         create("release") {
+            //for CI/CD use environment variables, for local development use the local.properties file
             val localProperties = gradleLocalProperties(rootDir, providers)
-            storeFile =
+            storeFile = if (localProperties.isEmpty)
+                file(System.getenv("STORE_FILE_PATH"))
+            else
                 file(localProperties.getProperty("storeFilePath")) // Path to your keystore file
-            storePassword =
+            storePassword = if (localProperties.isEmpty)
+                System.getenv("STORE_PASSWORD")
+            else
                 localProperties.getProperty("storePassword") // Password for your keystore
-            keyAlias =
+            keyAlias = if (localProperties.isEmpty)
+                System.getenv("KEY_ALIAS")
+            else
                 localProperties.getProperty("keyAlias") // Alias of the key within the keystore
-            keyPassword = localProperties.getProperty("keyPassword") // Password for the key
+            keyPassword = if (localProperties.isEmpty)
+                System.getenv("KEY_PASSWORD")
+            else
+                localProperties.getProperty("keyPassword") // Password for the key
         }
     }
 
