@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -34,6 +33,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import com.bajobozic.port.PlatformProgressIndicator
 import com.bajobozic.port.home.domain.model.Movie
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -109,7 +109,7 @@ fun HomeScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            CircularProgressIndicator(Modifier.size(32.dp))
+                            PlatformProgressIndicator(Modifier.size(32.dp))
                         }
                     }
             }
@@ -123,7 +123,7 @@ fun HomeScreen(
 
         }
         if (uiState.loadState.mediator?.refresh is LoadState.Loading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center).size(32.dp))
+            PlatformProgressIndicator(modifier = Modifier.align(Alignment.Center).size(32.dp))
         } else {
             LaunchedEffect(refreshButtonEnabled) {
                 if (!refreshButtonEnabled)
