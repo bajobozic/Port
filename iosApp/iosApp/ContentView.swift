@@ -4,13 +4,13 @@ import ComposeApp
 
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController(initBlock: { () -> Void in
-            let nativeFactory: NativeViewFactory = SwiftNativeViewFactory()
-            Platform_iosKt.initializeComposeApp(factory: nativeFactory)
+        MainViewControllerKt.MainViewController(swiftToKotlinInitializerBlock: { () -> Void in
+            NativeViewFactoryKt.setNativeViewFactory(factory: SwiftNativeViewFactory.shared)
         })
     }
 
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+    }
 }
 
 struct ContentView: View {

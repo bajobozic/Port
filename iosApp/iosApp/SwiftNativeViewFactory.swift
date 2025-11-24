@@ -7,6 +7,8 @@ import SwiftUI
 import ComposeApp
 
 class SwiftNativeViewFactory: NativeViewFactory {
+    static let shared = SwiftNativeViewFactory()
+
     func createNativeView(label: String, onClick: @escaping () -> Void) -> UIViewController {
         let button = SwiftUIButton(label: label, onClick: onClick)
         return UIHostingController(rootView: button)
