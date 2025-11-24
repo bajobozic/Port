@@ -2,6 +2,8 @@ package com.bajobozic.port
 
 import androidx.compose.ui.window.ComposeUIViewController
 
-fun MainViewController() = ComposeUIViewController(configure = {
-    initKoin()
+fun MainViewController(initBlock: () -> Unit = {}) = ComposeUIViewController(configure = {
+    initKoin(appDeclaration = {
+        initBlock()
+    })
 }) { App() }

@@ -7,3 +7,9 @@ class IOSPlatform: Platform {
 }
 
 actual fun getPlatform(): Platform = IOSPlatform()
+
+fun initializeComposeApp(factory: NativeViewFactory) {
+    nativeViewFactory = factory
+}
+
+private lateinit var nativeViewFactory: NativeViewFactory

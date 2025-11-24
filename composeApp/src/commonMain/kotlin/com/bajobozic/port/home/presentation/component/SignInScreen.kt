@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,6 +37,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.bajobozic.port.PlatformButton
 import com.bajobozic.port.rememberCameraManager
 import org.jetbrains.compose.resources.vectorResource
 import port.composeapp.generated.resources.Res
@@ -104,15 +104,11 @@ fun SignInScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // 4. Submit Button
-        Button(
-            onClick = {
-                println("UserCreationScreen, Creating user with $email and $password")
-                // Handle user creation logic
-            },
-            modifier = Modifier.fillMaxWidth()
+        PlatformButton(
+            modifier = Modifier,
+            label = "Create Account"
         ) {
-            Text("Create Account")
+            println("UserCreationScreen, Creating user with $email and $password")
         }
     }
 }

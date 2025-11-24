@@ -4,7 +4,10 @@ import ComposeApp
 
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController()
+        MainViewControllerKt.MainViewController(initBlock: { () -> Void in
+            let nativeFactory: NativeViewFactory = SwiftNativeViewFactory()
+            Platform_iosKt.initializeComposeApp(factory: nativeFactory)
+        })
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
