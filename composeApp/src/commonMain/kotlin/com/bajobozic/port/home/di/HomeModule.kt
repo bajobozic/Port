@@ -2,20 +2,19 @@ package com.bajobozic.port.home.di
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.RemoteMediator
-import com.bajobozic.port.home.data.locale.HomeLocalDataSource
-import com.bajobozic.port.home.data.locale.HomeLocalDataSourceImpl
-import com.bajobozic.port.home.data.locale.entity.MovieWithGenres
 import com.bajobozic.port.home.data.remote.GlobalErrorHandler
-import com.bajobozic.port.home.data.remote.client.HomeRemoteDataSource
-import com.bajobozic.port.home.data.remote.client.HomeRemoteDataSourceImpl
-import com.bajobozic.port.home.data.remote.client.MovieRemoteMediator
-import com.bajobozic.port.home.data.repository.HomeRepositoryImp
-import com.bajobozic.port.home.domain.ErrorHandler
-import com.bajobozic.port.home.domain.repository.HomeRepository
-import com.bajobozic.port.home.presentation.DetailViewModel
 import com.bajobozic.port.home.presentation.HomeViewModel
-import com.bajobozic.port.home.presentation.MapsViewModel
-import com.bajobozic.port.home.presentation.SignInViewModel
+import com.bajobozic.port.home_component.data.mediator.MovieRemoteMediator
+import com.bajobozic.port.home_component.data.repository.HomeRepositoryImp
+import com.bajobozic.port.home_component.domain.repository.HomeRepository
+import com.bajobozic.port.map.presentation.MapsViewModel
+import com.bajobozic.port.network.data.client.RemoteDataSource
+import com.bajobozic.port.network.data.client.RemoteDataSourceImpl
+import com.bajobozic.port.shared_component.domain.ErrorHandler
+import com.bajobozic.port.signin.presentation.SignInViewModel
+import com.bajobozic.port.storage.data.source.LocalDataSource
+import com.bajobozic.port.storage.data.source.LocalDataSourceImpl
+import com.bajobozic.port.storage.domain.model.Movie
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -25,12 +24,11 @@ import org.koin.dsl.module
 @OptIn(ExperimentalPagingApi::class)
 val homeModule = module {
     singleOf(::GlobalErrorHandler).bind<ErrorHandler>()
-    singleOf(::HomeLocalDataSourceImpl).bind<HomeLocalDataSource>()
-    singleOf(::HomeRemoteDataSourceImpl).bind<HomeRemoteDataSource>()
+    singleOf(::LocalDataSourceImpl).bind<LocalDataSource>()
+    singleOf(::RemoteDataSourceImpl).bind<RemoteDataSource>()
     singleOf(::HomeRepositoryImp).bind<HomeRepository>()
-    singleOf(::MovieRemoteMediator) { bind<RemoteMediator<Int, MovieWithGenres>>() }
+    singleOf(::MovieRemoteMediator) { bind<RemoteMediator<Int, Movie>>() }
     viewModelOf(::HomeViewModel)
-    viewModelOf(::DetailViewModel)
     viewModelOf(::SignInViewModel)
     viewModelOf(::MapsViewModel)
 }

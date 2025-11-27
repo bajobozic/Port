@@ -6,17 +6,16 @@ import androidx.compose.material3.SnackbarResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import com.bajobozic.port.home.domain.model.Movie
-import com.bajobozic.port.home.domain.repository.HomeRepository
-import com.bajobozic.port.home.presentation.component.DetailUiState
-import com.bajobozic.port.home.presentation.component.HomeAction
+import com.bajobozic.port.detail.presentation.DetailUiState
+import com.bajobozic.port.home_component.domain.usecase.GetPagingDataUseCase
+import com.bajobozic.port.storage.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val homeRepository: HomeRepository,
+    private val getPagingDataUseCase: GetPagingDataUseCase,
 ) : ViewModel() {
     val snackbarHostState = SnackbarHostState()
 
@@ -25,7 +24,7 @@ class HomeViewModel(
     var _language = MutableStateFlow("en-US")
     val language: StateFlow<String> = _language
     */
-    val homePagingData: Flow<PagingData<Movie>> = homeRepository.getPagingData(language = "en-US")
+    val homePagingData: Flow<PagingData<Movie>> = getPagingDataUseCase("en-US")
 
     private var _movie = MutableStateFlow(DetailUiState(isLoading = true))
     val movie = _movie.asStateFlow()
@@ -68,7 +67,6 @@ class HomeViewModel(
 
             is HomeAction.DeleteMove -> {
                 viewModelScope.launch {
-                    homeRepository.deleteMovie(action.movie.id)
                 }
             }
 

@@ -1,7 +1,7 @@
 package com.bajobozic.port.home.data.remote
 
-import com.bajobozic.port.home.domain.BaseError
-import com.bajobozic.port.home.domain.ErrorHandler
+import com.bajobozic.port.shared_component.domain.BaseError
+import com.bajobozic.port.shared_component.domain.ErrorHandler
 import kotlin.coroutines.cancellation.CancellationException
 
 class GlobalErrorHandler : ErrorHandler {

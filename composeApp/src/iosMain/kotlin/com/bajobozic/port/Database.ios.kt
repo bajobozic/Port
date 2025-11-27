@@ -2,7 +2,7 @@ package com.bajobozic.port
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.bajobozic.port.home.data.locale.db.AppDatabase
+import com.bajobozic.port.storage.data.db.AppDatabase
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager

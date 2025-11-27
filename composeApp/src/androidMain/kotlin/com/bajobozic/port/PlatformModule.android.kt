@@ -1,7 +1,7 @@
 package com.bajobozic.port
 
-import com.bajobozic.port.home.data.locale.db.AppDatabase
-import com.bajobozic.port.home.data.locale.db.getRoomDatabase
+import com.bajobozic.port.storage.data.db.AppDatabase
+import com.bajobozic.port.storage.data.db.getRoomDatabase
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import org.koin.core.module.Module
