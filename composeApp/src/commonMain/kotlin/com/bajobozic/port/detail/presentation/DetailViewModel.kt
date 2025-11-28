@@ -59,18 +59,18 @@ class DetailViewModel(
 
                         }
                 }
+        }
+    }
 
-            fun onEvent(event: DetailScreenEvent) {
-                when (event) {
-                    is DetailScreenEvent.ToggleVideoFullscreen -> {
-                        _movie.update {
-                            it.copy(isVideoFullscreen = event.toggleToFullScreen)
-                        }
-                    }
-
-                    is DetailScreenEvent.OpenMaps -> {}
+    fun onEvent(event: DetailScreenEvent) {
+        when (event) {
+            is DetailScreenEvent.ToggleVideoFullscreen -> {
+                _movie.update {
+                    it.copy(isVideoFullscreen = event.toggleToFullScreen)
                 }
             }
+
+            is DetailScreenEvent.OpenMaps -> {}
         }
     }
 }

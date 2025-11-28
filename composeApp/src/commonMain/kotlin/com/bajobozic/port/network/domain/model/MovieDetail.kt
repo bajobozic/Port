@@ -4,6 +4,7 @@ import com.bajobozic.port.storage.domain.model.Genre
 import kotlinx.datetime.LocalDate
 
 data class MovieDetail(
+    val id: Int = 0,
     val adult: Boolean = false,
     val backdropPath: String = "",
     val genreIds: List<Genre> = emptyList(),

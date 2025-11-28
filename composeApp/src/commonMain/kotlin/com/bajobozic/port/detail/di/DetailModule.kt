@@ -4,6 +4,6 @@ import com.bajobozic.port.detail.presentation.DetailViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
-internal val detailModule = module {
+val detailModule = module {
     viewModelOf(::DetailViewModel)
 }

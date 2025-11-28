@@ -15,15 +15,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val getPagingDataUseCase: GetPagingDataUseCase,
+    getPagingDataUseCase: GetPagingDataUseCase,
 ) : ViewModel() {
     val snackbarHostState = SnackbarHostState()
-
-    //we should probably do something like this if we want to change param
-    /*
-    var _language = MutableStateFlow("en-US")
-    val language: StateFlow<String> = _language
-    */
     val homePagingData: Flow<PagingData<Movie>> = getPagingDataUseCase("en-US")
 
     private var _movie = MutableStateFlow(DetailUiState(isLoading = true))

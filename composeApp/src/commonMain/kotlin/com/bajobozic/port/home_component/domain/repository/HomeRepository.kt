@@ -6,5 +6,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
     fun getPagingData(language: String): Flow<PagingData<Movie>>
-
 }

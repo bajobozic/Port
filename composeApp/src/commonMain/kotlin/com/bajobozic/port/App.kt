@@ -27,6 +27,7 @@ import com.bajobozic.port.detail.presentation.DetailScreenEvent
 import com.bajobozic.port.detail.presentation.DetailViewModel
 import com.bajobozic.port.detail.presentation.DetailsScreen
 import com.bajobozic.port.home.presentation.HomeAction
+import com.bajobozic.port.home.presentation.HomeScreen
 import com.bajobozic.port.home.presentation.HomeViewModel
 import com.bajobozic.port.map.presentation.MapsScreen
 import com.bajobozic.port.map.presentation.MapsViewModel

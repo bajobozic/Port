@@ -17,10 +17,8 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-internal val networkModule = module {
-    single<ApiClient> {
-        MoviesApiClient(createHttpClient(get()))
-    }
+val networkModule = module {
+    single<ApiClient> { MoviesApiClient(createHttpClient(get())) }
     singleOf(::NetworkErrorHandler).bind<ErrorHandler>()
     singleOf(::RemoteDataSourceImpl).bind<RemoteDataSource>()
     singleOf(::NetworkRepositoryImpl).bind<NetworkRepository>()

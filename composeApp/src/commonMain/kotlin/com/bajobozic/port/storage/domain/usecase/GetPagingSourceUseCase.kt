@@ -1,5 +1,6 @@
 package com.bajobozic.port.storage.domain.usecase
 
-import com.bajobozic.port.storage.domain.model.GetMoviesWithGenres
+import androidx.paging.PagingSource
+import com.bajobozic.port.storage.domain.model.GetMovieWithGenres
 
-fun interface GetPagingSourceUseCase : () -> androidx.paging.PagingSource<Int, GetMoviesWithGenres>
+fun interface GetPagingSourceUseCase : () -> PagingSource<Int, GetMovieWithGenres>

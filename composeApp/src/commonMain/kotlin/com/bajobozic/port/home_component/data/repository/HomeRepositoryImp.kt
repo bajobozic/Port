@@ -9,8 +9,7 @@ import androidx.paging.map
 import com.bajobozic.port.home_component.domain.repository.HomeRepository
 import com.bajobozic.port.shared_component.domain.ErrorHandler
 import com.bajobozic.port.storage.data.entity.MovieWithGenres
-import com.bajobozic.port.storage.data.entity.toModel
-import com.bajobozic.port.storage.domain.model.GetMoviesWithGenres
+import com.bajobozic.port.storage.domain.model.GetMovieWithGenres
 import com.bajobozic.port.storage.domain.model.Movie
 import com.bajobozic.port.storage.domain.usecase.GetPagingSourceUseCase
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +17,7 @@ import kotlinx.coroutines.flow.map
 
 @OptIn(ExperimentalPagingApi::class)
 internal class HomeRepositoryImp(
-    private val remoteMediatorFactory: RemoteMediator<Int, GetMoviesWithGenres>,
+    private val remoteMediatorFactory: RemoteMediator<Int, GetMovieWithGenres>,
     private val getPagingSourceUseCase: GetPagingSourceUseCase,
     private val errorHandler: ErrorHandler
 ) : HomeRepository {
@@ -33,6 +32,12 @@ internal class HomeRepositoryImp(
             },
             remoteMediator = remoteMediatorFactory
         )
-        return pager.flow.map { pagingData -> pagingData.map { movieWithGenres -> (movieWithGenres as MovieWithGenres).toModel() } }
+        return pager.flow.map { pagingData ->
+            pagingData.map { movieWithGenres ->
+                movieWithGenres.asMovie(
+                    movieWithGenres as MovieWithGenres
+                )
+            }
+        }
     }
 }

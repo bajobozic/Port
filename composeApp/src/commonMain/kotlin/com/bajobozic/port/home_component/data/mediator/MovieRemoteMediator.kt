@@ -4,15 +4,15 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.bajobozic.port.network.data.dto.toModel
 import com.bajobozic.port.network.domain.model.MovieDetail
 import com.bajobozic.port.network.domain.model.initRemoteKeys
 import com.bajobozic.port.network.domain.usecase.GetGenresUseCase
 import com.bajobozic.port.network.domain.usecase.GetMoviesUseCase
 import com.bajobozic.port.shared_component.domain.onError
 import com.bajobozic.port.shared_component.domain.onSuccess
+import com.bajobozic.port.storage.data.entity.MovieWithGenres
 import com.bajobozic.port.storage.domain.model.Genre
-import com.bajobozic.port.storage.domain.model.Movie
+import com.bajobozic.port.storage.domain.model.GetMovieWithGenres
 import com.bajobozic.port.storage.domain.usecase.BatchTransactionUseCase
 import com.bajobozic.port.storage.domain.usecase.DeleteThenInsertAllMoviesUseCase
 import com.bajobozic.port.storage.domain.usecase.GetAllGenresUseCase
@@ -30,15 +30,16 @@ internal class MovieRemoteMediator(
     private val getAllGenresUseCase: GetAllGenresUseCase,
     private val batchTransactionUseCase: BatchTransactionUseCase,
     private val getGenresUseCase: GetGenresUseCase,
-) : RemoteMediator<Int, Movie>() {
+) : RemoteMediator<Int, GetMovieWithGenres>() {
     var firstTimeUpdateGenres = true
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, Movie>
+        state: PagingState<Int, GetMovieWithGenres>
     ): MediatorResult {
         return try {
             val loadKey = when (loadType) {
-                LoadType.REFRESH -> state.lastItemOrNull()?.currentPage ?: 1
+                LoadType.REFRESH -> (state.lastItemOrNull() as? MovieWithGenres)?.movie?.currentPage
+                    ?: 1
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> getMaxCurrentPageUseCase() + 1
             }
@@ -86,10 +87,17 @@ internal class MovieRemoteMediator(
     }
 
     private suspend fun getAllGenres(): List<Genre> {
-        val genresList = getAllGenresUseCase()
+        var genresList: List<Genre> = getAllGenresUseCase()
         if (genresList.isNotEmpty() && !firstTimeUpdateGenres) return genresList
 
         firstTimeUpdateGenres = false
-        return getGenresUseCase("en-US").genres.map { it.toModel() }
+
+        getGenresUseCase("en-US").onSuccess { list ->
+            genresList =
+                list.map { genreNetwork -> Genre(id = genreNetwork.id, name = genreNetwork.name) }
+        }.onError {
+            genresList = emptyList<Genre>()
+        }
+        return genresList
     }
 }

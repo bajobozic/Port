@@ -12,6 +12,14 @@ data class Movie(
     val previousPage: Int = 0,
     val currentPage: Int = 0,
     val nextPage: Int = 0,
+    val adult: Boolean = false,
+    val backdropPath: String = "",
+    val originalLanguage: String = "",
+    val popularity: Double = 0.0,
+    val video: Boolean = false,
+    val voteAverage: Double = 0.0,
+    val voteCount: Int = 0,
+    val originalTitle: String = ""
 )
 
 val EMPTY_MOVIE = Movie()
