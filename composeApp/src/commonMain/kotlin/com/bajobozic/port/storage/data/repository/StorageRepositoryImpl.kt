@@ -93,7 +93,51 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
         genreList: List<Genre>,
         genreIdsPerMovie: List<List<Genre>>
     ) {
-        TODO("Not yet implemented")
+        localDataSource.deleteThenInsertAllMovies(
+            list = list.map { movieDetail ->
+                Movie(
+                    id = movieDetail.id,
+                    genreIds = movieDetail.genreIds
+                        .map { genre -> Genre(id = genre.id, name = genre.name) },
+                    overview = movieDetail.overview,
+                    releaseDate = movieDetail.releaseDate,
+                    posterPath = movieDetail.posterPath,
+                    title = movieDetail.title,
+                    previousPage = movieDetail.previousPage ?: 0,
+                    currentPage = movieDetail.currentPage,
+                    nextPage = movieDetail.nextPage,
+                    adult = movieDetail.adult,
+                    backdropPath = movieDetail.backdropPath,
+                    originalLanguage = movieDetail.originalLanguage,
+                    popularity = movieDetail.popularity,
+                    video = movieDetail.video,
+                    voteAverage = movieDetail.voteAverage,
+                    voteCount = movieDetail.voteCount,
+                )
+            }
+                .map { movie ->
+                    MovieEntity(
+                        id = movie.id,
+                        overview = movie.overview,
+                        releaseDate = movie.releaseDate,
+                        posterPath = movie.posterPath,
+                        title = movie.title,
+                        previousPage = movie.previousPage,
+                        currentPage = movie.currentPage,
+                        nextPage = movie.nextPage,
+                        adult = movie.adult,
+                        backdropPath = movie.backdropPath,
+                        originalLanguage = movie.originalLanguage,
+                        popularity = movie.popularity,
+                        video = movie.video,
+                        voteAverage = movie.voteAverage,
+                        voteCount = movie.voteCount,
+                        originalTitle = movie.originalTitle
+                    )
+                },
+            genreList = genreList.map { genre -> GenreEntity(id = genre.id, name = genre.name) },
+            genreIdsPerMovie = genreIdsPerMovie.map({ genres -> genres.map { genre -> genre.id } })
+        )
     }
 
     override suspend fun batchTransaction(block: suspend () -> Unit) {
