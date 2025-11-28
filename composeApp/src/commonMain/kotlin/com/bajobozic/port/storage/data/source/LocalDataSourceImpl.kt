@@ -5,7 +5,6 @@ import com.bajobozic.port.storage.data.db.AppDatabase
 import com.bajobozic.port.storage.data.entity.GenreEntity
 import com.bajobozic.port.storage.data.entity.MovieEntity
 import com.bajobozic.port.storage.data.entity.MovieWithGenres
-import com.bajobozic.port.storage.domain.model.GetMovieWithGenres
 import kotlinx.coroutines.flow.Flow
 
 internal class LocalDataSourceImpl(private val appDatabase: AppDatabase) :
@@ -42,8 +41,8 @@ internal class LocalDataSourceImpl(private val appDatabase: AppDatabase) :
         return appDatabase.getMovieDao().getMaxCurrentPage()
     }
 
-    override fun getPagingSource(): PagingSource<Int, GetMovieWithGenres> {
-        return appDatabase.getMovieDao().pagingSource() as PagingSource<Int, GetMovieWithGenres>
+    override fun getPagingSource(): PagingSource<Int, MovieWithGenres> {
+        return appDatabase.getMovieDao().pagingSource()
     }
 
     override fun getMovie(movieId: Int): Flow<MovieWithGenres> {

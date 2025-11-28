@@ -19,7 +19,7 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
 ) : StorageRepository {
     @Suppress("UNCHECKED_CAST")
     override fun getPagingSource(): PagingSource<Int, GetMovieWithGenres> {
-        return localDataSource.getPagingSource()
+        return localDataSource.getPagingSource() as PagingSource<Int, GetMovieWithGenres>
     }
 
 

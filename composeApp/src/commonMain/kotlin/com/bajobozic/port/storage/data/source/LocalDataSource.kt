@@ -5,7 +5,6 @@ import androidx.paging.PagingSource
 import com.bajobozic.port.storage.data.entity.GenreEntity
 import com.bajobozic.port.storage.data.entity.MovieEntity
 import com.bajobozic.port.storage.data.entity.MovieWithGenres
-import com.bajobozic.port.storage.domain.model.GetMovieWithGenres
 import kotlinx.coroutines.flow.Flow
 
 internal interface LocalDataSource {
@@ -28,7 +27,7 @@ internal interface LocalDataSource {
 
     suspend fun getMaxCurrentPage(): Int?
 
-    fun getPagingSource(): PagingSource<Int, GetMovieWithGenres>
+    fun getPagingSource(): PagingSource<Int, MovieWithGenres>
 
     fun getMovie(movieId: Int): Flow<MovieWithGenres>
 
