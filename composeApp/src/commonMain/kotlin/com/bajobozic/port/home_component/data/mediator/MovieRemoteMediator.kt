@@ -10,7 +10,6 @@ import com.bajobozic.port.network.domain.usecase.GetGenresUseCase
 import com.bajobozic.port.network.domain.usecase.GetMoviesUseCase
 import com.bajobozic.port.shared_component.domain.onError
 import com.bajobozic.port.shared_component.domain.onSuccess
-import com.bajobozic.port.storage.data.entity.MovieWithGenres
 import com.bajobozic.port.storage.domain.model.Genre
 import com.bajobozic.port.storage.domain.model.GetMovieWithGenres
 import com.bajobozic.port.storage.domain.usecase.BatchTransactionUseCase
@@ -38,8 +37,7 @@ internal class MovieRemoteMediator(
     ): MediatorResult {
         return try {
             val loadKey = when (loadType) {
-                LoadType.REFRESH -> (state.lastItemOrNull() as? MovieWithGenres)?.movie?.currentPage
-                    ?: 1
+                LoadType.REFRESH -> state.anchorPosition ?: 1
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> getMaxCurrentPageUseCase() + 1
             }
