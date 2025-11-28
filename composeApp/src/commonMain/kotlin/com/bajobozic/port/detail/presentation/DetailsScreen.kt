@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -206,7 +207,7 @@ fun DetailsScreen(
                         Spacer(modifier = Modifier.height(12.dp))
 
                         // 3. Metadata Row (Genres - Placeholder)
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             state.data.genreIds.forEach { genre ->
                                 SuggestionChip(
                                     onClick = { /* no-op */ },
