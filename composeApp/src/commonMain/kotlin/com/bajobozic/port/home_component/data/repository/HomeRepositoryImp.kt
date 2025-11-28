@@ -21,17 +21,17 @@ internal class HomeRepositoryImp(
     private val getPagingSourceUseCase: GetPagingSourceUseCase,
     private val errorHandler: ErrorHandler
 ) : HomeRepository {
+    val pager = Pager(
+        config = PagingConfig(pageSize = 20, prefetchDistance = 5, initialLoadSize = 20),
+        initialKey = 0,
+        pagingSourceFactory = {
+            getPagingSourceUseCase()
+        },
+        remoteMediator = remoteMediatorFactory
+    )
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getPagingData(language: String): Flow<PagingData<Movie>> {
-        val pager = Pager(
-            config = PagingConfig(pageSize = 20, prefetchDistance = 5, initialLoadSize = 20),
-            initialKey = 0,
-            pagingSourceFactory = {
-                getPagingSourceUseCase()
-            },
-            remoteMediator = remoteMediatorFactory
-        )
         return pager.flow.map { pagingData ->
             pagingData.map { movieWithGenres ->
                 movieWithGenres.asMovie(
