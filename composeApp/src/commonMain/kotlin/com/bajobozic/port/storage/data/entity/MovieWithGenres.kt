@@ -15,26 +15,26 @@ data class MovieWithGenres(
         associateBy = Junction(MovieGenreCrossRef::class)
     )
     val genres: List<GenreEntity>
-) : GetMovieWithGenres
-
-fun MovieWithGenres.toModel(): Movie {
-    return Movie(
-        id = movie.id,
-        posterPath = movie.backdropPath,
-        title = movie.title,
-        overview = movie.overview,
-        genreIds = genres.map { it.toModel() },
-        releaseDate = movie.releaseDate,
-        previousPage = movie.previousPage ?: 0,
-        currentPage = movie.currentPage ?: 0,
-        nextPage = movie.nextPage ?: 0,
-        adult = movie.adult,
-        backdropPath = movie.backdropPath,
-        originalLanguage = movie.originalLanguage,
-        popularity = movie.popularity,
-        video = movie.video,
-        voteAverage = movie.voteAverage,
-        voteCount = movie.voteCount,
-        originalTitle = movie.originalTitle
-    )
+) : GetMovieWithGenres {
+    override fun toModel(): Movie {
+        return Movie(
+            id = movie.id,
+            posterPath = movie.backdropPath,
+            title = movie.title,
+            overview = movie.overview,
+            genreIds = genres.map { it.toModel() },
+            releaseDate = movie.releaseDate,
+            previousPage = movie.previousPage ?: 0,
+            currentPage = movie.currentPage ?: 0,
+            nextPage = movie.nextPage ?: 0,
+            adult = movie.adult,
+            backdropPath = movie.backdropPath,
+            originalLanguage = movie.originalLanguage,
+            popularity = movie.popularity,
+            video = movie.video,
+            voteAverage = movie.voteAverage,
+            voteCount = movie.voteCount,
+            originalTitle = movie.originalTitle
+        )
+    }
 }
