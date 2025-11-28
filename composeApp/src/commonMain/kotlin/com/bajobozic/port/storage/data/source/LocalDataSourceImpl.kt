@@ -35,7 +35,6 @@ internal class LocalDataSourceImpl(private val appDatabase: AppDatabase) :
     }
 
     override suspend fun batchTransaction(block: suspend () -> Unit) {
-//        appDatabase.withTransaction { block() }
         block()
     }
 
