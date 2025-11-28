@@ -13,10 +13,6 @@ import org.koin.dsl.module
 @OptIn(ExperimentalPagingApi::class)
 val homeModule = module {
     singleOf(::HomeRepositoryImp).bind<HomeRepository>()
-    single<GetPagingDataUseCase>() {
-        GetPagingDataUseCase { language ->
-            get<HomeRepository>().getPagingData(language)
-        }
-    }
+    single<GetPagingDataUseCase> { GetPagingDataUseCase(get<HomeRepository>()::getPagingData) }
     viewModelOf(::HomeViewModel)
 }

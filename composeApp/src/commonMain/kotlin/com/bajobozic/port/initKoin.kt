@@ -1,7 +1,6 @@
 package com.bajobozic.port
 
 import com.bajobozic.port.detail.di.detailModule
-import com.bajobozic.port.home.di.commonModule
 import com.bajobozic.port.home.di.homeModule
 import com.bajobozic.port.home_component.di.homeComponentModule
 import com.bajobozic.port.map.di.mapModule
@@ -14,8 +13,6 @@ import org.koin.dsl.KoinAppDeclaration
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) {
     startKoin {
         appDeclaration()
-        modules(
-            commonModule() + platformModule() + storageModule + networkModule + homeComponentModule + homeModule + detailModule + mapModule + signInModule
-        )
+        modules(platformModule() + storageModule + networkModule + homeComponentModule + homeModule + detailModule + mapModule + signInModule)
     }
 }
