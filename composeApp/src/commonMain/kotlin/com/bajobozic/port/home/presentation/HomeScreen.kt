@@ -66,7 +66,7 @@ fun HomeScreen(
                 firstVisibleItemIndex = selectedIndex
             }
         }
-        if (uiState.itemCount <= 0)
+        if (uiState.itemCount <= 0 && uiState.loadState.refresh !is LoadState.Loading)
             Button(
                 modifier = Modifier.align(Alignment.Center),
                 onClick = {
