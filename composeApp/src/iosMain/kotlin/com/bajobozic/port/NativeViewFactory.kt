@@ -1,5 +1,7 @@
 package com.bajobozic.port
 
+import org.koin.core.context.loadKoinModules
+import org.koin.dsl.module
 import platform.UIKit.UIViewController
 
 interface NativeViewFactory {
@@ -8,7 +10,8 @@ interface NativeViewFactory {
 
 @Suppress("unused")
 fun setNativeViewFactory(factory: NativeViewFactory) {
-    nativeViewFactory = factory
+    // Register the NativeViewFactory implementation in Koin
+    loadKoinModules(module {
+        single<NativeViewFactory> { factory }
+    })
 }
-
-internal lateinit var nativeViewFactory: NativeViewFactory
