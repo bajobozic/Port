@@ -49,6 +49,7 @@ import coil3.request.crossfade
 import com.bajobozic.port.VideoPlayer
 import com.bajobozic.port.network.domain.model.MovieDetail
 import com.bajobozic.port.storage.domain.model.Genre
+import com.mmk.kmpnotifier.notification.NotificationImage
 import com.mmk.kmpnotifier.notification.NotifierManager
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -76,6 +77,7 @@ fun DetailsScreen(
                 id = Random.nextInt(0, Int.MAX_VALUE)
                 title = "Movie Details"
                 body = notificationTitle
+                image = NotificationImage.Url(POSTER_BASE_URL + state.data.backdropPath)
             }
             onEvent(DetailScreenEvent.ResetNotification)
         }
