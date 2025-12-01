@@ -70,7 +70,17 @@ class DetailViewModel(
                 }
             }
 
-            is DetailScreenEvent.OpenMaps -> {}
+            is DetailScreenEvent.OpenMaps -> {
+                // No-op
+            }
+
+            is DetailScreenEvent.ShowNotification -> {
+                _movie.update { it.copy(notificationTitle = event.movieName) }
+            }
+
+            is DetailScreenEvent.ResetNotification -> {
+                _movie.update { it.copy(notificationTitle = null) }
+            }
         }
     }
 }

@@ -23,7 +23,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -33,6 +32,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
@@ -49,6 +49,7 @@ import coil3.request.crossfade
 import com.bajobozic.port.VideoPlayer
 import com.bajobozic.port.network.domain.model.MovieDetail
 import com.bajobozic.port.storage.domain.model.Genre
+import com.mmk.kmpnotifier.notification.NotifierManager
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -57,6 +58,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import port.composeapp.generated.resources.Res
 import port.composeapp.generated.resources.compose_multiplatform
 import port.composeapp.generated.resources.map
+import port.composeapp.generated.resources.notification
+import kotlin.random.Random
 
 private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
 
@@ -65,6 +68,18 @@ fun DetailsScreen(
     state: DetailUiState,
     onEvent: (DetailScreenEvent) -> Unit
 ) {
+
+    LaunchedEffect(state.notificationTitle) {
+        state.notificationTitle?.let { notificationTitle ->
+            val notifier = NotifierManager.getLocalNotifier()
+            notifier.notify {
+                id = Random.nextInt(0, Int.MAX_VALUE)
+                title = "Movie Details"
+                body = notificationTitle
+            }
+            onEvent(DetailScreenEvent.ResetNotification)
+        }
+    }
     // --- Fullscreen Video Player Overlay ---
     // If the video is in fullscreen, cover the entire screen with the VideoPlayer
     AnimatedVisibility(
@@ -198,9 +213,11 @@ fun DetailsScreen(
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Icon(
-                                imageVector = Icons.Default.FavoriteBorder,
-                                contentDescription = "Add to Watchlist",
-                                modifier = Modifier.padding(top = 8.dp)
+                                imageVector = vectorResource(Res.drawable.notification),
+                                contentDescription = "Show Notification",
+                                modifier = Modifier.padding(top = 8.dp).clickable {
+                                    onEvent(DetailScreenEvent.ShowNotification(state.data.title))
+                                }
                             )
                         }
 

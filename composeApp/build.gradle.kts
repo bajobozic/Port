@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.room)
+    alias(libs.plugins.google.gms)
 }
 
 
@@ -74,6 +75,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            export(libs.notifier)
         }
     }
 
@@ -132,6 +134,8 @@ kotlin {
             // Coil image loading
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
+            //KMP Notifications
+            api(libs.notifier)
 
         }
         commonTest.dependencies {
