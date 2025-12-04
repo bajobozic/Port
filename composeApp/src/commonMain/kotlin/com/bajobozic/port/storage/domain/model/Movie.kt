@@ -9,9 +9,7 @@ data class Movie(
     val posterPath: String = "",
     val title: String = "",
     val releaseDate: LocalDate = LocalDate(1977, 1, 1),
-    val previousPage: Int = 0,
     val currentPage: Int = 0,
-    val nextPage: Int = 0,
     val adult: Boolean = false,
     val backdropPath: String = "",
     val originalLanguage: String = "",
@@ -21,5 +19,3 @@ data class Movie(
     val voteCount: Int = 0,
     val originalTitle: String = ""
 )
-
-val EMPTY_MOVIE = Movie()

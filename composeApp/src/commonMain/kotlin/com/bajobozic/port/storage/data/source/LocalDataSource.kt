@@ -4,6 +4,7 @@ package com.bajobozic.port.storage.data.source
 import androidx.paging.PagingSource
 import com.bajobozic.port.storage.data.entity.GenreEntity
 import com.bajobozic.port.storage.data.entity.MovieEntity
+import com.bajobozic.port.storage.data.entity.MovieRemoteKeys
 import com.bajobozic.port.storage.data.entity.MovieWithGenres
 import kotlinx.coroutines.flow.Flow
 
@@ -32,4 +33,8 @@ internal interface LocalDataSource {
     fun getMovie(movieId: Int): Flow<MovieWithGenres>
 
     suspend fun getAllGenres(): List<GenreEntity>
+
+    suspend fun getMovieWithRemoteKeys(movieId: Int): MovieRemoteKeys?
+    suspend fun clearRemoteKeys(): Unit
+    suspend fun insertAllRemoteKeys(localKeys: List<MovieRemoteKeys>)
 }

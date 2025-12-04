@@ -21,15 +21,11 @@ data class MovieDetail(
     val site: String = "",
     val size: Int = 0
 ) {
-    var previousPage: Int? = null
     var currentPage: Int = 0
-    var nextPage: Int = 0
 }
 
 internal fun MovieDetail.initKeys(
     page: Int
 ) = this.apply {
-    this.previousPage = if (page <= 1) null else page - 1
     this.currentPage = if (page < 1) 1 else page
-    this.nextPage = if (page < 1) 1 else page + 1
 }

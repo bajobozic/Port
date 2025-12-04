@@ -8,15 +8,17 @@ import androidx.room.TypeConverters
 import com.bajobozic.port.storage.data.entity.GenreEntity
 import com.bajobozic.port.storage.data.entity.MovieEntity
 import com.bajobozic.port.storage.data.entity.MovieGenreCrossRef
+import com.bajobozic.port.storage.data.entity.MovieRemoteKeys
 
 @Database(
-    entities = [MovieEntity::class, GenreEntity::class, MovieGenreCrossRef::class],
+    entities = [MovieEntity::class, GenreEntity::class, MovieGenreCrossRef::class, MovieRemoteKeys::class],
     version = 1
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getMovieDao(): MovieDao
+    abstract fun getMovieRemoteKeysDao(): MovieRemoteKeysDao
 }
 
 // The Room compiler generates the `actual` implementations.

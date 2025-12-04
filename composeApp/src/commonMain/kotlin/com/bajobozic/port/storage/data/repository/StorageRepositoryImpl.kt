@@ -10,6 +10,7 @@ import com.bajobozic.port.storage.data.source.LocalDataSource
 import com.bajobozic.port.storage.domain.model.Genre
 import com.bajobozic.port.storage.domain.model.GetMovieWithGenres
 import com.bajobozic.port.storage.domain.model.Movie
+import com.bajobozic.port.storage.domain.model.MovieRemoteKeysModel
 import com.bajobozic.port.storage.domain.repository.StorageRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -51,9 +52,7 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
                     releaseDate = movieDetail.releaseDate,
                     posterPath = movieDetail.posterPath,
                     title = movieDetail.title,
-                    previousPage = movieDetail.previousPage ?: 0,
                     currentPage = movieDetail.currentPage,
-                    nextPage = movieDetail.nextPage,
                     adult = movieDetail.adult,
                     backdropPath = movieDetail.backdropPath,
                     originalLanguage = movieDetail.originalLanguage,
@@ -70,9 +69,7 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
                         releaseDate = movie.releaseDate,
                         posterPath = movie.posterPath,
                         title = movie.title,
-                        previousPage = movie.previousPage,
                         currentPage = movie.currentPage,
-                        nextPage = movie.nextPage,
                         adult = movie.adult,
                         backdropPath = movie.backdropPath,
                         originalLanguage = movie.originalLanguage,
@@ -103,9 +100,7 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
                     releaseDate = movieDetail.releaseDate,
                     posterPath = movieDetail.posterPath,
                     title = movieDetail.title,
-                    previousPage = movieDetail.previousPage ?: 0,
                     currentPage = movieDetail.currentPage,
-                    nextPage = movieDetail.nextPage,
                     adult = movieDetail.adult,
                     backdropPath = movieDetail.backdropPath,
                     originalLanguage = movieDetail.originalLanguage,
@@ -122,9 +117,7 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
                         releaseDate = movie.releaseDate,
                         posterPath = movie.posterPath,
                         title = movie.title,
-                        previousPage = movie.previousPage,
                         currentPage = movie.currentPage,
-                        nextPage = movie.nextPage,
                         adult = movie.adult,
                         backdropPath = movie.backdropPath,
                         originalLanguage = movie.originalLanguage,
@@ -142,6 +135,31 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
 
     override suspend fun batchTransaction(block: suspend () -> Unit) {
         localDataSource.batchTransaction { block() }
+    }
+
+    override suspend fun getMovieWithRemoteKeys(movieId: Int): MovieRemoteKeysModel {
+        return localDataSource.getMovieWithRemoteKeys(movieId)?.let { remoteKeysEntity ->
+            return remoteKeysEntity.toModel()
+        } ?: MovieRemoteKeysModel(
+            movieId = movieId,
+            prevKey = null,
+            nextKey = null
+        )
+    }
+
+    override suspend fun clearRemoteKeys() {
+        localDataSource.clearRemoteKeys()
+    }
+
+    override suspend fun insertAllRemoteKeys(keys: List<MovieRemoteKeysModel>) {
+        val localKeys = keys.map { remoteKeyModel ->
+            com.bajobozic.port.storage.data.entity.MovieRemoteKeys(
+                movieId = remoteKeyModel.movieId,
+                prevKey = remoteKeyModel.prevKey,
+                nextKey = remoteKeyModel.nextKey
+            )
+        }
+        localDataSource.insertAllRemoteKeys(localKeys)
     }
 
 }

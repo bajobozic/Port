@@ -6,6 +6,7 @@ import androidx.compose.material3.SnackbarResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.bajobozic.port.detail.presentation.DetailUiState
 import com.bajobozic.port.home_component.domain.usecase.GetPagingDataUseCase
 import com.bajobozic.port.storage.domain.model.Movie
@@ -19,6 +20,7 @@ class HomeViewModel(
 ) : ViewModel() {
     val snackbarHostState = SnackbarHostState()
     val homePagingData: Flow<PagingData<Movie>> = getPagingDataUseCase("en-US")
+        .cachedIn(viewModelScope)//extremely important to cache in to viewModelScope also despite being also cached in db, this way we avoid losing scroll position when returning to the screen
 
     private var _movie = MutableStateFlow(DetailUiState(isLoading = true))
     val movie = _movie.asStateFlow()

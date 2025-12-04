@@ -29,10 +29,6 @@ data class MovieEntity(
     val voteAverage: Double,
     @ColumnInfo(name = "vote_count", defaultValue = "0")
     val voteCount: Int,
-    @ColumnInfo(name = "previous_page")
-    val previousPage: Int?,
     @ColumnInfo(name = "current_page")
     val currentPage: Int?,
-    @ColumnInfo(name = "next_page")
-    val nextPage: Int?,
 )

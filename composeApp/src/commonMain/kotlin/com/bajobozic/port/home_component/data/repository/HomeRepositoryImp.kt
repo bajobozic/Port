@@ -15,12 +15,12 @@ import kotlinx.coroutines.flow.map
 
 @OptIn(ExperimentalPagingApi::class)
 internal class HomeRepositoryImp(
-    private val remoteMediatorFactory: RemoteMediator<Int, GetMovieWithGenres>,
+    remoteMediatorFactory: RemoteMediator<Int, GetMovieWithGenres>,
     private val getPagingSourceUseCase: GetPagingSourceUseCase
 ) : HomeRepository {
     val pager = Pager(
         config = PagingConfig(pageSize = 20, prefetchDistance = 5, initialLoadSize = 20),
-        initialKey = 0,
+        initialKey = 1,
         pagingSourceFactory = {
             getPagingSourceUseCase()
         },

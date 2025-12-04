@@ -1,9 +1,11 @@
 package com.bajobozic.port.storage.data.source
 
 import androidx.paging.PagingSource
+import androidx.room.Transaction
 import com.bajobozic.port.storage.data.db.AppDatabase
 import com.bajobozic.port.storage.data.entity.GenreEntity
 import com.bajobozic.port.storage.data.entity.MovieEntity
+import com.bajobozic.port.storage.data.entity.MovieRemoteKeys
 import com.bajobozic.port.storage.data.entity.MovieWithGenres
 import kotlinx.coroutines.flow.Flow
 
@@ -33,6 +35,7 @@ internal class LocalDataSourceImpl(private val appDatabase: AppDatabase) :
         appDatabase.getMovieDao().clearAll()
     }
 
+    @Transaction
     override suspend fun batchTransaction(block: suspend () -> Unit) {
         block()
     }
@@ -51,5 +54,17 @@ internal class LocalDataSourceImpl(private val appDatabase: AppDatabase) :
 
     override suspend fun getAllGenres(): List<GenreEntity> {
         return appDatabase.getMovieDao().getAllGenres()
+    }
+
+    override suspend fun getMovieWithRemoteKeys(movieId: Int): MovieRemoteKeys? {
+        return appDatabase.getMovieRemoteKeysDao().remoteKeysByMovieId(movieId)
+    }
+
+    override suspend fun clearRemoteKeys() {
+        appDatabase.getMovieRemoteKeysDao().clearRemoteKeys()
+    }
+
+    override suspend fun insertAllRemoteKeys(localKeys: List<MovieRemoteKeys>) {
+        appDatabase.getMovieRemoteKeysDao().insertAll(localKeys)
     }
 }
