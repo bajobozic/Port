@@ -55,7 +55,8 @@ fun HomeScreen(
         }
         val coroutineScope = rememberCoroutineScope()
         var refreshButtonEnabled by remember { mutableStateOf(true) }
-        if (uiState.itemCount <= 0 && uiState.loadState.refresh !is LoadState.Loading)
+        val loadState = uiState.loadState.mediator
+        if (uiState.itemCount <= 0 && loadState?.refresh !is LoadState.Loading)
             Button(
                 modifier = Modifier.align(Alignment.Center),
                 onClick = {
@@ -91,7 +92,7 @@ fun HomeScreen(
                             action(HomeAction.NavigateToDetailsScreen(it))
                         })
                 }
-                if (uiState.loadState.mediator?.append is LoadState.Loading)
+                if (loadState?.append is LoadState.Loading)
                     item(span = StaggeredGridItemSpan.FullLine) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -103,7 +104,7 @@ fun HomeScreen(
             }
 
         }
-        if (uiState.loadState.mediator?.refresh is LoadState.Loading) {
+        if (loadState?.refresh is LoadState.Loading) {
             PlatformProgressIndicator(modifier = Modifier.align(Alignment.Center).size(32.dp))
         } else {
             LaunchedEffect(refreshButtonEnabled) {
@@ -113,12 +114,12 @@ fun HomeScreen(
         }
 
 
-        if (uiState.loadState.append is LoadState.Error && uiState.loadState.hasError && endOfList) {
+        if (loadState?.append is LoadState.Error && loadState.hasError && endOfList) {
             LaunchedEffect(uiState.loadState.append) {
                 action(HomeAction.ShowSnackbar(message = "Loading error") { uiState.retry() })
             }
         } else  //don't use loadState SOURCE or MEDIATOR here, this way we can show errors and still have data from above MEDIATOR
-            if (uiState.loadState.refresh is LoadState.Error && uiState.loadState.hasError) {
+            if (loadState?.refresh is LoadState.Error && loadState.hasError) {
                 LaunchedEffect(endOfList) {
                     if (endOfList)
                         action(HomeAction.ShowSnackbar(message = "Loading error") { uiState.retry() })
