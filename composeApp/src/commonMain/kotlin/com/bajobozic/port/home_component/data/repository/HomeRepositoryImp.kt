@@ -20,7 +20,7 @@ internal class HomeRepositoryImp(
 ) : HomeRepository {
     val pager = Pager(
         config = PagingConfig(pageSize = 20, prefetchDistance = 5, initialLoadSize = 20),
-        initialKey = 1,
+        initialKey = 0,//must be set to 0 or we will have issue that content is scrolled to second(if set 1) or third(if set 2)..etc row on first load
         pagingSourceFactory = {
             getPagingSourceUseCase()
         },
