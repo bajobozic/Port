@@ -20,7 +20,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,7 +31,6 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.bajobozic.port.PlatformProgressIndicator
 import com.bajobozic.port.storage.domain.model.Movie
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import port.composeapp.generated.resources.Res
@@ -50,16 +48,13 @@ fun HomeScreen(
     ) {
         val listState = rememberLazyStaggeredGridState()
         val endOfList by remember { derivedStateOf { !listState.canScrollForward } }
-        val coroutineScope = rememberCoroutineScope()
         val mediatorLoadState = uiState.loadState.mediator
         //when there are no items and there is an error(let's say on first app start we getting error), show retry button
         if (uiState.itemCount <= 0 && mediatorLoadState?.refresh is LoadState.Error) {
             Button(
                 modifier = Modifier.align(Alignment.Center),
                 onClick = {
-                    coroutineScope.launch {
-                        uiState.retry()
-                    }
+                    uiState.retry()
                 }
             ) {
                 Text(
