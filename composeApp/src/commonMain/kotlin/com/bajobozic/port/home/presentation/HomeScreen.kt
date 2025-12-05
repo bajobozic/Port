@@ -18,10 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -52,7 +50,6 @@ fun HomeScreen(
         val listState = rememberLazyStaggeredGridState()
         val endOfList by remember { derivedStateOf { !listState.canScrollForward } }
         val coroutineScope = rememberCoroutineScope()
-        var refreshButtonEnabled by remember { mutableStateOf(true) }
         val mediatorLoadState = uiState.loadState.mediator
         //when there are no items and there is an error(let's say on first app start we getting error), show retry button
         if (uiState.itemCount <= 0 && mediatorLoadState?.refresh is LoadState.Error) {
@@ -60,11 +57,9 @@ fun HomeScreen(
                 modifier = Modifier.align(Alignment.Center),
                 onClick = {
                     coroutineScope.launch {
-                        refreshButtonEnabled = false
                         uiState.retry()
                     }
-                },
-                enabled = refreshButtonEnabled
+                }
             ) {
                 Text(
                     text = stringResource(Res.string.retry),
@@ -105,13 +100,7 @@ fun HomeScreen(
         }
         if (mediatorLoadState?.refresh is LoadState.Loading) {
             PlatformProgressIndicator(modifier = Modifier.align(Alignment.Center).size(32.dp))
-        } else {
-            LaunchedEffect(refreshButtonEnabled) {
-                if (!refreshButtonEnabled)
-                    refreshButtonEnabled = true
-            }
         }
-
 
         if (mediatorLoadState?.append is LoadState.Error && mediatorLoadState.hasError && endOfList) {
             LaunchedEffect(uiState.loadState.append) {
