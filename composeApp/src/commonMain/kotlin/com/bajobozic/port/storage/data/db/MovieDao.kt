@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RoomWarnings
 import androidx.room.Transaction
 import com.bajobozic.port.storage.data.entity.GenreEntity
 import com.bajobozic.port.storage.data.entity.MovieEntity
@@ -43,6 +44,7 @@ interface MovieDao {
 
     @Transaction
 //    @Query("SELECT * FROM movies WHERE movie_id == :movieId")
+    @Suppress(RoomWarnings.QUERY_MISMATCH)
     @Query("SELECT m.*,mg.*,g.* FROM movies AS m INNER JOIN moviegenrecrossref AS mg ON m.movie_id == mg.movie_id INNER JOIN genres as g ON g.genre_id == mg.genre_id WHERE m.movie_id == :movieId ORDER BY popularity DESC")
     fun getMovieFlow(movieId: Int): Flow<MovieWithGenres>
 
