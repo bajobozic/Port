@@ -32,7 +32,6 @@ import androidx.paging.compose.itemKey
 import com.bajobozic.port.PlatformProgressIndicator
 import com.bajobozic.port.storage.domain.model.Movie
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import port.composeapp.generated.resources.Res
 import port.composeapp.generated.resources.retry
 
@@ -104,17 +103,5 @@ fun HomeScreen(
                 action(HomeAction.ShowSnackbar(message = "Loading error") { uiState.retry() })
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.LightGray)
-    ) {
-        Text(text = "Home Screen Preview", modifier = Modifier.align(Alignment.Center))
     }
 }
