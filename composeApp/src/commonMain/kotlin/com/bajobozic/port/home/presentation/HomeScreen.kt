@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import port.composeapp.generated.resources.Res
-import port.composeapp.generated.resources.no_items
+import port.composeapp.generated.resources.retry
 
 @Composable
 fun HomeScreen(
@@ -50,13 +50,12 @@ fun HomeScreen(
             .background(Color.LightGray)
     ) {
         val listState = rememberLazyStaggeredGridState()
-        val endOfList by remember {
-            derivedStateOf { !listState.canScrollForward }
-        }
+        val endOfList by remember { derivedStateOf { !listState.canScrollForward } }
         val coroutineScope = rememberCoroutineScope()
         var refreshButtonEnabled by remember { mutableStateOf(true) }
-        val loadState = uiState.loadState.mediator
-        if (uiState.itemCount <= 0 && loadState?.refresh !is LoadState.Loading)
+        val mediatorLoadState = uiState.loadState.mediator
+        //when there are no items and there is an error(let's say on first app start we getting error), show retry button
+        if (uiState.itemCount <= 0 && mediatorLoadState?.refresh is LoadState.Error) {
             Button(
                 modifier = Modifier.align(Alignment.Center),
                 onClick = {
@@ -68,11 +67,11 @@ fun HomeScreen(
                 enabled = refreshButtonEnabled
             ) {
                 Text(
-                    text = stringResource(Res.string.no_items),
+                    text = stringResource(Res.string.retry),
                     textAlign = TextAlign.Center
                 )
             }
-        else {
+        } else {
             LazyVerticalStaggeredGrid(
                 state = listState,
                 columns = StaggeredGridCells.Adaptive(150.dp),
@@ -92,7 +91,7 @@ fun HomeScreen(
                             action(HomeAction.NavigateToDetailsScreen(it))
                         })
                 }
-                if (loadState?.append is LoadState.Loading)
+                if (mediatorLoadState?.append is LoadState.Loading)
                     item(span = StaggeredGridItemSpan.FullLine) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -104,7 +103,7 @@ fun HomeScreen(
             }
 
         }
-        if (loadState?.refresh is LoadState.Loading) {
+        if (mediatorLoadState?.refresh is LoadState.Loading) {
             PlatformProgressIndicator(modifier = Modifier.align(Alignment.Center).size(32.dp))
         } else {
             LaunchedEffect(refreshButtonEnabled) {
@@ -114,17 +113,11 @@ fun HomeScreen(
         }
 
 
-        if (loadState?.append is LoadState.Error && loadState.hasError && endOfList) {
+        if (mediatorLoadState?.append is LoadState.Error && mediatorLoadState.hasError && endOfList) {
             LaunchedEffect(uiState.loadState.append) {
                 action(HomeAction.ShowSnackbar(message = "Loading error") { uiState.retry() })
             }
-        } else  //don't use loadState SOURCE or MEDIATOR here, this way we can show errors and still have data from above MEDIATOR
-            if (loadState?.refresh is LoadState.Error && loadState.hasError) {
-                LaunchedEffect(endOfList) {
-                    if (endOfList)
-                        action(HomeAction.ShowSnackbar(message = "Loading error") { uiState.retry() })
-                }
-            }
+        }
     }
 }
 
