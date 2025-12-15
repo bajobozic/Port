@@ -23,6 +23,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -110,150 +111,165 @@ fun DetailsScreen(
         visible = !state.isVideoFullscreen, // Hide when fullscreen
         modifier = Modifier.fillMaxSize()
     ) {
-        // Use LazyColumn to allow scrolling of the entire screen content
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier) {
+            onEvent
+            Row(
+                modifier = Modifier.fillMaxWidth().height(48.dp).clickable(onClick = {
+                    onEvent(DetailScreenEvent.OnNavigateUp)
+                }).background(MaterialTheme.colorScheme.primaryContainer)
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "")
+                Text("Detail")
+            }
 
-            // --- 1. Header & Poster Section (Static Height for this example) ---
-            item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(400.dp) // Large header height
-                ) {
-                    // Background Poster Image
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalPlatformContext.current)
-                            .data(POSTER_BASE_URL + state.data.posterPath)
-                            .crossfade(true)
-                            .build(),
-                        error = painterResource(Res.drawable.compose_multiplatform),
-                        contentDescription = "Movie Poster",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
-                    )
+            // Use LazyColumn to allow scrolling of the entire screen content
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
 
-                    // Scrim (Gradient Overlay for text readability)
+                // --- 1. Header & Poster Section (Static Height for this example) ---
+                item {
                     Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                Brush.verticalGradient(
-                                    listOf(
-                                        Color.Transparent,
-                                        MaterialTheme.colorScheme.background.copy(alpha = 0.8f)
-                                    ),
-                                    startY = 300f
-                                )
-                            )
-                    )
+                            .fillMaxWidth()
+                            .height(400.dp) // Large header height
+                    ) {
+                        // Background Poster Image
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalPlatformContext.current)
+                                .data(POSTER_BASE_URL + state.data.posterPath)
+                                .crossfade(true)
+                                .build(),
+                            error = painterResource(Res.drawable.compose_multiplatform),
+                            contentDescription = "Movie Poster",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.fillMaxSize()
+                        )
 
-                    // Trailer Play Button (Centered on the poster)
-                    if (state.data.key.isNotEmpty()) {
+                        // Scrim (Gradient Overlay for text readability)
                         Box(
                             modifier = Modifier
-                                .align(Alignment.Center),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            FloatingActionButton(
-                                onClick = { onEvent(DetailScreenEvent.ToggleVideoFullscreen(true)) },
-                                containerColor = Color(0xFFB00020),
-                                shape = CircleShape,
-                                modifier = Modifier.size(72.dp)
+                                .fillMaxSize()
+                                .background(
+                                    Brush.verticalGradient(
+                                        listOf(
+                                            Color.Transparent,
+                                            MaterialTheme.colorScheme.background.copy(alpha = 0.8f)
+                                        ),
+                                        startY = 300f
+                                    )
+                                )
+                        )
+
+                        // Trailer Play Button (Centered on the poster)
+                        if (state.data.key.isNotEmpty()) {
+                            Box(
+                                modifier = Modifier
+                                    .align(Alignment.Center),
+                                contentAlignment = Alignment.Center
                             ) {
+                                FloatingActionButton(
+                                    onClick = { onEvent(DetailScreenEvent.ToggleVideoFullscreen(true)) },
+                                    containerColor = Color(0xFFB00020),
+                                    shape = CircleShape,
+                                    modifier = Modifier.size(72.dp)
+                                ) {
+                                    Icon(
+                                        Icons.Default.PlayArrow,
+                                        contentDescription = "Watch Trailer",
+                                        tint = Color.White,
+                                        modifier = Modifier.size(48.dp)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // --- 2. Primary Info Card (Overlapping the Poster) ---
+                item {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            // Offset moves the card up to overlap the poster area
+                            .offset(y = (-64).dp)
+                            .dropShadow(shape = RoundedCornerShape(12.dp), shadow = Shadow(4.dp)),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            // Title and Action Icons (Share/Watchlist)
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.Top
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = state.data.title,
+                                        style = MaterialTheme.typography.headlineLarge,
+                                        color = MaterialTheme.colorScheme.primary, // Primary color for impact
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Text(
+                                        text = state.data.releaseDate.toString(),
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                                // Placeholder for action icon (e.g., Heart/Share)
                                 Icon(
-                                    Icons.Default.PlayArrow,
-                                    contentDescription = "Watch Trailer",
-                                    tint = Color.White,
-                                    modifier = Modifier.size(48.dp)
+                                    imageVector = vectorResource(Res.drawable.map),
+                                    contentDescription = "Take Image",
+                                    modifier = Modifier.padding(top = 8.dp).clickable {
+                                        onEvent(DetailScreenEvent.OpenMaps)
+                                    }
                                 )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Icon(
+                                    imageVector = vectorResource(Res.drawable.notification),
+                                    contentDescription = "Show Notification",
+                                    modifier = Modifier.padding(top = 8.dp).clickable {
+                                        onEvent(DetailScreenEvent.ShowNotification(state.data.title))
+                                    }
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            // 3. Metadata Row (Genres - Placeholder)
+                            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                state.data.genreIds.forEach { genre ->
+                                    SuggestionChip(
+                                        onClick = { /* no-op */ },
+                                        label = { Text(genre.name) })
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            // --- 2. Primary Info Card (Overlapping the Poster) ---
-            item {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        // Offset moves the card up to overlap the poster area
-                        .offset(y = (-64).dp)
-                        .dropShadow(shape = RoundedCornerShape(12.dp), shadow = Shadow(4.dp)),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        // Title and Action Icons (Share/Watchlist)
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.Top
-                        ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = state.data.title,
-                                    style = MaterialTheme.typography.headlineLarge,
-                                    color = MaterialTheme.colorScheme.primary, // Primary color for impact
-                                    fontWeight = FontWeight.Bold
-                                )
-                                Spacer(modifier = Modifier.height(4.dp))
-                                Text(
-                                    text = state.data.releaseDate.toString(),
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                            // Placeholder for action icon (e.g., Heart/Share)
-                            Icon(
-                                imageVector = vectorResource(Res.drawable.map),
-                                contentDescription = "Take Image",
-                                modifier = Modifier.padding(top = 8.dp).clickable {
-                                    onEvent(DetailScreenEvent.OpenMaps)
-                                }
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Icon(
-                                imageVector = vectorResource(Res.drawable.notification),
-                                contentDescription = "Show Notification",
-                                modifier = Modifier.padding(top = 8.dp).clickable {
-                                    onEvent(DetailScreenEvent.ShowNotification(state.data.title))
-                                }
-                            )
-                        }
+                // --- 4. Overview Section ---
+                item {
+                    // Adjust padding to account for the negative offset of the card
+                    Column(modifier = Modifier.padding(horizontal = 16.dp).offset(y = (-48).dp)) {
 
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Text(
+                            text = "Synopsis",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
 
-                        // 3. Metadata Row (Genres - Placeholder)
-                        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            state.data.genreIds.forEach { genre ->
-                                SuggestionChip(
-                                    onClick = { /* no-op */ },
-                                    label = { Text(genre.name) })
-                            }
-                        }
+                        Text(
+                            text = state.data.overview,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
                     }
-                }
-            }
-
-            // --- 4. Overview Section ---
-            item {
-                // Adjust padding to account for the negative offset of the card
-                Column(modifier = Modifier.padding(horizontal = 16.dp).offset(y = (-48).dp)) {
-
-                    Text(
-                        text = "Synopsis",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Text(
-                        text = state.data.overview,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
                 }
             }
         }

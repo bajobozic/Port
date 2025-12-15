@@ -163,6 +163,7 @@ fun App() {
                                             }
                                         }
 
+                                        is DetailScreenEvent.OnNavigateUp -> navController.navigateUp()
                                         else ->
                                             detailViewModel.onEvent(event)
                                     }
