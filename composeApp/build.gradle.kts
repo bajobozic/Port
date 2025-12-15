@@ -1,5 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.google.devtools.ksp.gradle.KspTask
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -78,8 +79,7 @@ kotlin {
             export(libs.notifier)
         }
     }
-
-
+    jvm()
     sourceSets {
         commonMain {
             // This tells Gradle: "This source set depends on this task finishing first."
@@ -144,6 +144,12 @@ kotlin {
         iosMain.dependencies {
             // Ktor iOS
             implementation(libs.ktor.client.darwin)
+        }
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutinesSwing)
+            // Ktor Desktop
+            implementation(libs.ktor.client.okhttp)
         }
     }
     compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
@@ -212,8 +218,21 @@ room {
 
 dependencies {
     add("kspAndroid", libs.androidx.room.compiler)
+    add("kspJvm", libs.androidx.room.compiler)
     add("kspIosArm64", libs.androidx.room.compiler)
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)
     debugImplementation(compose.uiTooling)
+}
+
+compose.desktop {
+    application {
+        mainClass = "com.bajobozic.port.MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "com.bajobozic.port"
+            packageVersion = "1.0.0"
+        }
+    }
 }
 

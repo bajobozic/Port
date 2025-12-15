@@ -19,6 +19,7 @@ materialIconsCore = "1.7.3"
 room = "2.8.4"
 sqlite = "2.6.2"
 kotlinxSerializationJson = "1.9.0"
+kotlinx-coroutines = "1.10.2"
 kotlinxDatetime = "0.7.1"
 koin = "4.1.1"
 ktor = "3.3.3"
@@ -69,6 +70,7 @@ androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", 
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 notifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmp-notifier" }
+kotlinx-coroutinesSwing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
