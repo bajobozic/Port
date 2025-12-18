@@ -1,6 +1,5 @@
 package com.bajobozic.port.detail.presentation
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bajobozic.port.network.domain.usecase.GetMovieDetailUseCase
@@ -14,13 +13,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
-    savedStateHandle: SavedStateHandle,
+    val movieId: Int,
     private val getMovieDetailUseCase: GetMovieDetailUseCase,
     private val getMovieVideoUseCase: GetMovieVideoUseCase
 ) :
     ViewModel() {
-    private val movieId = savedStateHandle.get<Int>("movieId")
-        ?: throw IllegalArgumentException("movieId is required")
     private var _movie = MutableStateFlow(DetailUiState(isLoading = true))
     val movie = _movie.asStateFlow()
 

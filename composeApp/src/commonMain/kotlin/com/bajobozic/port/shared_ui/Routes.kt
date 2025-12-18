@@ -1,17 +1,18 @@
 package com.bajobozic.port.shared_ui
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
-sealed interface Routes {
+sealed interface Routes : NavKey {
     @Serializable
-    data object Home : Routes
+    data object Home : Routes, NavKey
 
     @Serializable
-    data object SignIn : Routes
+    data object SignIn : Routes, NavKey
 
     @Serializable
-    data object Maps : Routes
+    data object Maps : Routes, NavKey
 
     @Serializable
-    data class Details(val movieId: Int) : Routes
+    data class Details(val movieId: Int) : Routes, NavKey
 }

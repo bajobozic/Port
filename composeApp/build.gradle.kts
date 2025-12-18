@@ -102,15 +102,17 @@ kotlin {
         }
         commonMain.dependencies {
             // Compose Multiplatform defaults, added by the plugin
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+            implementation(libs.runtime)
+            implementation(libs.foundation)
+            implementation(libs.material3)
+            implementation(libs.ui)
+            implementation(libs.components.resources)
+            implementation(libs.ui.tooling.preview)
             implementation(libs.material.icons.core)
             // Compose Navigation
-            implementation(libs.navigation.compose)
+            implementation(libs.navigation3.ui)
+            implementation(libs.navigation3.view.model)
+            implementation(libs.navigation3.adaptive)
             // Kotlin datetime
             implementation(libs.kotlinx.datetime)
             // jetpack libraries  equivalents for androidx in common

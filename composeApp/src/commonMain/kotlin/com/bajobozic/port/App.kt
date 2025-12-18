@@ -1,8 +1,5 @@
 package com.bajobozic.port
 
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,11 +15,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.savedstate.serialization.SavedStateConfiguration
 import com.bajobozic.port.detail.presentation.DetailScreenEvent
 import com.bajobozic.port.detail.presentation.DetailViewModel
 import com.bajobozic.port.detail.presentation.DetailsScreen
@@ -32,14 +34,15 @@ import com.bajobozic.port.home.presentation.HomeViewModel
 import com.bajobozic.port.map.presentation.MapsScreen
 import com.bajobozic.port.map.presentation.MapsViewModel
 import com.bajobozic.port.shared_ui.Routes
-import com.bajobozic.port.shared_ui.Routes.Details
 import com.bajobozic.port.shared_ui.presentation.components.BottomBarTab
 import com.bajobozic.port.shared_ui.presentation.theme.PortAppTheme
 import com.bajobozic.port.signin.presentation.SignInScreen
 import com.bajobozic.port.signin.presentation.SignInViewModel
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 import port.composeapp.generated.resources.Res
 import port.composeapp.generated.resources.account
 import port.composeapp.generated.resources.movie
@@ -48,145 +51,124 @@ import port.composeapp.generated.resources.tv
 @Composable
 @Preview
 fun App() {
+    val config = SavedStateConfiguration {
+        serializersModule = SerializersModule {
+            polymorphic(NavKey::class) {
+                subclass(Routes.Home::class, Routes.Home.serializer())
+                subclass(Routes.SignIn::class, Routes.SignIn.serializer())
+                subclass(Routes.Details::class, Routes.Details.serializer())
+            }
+        }
+    }
+    val backStack = rememberNavBackStack(config, Routes.Home)
+    val bottomSheetStrategy = remember { BottomSheetSceneStrategy<NavKey>() }
     PortAppTheme {
         // A surface container using the 'background' color from the theme
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            val navController = rememberNavController()
+
+
             val snackbarHostState = remember { SnackbarHostState() }
             val coroutineScope = rememberCoroutineScope()
             Scaffold(
                 modifier = Modifier,
                 content = { paddingValues ->
-                    NavHost(
+                    NavDisplay(
+                        backStack = backStack,
+//                        sceneStrategy = bottomSheetStrategy,
+                        // In order to add the `ViewModelStoreNavEntryDecorator` (see comment below for why)
+                        // we also need to add the default `NavEntryDecorator`s as well. These provide
+                        // extra information to the entry's content to enable it to display correctly
+                        // and save its state.
+                        entryDecorators = listOf(
+                            rememberSaveableStateHolderNavEntryDecorator(),
+                            rememberViewModelStoreNavEntryDecorator()
+                        ),
+                        onBack = { backStack.removeLastOrNull() },
                         modifier = Modifier.padding(paddingValues = paddingValues),
-                        navController = navController, startDestination = Routes.Home,
-                        enterTransition = {
-                            slideInHorizontally(
-                                animationSpec = tween(
-                                    durationMillis = 600
-                                )
-                            ) { it }
-                        },
-                        exitTransition = {
-                            slideOutHorizontally(
-                                animationSpec = tween(
-                                    durationMillis = 600
-                                )
-                            ) { -it }
-                        },
-                        popEnterTransition = {
-                            slideInHorizontally(
-                                animationSpec = tween(
-                                    durationMillis = 600
-                                )
-                            ) { -it }
-                        },
-                        popExitTransition = {
-                            slideOutHorizontally(
-                                animationSpec = tween(
-                                    durationMillis = 600
-                                )
-                            ) { it }
-                        }) {
-                        composable<Routes.Home> {
-                            val homeViewModel = koinViewModel<HomeViewModel>()
-                            val homePaginationData =
-                                homeViewModel.homePagingData.collectAsLazyPagingItems()
-                            HomeScreen(
-                                uiState = homePaginationData,
-                                action = { homeAction ->
-                                    when (homeAction) {
-                                        is HomeAction.NavigateToDetailsScreen -> {
-                                            navController.navigate(Details(homeAction.movieId)) {
-                                                launchSingleTop = true
+                        entryProvider = entryProvider {
+                            entry<Routes.Home> {
+                                val homeViewModel = koinViewModel<HomeViewModel>()
+                                val homePaginationData =
+                                    homeViewModel.homePagingData.collectAsLazyPagingItems()
+                                HomeScreen(
+                                    uiState = homePaginationData,
+                                    action = { homeAction ->
+                                        when (homeAction) {
+                                            is HomeAction.NavigateToDetailsScreen -> {
+                                                backStack.add(Routes.Details(homeAction.movieId))
                                             }
-                                        }
 
-                                        HomeAction.OnBackPressed -> homeViewModel.actionHandler(
-                                            homeAction
-                                        )
+                                            HomeAction.OnBackPressed -> homeViewModel.actionHandler(
+                                                homeAction
+                                            )
 
-                                        HomeAction.PullToRefresh -> homeViewModel.actionHandler(
-                                            homeAction
-                                        )
+                                            HomeAction.PullToRefresh -> homeViewModel.actionHandler(
+                                                homeAction
+                                            )
 
-                                        is HomeAction.DeleteMove -> homeViewModel.actionHandler(
-                                            homeAction
-                                        )
+                                            is HomeAction.DeleteMove -> homeViewModel.actionHandler(
+                                                homeAction
+                                            )
 
-                                        is HomeAction.Init -> homeViewModel.actionHandler(homeAction)
+                                            is HomeAction.Init -> homeViewModel.actionHandler(
+                                                homeAction
+                                            )
 
-                                        is HomeAction.ShowSnackbar -> {
-                                            coroutineScope.launch {
-                                                snackbarHostState.showSnackbar(
-                                                    message = homeAction.message.orEmpty(),
-                                                    actionLabel = "Retry",
-                                                    duration = SnackbarDuration.Short
-                                                ).apply {
-                                                    when (this) {
-                                                        SnackbarResult.ActionPerformed -> {
-                                                            homeAction.action?.invoke()
+                                            is HomeAction.ShowSnackbar -> {
+                                                coroutineScope.launch {
+                                                    snackbarHostState.showSnackbar(
+                                                        message = homeAction.message.orEmpty(),
+                                                        actionLabel = "Retry",
+                                                        duration = SnackbarDuration.Short
+                                                    ).apply {
+                                                        when (this) {
+                                                            SnackbarResult.ActionPerformed -> {
+                                                                homeAction.action?.invoke()
+                                                            }
+
+                                                            else -> println("Snackbar dismissed")
                                                         }
-
-                                                        else -> println("Snackbar dismissed")
                                                     }
                                                 }
                                             }
-                                        }
 
-                                        is HomeAction.Toggle -> homeViewModel.actionHandler(
-                                            homeAction
-                                        )
-
-                                        HomeAction.NavigateToSignInScreen -> {
-                                            navController.navigate(Routes.SignIn) {
-                                                launchSingleTop = true
-                                            }
+                                            else -> {}
                                         }
                                     }
+                                )
+                            }
+                            entry<Routes.Details> {
+                                val detailViewModel =
+                                    koinViewModel<DetailViewModel> { parametersOf(it.movieId) }
+                                DetailsScreen(
+                                    state = detailViewModel.movie.collectAsStateWithLifecycle().value,
+                                    onEvent = { event: DetailScreenEvent ->
+                                        when (event) {
+                                            is DetailScreenEvent.OpenMaps -> {
+                                                backStack.add(Routes.Maps)
+                                            }
+
+                                            is DetailScreenEvent.OnNavigateUp -> backStack.removeLastOrNull()
+                                            else ->
+                                                detailViewModel.onEvent(event)
+                                        }
+                                    },
+                                )
+                            }
+                            entry<Routes.SignIn> {
+                                val signInViewModel = koinViewModel<SignInViewModel>()
+                                SignInScreen(uiState = signInViewModel.signInState.collectAsStateWithLifecycle().value) { action ->
                                 }
-                            )
-                        }
-                        composable<Details>()
-                        { navBackStackEntry ->
-                            val detailViewModel = koinViewModel<DetailViewModel>()
-                            DetailsScreen(
-                                state = detailViewModel.movie.collectAsStateWithLifecycle().value,
-                                onEvent = { event: DetailScreenEvent ->
-                                    when (event) {
-                                        is DetailScreenEvent.OpenMaps -> {
-                                            navController.navigate(Routes.Maps) {
-                                                launchSingleTop = true
-                                            }
-                                        }
-
-                                        is DetailScreenEvent.OnNavigateUp -> navController.navigateUp()
-                                        else ->
-                                            detailViewModel.onEvent(event)
-                                    }
-                                },
-                            )
-                        }
-                        composable<Routes.SignIn>()
-                        { navBackStackEntry ->
-                            val signInViewModel = koinViewModel<SignInViewModel>()
-                            SignInScreen(uiState = signInViewModel.signInState.collectAsStateWithLifecycle().value) { action ->
-
                             }
-                        }
-
-                        composable<Routes.Maps>()
-                        { navBackStackEntry ->
-                            val mapsViewModel = koinViewModel<MapsViewModel>()
-                            MapsScreen(uiState = mapsViewModel.mapsState.collectAsStateWithLifecycle().value) { action ->
-
+                            entry<Routes.Maps> {
+                                val mapsViewModel = koinViewModel<MapsViewModel>()
+                                MapsScreen(uiState = mapsViewModel.mapsState.collectAsStateWithLifecycle().value) { action ->
+                                }
                             }
-                        }
-
-                    }
+                        })
                 },
                 bottomBar = {
                     BottomAppBar(
@@ -199,28 +181,27 @@ fun App() {
                             drawableResource = Res.drawable.movie,
                             title = "Movies"
                         ) {
-                            navController.popBackStack(Routes.Home, false)
+                            if (backStack.size > 1)
+                                backStack.removeLastOrNull()
                         }
                         BottomBarTab(
                             Modifier.weight(1f),
                             drawableResource = Res.drawable.tv,
                             title = "Tv Shows"
                         ) {
-
+                            //no op
                         }
                         BottomBarTab(
                             Modifier.weight(1f),
                             drawableResource = Res.drawable.account,
                             title = "Profile"
                         ) {
-                            navController.navigate(Routes.SignIn) {
-                                launchSingleTop = true
-                            }
+                            backStack.add(Routes.SignIn)
                         }
                     }
                 },
-                snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-            )
+                snackbarHost = { SnackbarHost(hostState = snackbarHostState) })
+
         }
     }
 }
