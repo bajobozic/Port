@@ -67,6 +67,7 @@ private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
 
 @Composable
 fun DetailsScreen(
+    modifier: Modifier = Modifier,
     state: DetailUiState,
     onEvent: (DetailScreenEvent) -> Unit
 ) {
@@ -88,7 +89,7 @@ fun DetailsScreen(
     AnimatedVisibility(
         visible = state.isVideoFullscreen,
         // Add fillMaxSize() and a background color to ensure it fully covers the screen
-        modifier = Modifier.fillMaxSize().background(Color.Black)
+        modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
     ) {
         // Wrap the VideoPlayer in a Box aligned to the center
         Box(
@@ -109,7 +110,7 @@ fun DetailsScreen(
     // --- Main Screen Content (Visible when video is NOT fullscreen) ---
     AnimatedVisibility(
         visible = !state.isVideoFullscreen, // Hide when fullscreen
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
     ) {
         Column(modifier = Modifier) {
             onEvent

@@ -1,5 +1,7 @@
 package com.bajobozic.port
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,13 +13,19 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
+import androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneStrategy
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -48,6 +56,7 @@ import port.composeapp.generated.resources.account
 import port.composeapp.generated.resources.movie
 import port.composeapp.generated.resources.tv
 
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 @Preview
 fun App() {
@@ -61,7 +70,7 @@ fun App() {
         }
     }
     val backStack = rememberNavBackStack(config, Routes.Home)
-    val bottomSheetStrategy = remember { BottomSheetSceneStrategy<NavKey>() }
+    val listDetailStrategy = rememberListDetailSceneStrategy<NavKey>()
     PortAppTheme {
         // A surface container using the 'background' color from the theme
         Surface(
@@ -77,7 +86,7 @@ fun App() {
                 content = { paddingValues ->
                     NavDisplay(
                         backStack = backStack,
-//                        sceneStrategy = bottomSheetStrategy,
+                        sceneStrategy = listDetailStrategy,
                         // In order to add the `ViewModelStoreNavEntryDecorator` (see comment below for why)
                         // we also need to add the default `NavEntryDecorator`s as well. These provide
                         // extra information to the entry's content to enable it to display correctly
@@ -89,16 +98,27 @@ fun App() {
                         onBack = { backStack.removeLastOrNull() },
                         modifier = Modifier.padding(paddingValues = paddingValues),
                         entryProvider = entryProvider {
-                            entry<Routes.Home> {
+                            entry<Routes.Home>(
+                                metadata = ListDetailSceneStrategy.listPane {
+                                    Column(
+                                        modifier = Modifier.fillMaxSize(),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Text("Please select one moview")
+                                    }
+                                }
+                            ) {
                                 val homeViewModel = koinViewModel<HomeViewModel>()
                                 val homePaginationData =
                                     homeViewModel.homePagingData.collectAsLazyPagingItems()
                                 HomeScreen(
+                                    modifier = Modifier,
                                     uiState = homePaginationData,
                                     action = { homeAction ->
                                         when (homeAction) {
                                             is HomeAction.NavigateToDetailsScreen -> {
-                                                backStack.add(Routes.Details(homeAction.movieId))
+                                                backStack.addDetail(Routes.Details(homeAction.movieId))
                                             }
 
                                             HomeAction.OnBackPressed -> homeViewModel.actionHandler(
@@ -140,7 +160,9 @@ fun App() {
                                     }
                                 )
                             }
-                            entry<Routes.Details> {
+                            entry<Routes.Details>(
+                                metadata = ListDetailSceneStrategy.detailPane()
+                            ) {
                                 val detailViewModel =
                                     koinViewModel<DetailViewModel> { parametersOf(it.movieId) }
                                 DetailsScreen(
@@ -204,4 +226,13 @@ fun App() {
 
         }
     }
+}
+
+private fun NavBackStack<NavKey>.addDetail(detailRoute: Routes.Details) {
+
+    // Remove any existing detail routes before adding this detail route.
+    // In certain scenarios, such as when multiple detail panes can be shown at once, it may
+    // be desirable to keep existing detail routes on the back stack.
+    removeAll { it is Routes.Details }
+    add(detailRoute)
 }

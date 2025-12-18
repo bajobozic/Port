@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -37,13 +37,14 @@ import port.composeapp.generated.resources.retry
 
 @Composable
 fun HomeScreen(
+    modifier: Modifier = Modifier,
     uiState: LazyPagingItems<Movie>,
     action: (HomeAction) -> Unit
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .background(Color.LightGray)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         val listState = rememberLazyStaggeredGridState()
         val endOfList by remember { derivedStateOf { !listState.canScrollForward } }
