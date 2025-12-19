@@ -26,7 +26,7 @@ data class MovieDetailResponse(
     @SerialName(value = "poster_path")
     val posterPath: String?,
     @SerialName(value = "release_date")
-    val releaseDate: LocalDate,
+    val releaseDate: String,
     @SerialName(value = "title")
     val title: String?,
     @SerialName(value = "video")
@@ -47,7 +47,11 @@ fun MovieDetailResponse.toMovieDetail(): MovieDetail {
         overview = overview.orEmpty(),
         popularity = popularity,
         posterPath = posterPath.orEmpty(),
-        releaseDate = releaseDate,
+        releaseDate = if (releaseDate.isBlank()) LocalDate(
+            1977,
+            1,
+            1
+        ) else LocalDate.parse(input = releaseDate),
         title = title.orEmpty(),
         video = video,
         voteAverage = voteAverage,
