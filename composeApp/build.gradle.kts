@@ -113,6 +113,7 @@ kotlin {
             implementation(libs.navigation3.ui)
             implementation(libs.navigation3.view.model)
             implementation(libs.navigation3.adaptive)
+            implementation(libs.navigation3.adaptive.nav)
             // Kotlin datetime
             implementation(libs.kotlinx.datetime)
             // jetpack libraries  equivalents for androidx in common
