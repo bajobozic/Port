@@ -15,6 +15,14 @@ plugins {
 }
 
 
+val os = org.gradle.internal.os.OperatingSystem.current()
+val javafxPlatform = when {
+    os.isMacOsX -> "mac-aarch64"
+    os.isWindows -> "win"
+    os.isLinux -> "linux"
+    else -> error("Unsupported OS")
+}
+
 // 1. Define a proper Task class.
 // This isolates the logic so Gradle can cache it safely.
 abstract class GenerateConfigTask : DefaultTask() {
@@ -87,7 +95,7 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation(compose.preview)
+            implementation(libs.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
             // Ktor Android
             implementation(libs.ktor.client.okhttp)
@@ -153,6 +161,12 @@ kotlin {
             implementation(libs.kotlinx.coroutinesSwing)
             // Ktor Desktop
             implementation(libs.ktor.client.okhttp)
+            implementation("org.openjfx:javafx-base:21:$javafxPlatform")
+            implementation("org.openjfx:javafx-graphics:21:$javafxPlatform")
+            implementation("org.openjfx:javafx-controls:21:$javafxPlatform")
+            implementation("org.openjfx:javafx-swing:21:$javafxPlatform")
+            implementation("org.openjfx:javafx-web:21:$javafxPlatform")
+            implementation("org.openjfx:javafx-media:21:$javafxPlatform")
         }
     }
     compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
@@ -224,11 +238,16 @@ dependencies {
     add("kspJvm", libs.androidx.room.compiler)
     add("kspIosArm64", libs.androidx.room.compiler)
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)
-    debugImplementation(compose.uiTooling)
+    debugImplementation(libs.ui.tooling)
 }
 
 compose.desktop {
     application {
+        //to be able to play Youtube videos on Desktop
+        jvmArgs(
+            "--add-modules=javafx.controls,javafx.web,javafx.swing,javafx.media",
+            "-Dprism.order=sw"
+        )
         mainClass = "com.bajobozic.port.MainKt"
 
         nativeDistributions {
