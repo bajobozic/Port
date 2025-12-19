@@ -1,5 +1,8 @@
 package com.bajobozic.port
 
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -190,7 +193,23 @@ fun App() {
                                 MapsScreen(uiState = mapsViewModel.mapsState.collectAsStateWithLifecycle().value) { action ->
                                 }
                             }
-                        })
+                        },
+                        transitionSpec = {
+                            // Slide in from right when navigating forward
+                            slideInHorizontally(initialOffsetX = { it }) togetherWith
+                                    slideOutHorizontally(targetOffsetX = { -it })
+                        },
+                        popTransitionSpec = {
+                            // Slide in from left when navigating back
+                            slideInHorizontally(initialOffsetX = { -it }) togetherWith
+                                    slideOutHorizontally(targetOffsetX = { it })
+                        },
+                        predictivePopTransitionSpec = {
+                            // Slide in from left when navigating back
+                            slideInHorizontally(initialOffsetX = { -it }) togetherWith
+                                    slideOutHorizontally(targetOffsetX = { it })
+                        },
+                    )
                 },
                 bottomBar = {
                     BottomAppBar(
