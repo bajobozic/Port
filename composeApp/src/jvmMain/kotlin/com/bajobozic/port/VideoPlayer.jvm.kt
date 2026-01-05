@@ -68,3 +68,23 @@ actual fun VideoPlayer(
         }
     )
 }
+
+// Alternative solution to play it in web browser since above version is not
+// is not working because of Youtube police changes and restrictions
+/*@Composable
+actual fun VideoPlayer(url: String, modifier: Modifier) {
+    val uriHandler = LocalUriHandler.current
+    val fullUrl = "https://www.youtube.com/watch?v=$url"
+
+    Box(
+        modifier = modifier.clickable { uriHandler.openUri(fullUrl) },
+        contentAlignment = Alignment.Center
+    ) {
+        // You can put a thumbnail image here
+        Icon(
+            imageVector = Icons.Default.PlayArrow,
+            contentDescription = "Play Video",
+            modifier = Modifier.size(64.dp)
+        )
+    }
+}*/
