@@ -32,6 +32,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -44,12 +46,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.bajobozic.port.VideoPlayer
 import com.bajobozic.port.network.domain.model.MovieDetail
+import com.bajobozic.port.shared_ui.Routes
 import com.bajobozic.port.storage.domain.model.Genre
 import com.mmk.kmpnotifier.notification.NotificationImage
 import com.mmk.kmpnotifier.notification.NotifierManager
@@ -57,6 +64,8 @@ import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.vectorResource
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 import port.composeapp.generated.resources.Res
 import port.composeapp.generated.resources.compose_multiplatform
 import port.composeapp.generated.resources.map
@@ -66,7 +75,7 @@ import kotlin.random.Random
 private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
 
 @Composable
-fun DetailsScreen(
+internal fun DetailsScreen(
     modifier: Modifier = Modifier,
     state: DetailUiState,
     onEvent: (DetailScreenEvent) -> Unit
@@ -274,6 +283,32 @@ fun DetailsScreen(
                 }
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+fun EntryProviderScope<NavKey>.detailScreen(
+    backStack: NavBackStack<NavKey>
+) {
+    entry<Routes.Details>(
+        metadata = ListDetailSceneStrategy.detailPane()
+    ) {
+        val detailViewModel =
+            koinViewModel<DetailViewModel> { parametersOf(it.movieId) }
+        DetailsScreen(
+            state = detailViewModel.movie.collectAsStateWithLifecycle().value,
+            onEvent = { event: DetailScreenEvent ->
+                when (event) {
+                    is DetailScreenEvent.OpenMaps -> {
+                        backStack.add(Routes.Maps)
+                    }
+
+                    is DetailScreenEvent.OnNavigateUp -> backStack.removeLastOrNull()
+                    else ->
+                        detailViewModel.onEvent(event)
+                }
+            },
+        )
     }
 }
 

@@ -38,16 +38,21 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.bajobozic.port.PlatformButton
 import com.bajobozic.port.rememberCameraManager
+import com.bajobozic.port.shared_ui.Routes
 import org.jetbrains.compose.resources.vectorResource
+import org.koin.compose.viewmodel.koinViewModel
 import port.composeapp.generated.resources.Res
 import port.composeapp.generated.resources.camera
 import port.composeapp.generated.resources.visibility
 import port.composeapp.generated.resources.visibility_off
 
 @Composable
-fun SignInScreen(
+internal fun SignInScreen(
     modifier: Modifier = Modifier,
     uiState: SignInUiState,
     event: (SignInEvent) -> Unit
@@ -116,7 +121,7 @@ fun SignInScreen(
 }
 
 @Composable
-fun UserImagePicker(
+internal fun UserImagePicker(
     imageBitmap: ImageBitmap?,
     onCameraButtonClick: () -> Unit
 ) {
@@ -162,8 +167,16 @@ fun UserImagePicker(
     }
 }
 
+fun EntryProviderScope<NavKey>.signInScreen() {
+    entry<Routes.SignIn> {
+        val signInViewModel = koinViewModel<SignInViewModel>()
+        SignInScreen(uiState = signInViewModel.signInState.collectAsStateWithLifecycle().value) { action ->
+        }
+    }
+}
+
 @Composable
-fun PasswordTextField(
+internal fun PasswordTextField(
     password: String,
     onPasswordChange: (String) -> Unit
 ) {
