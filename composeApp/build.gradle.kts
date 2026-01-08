@@ -94,8 +94,6 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
-            // Ktor Android
-            implementation(libs.ktor.client.okhttp)
             //CameraX for camera functionality
             implementation(libs.androidx.camera.core)
             implementation(libs.androidx.camera.camera2)
@@ -130,16 +128,10 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             // Serialization
             implementation(libs.kotlinx.serialization.json)
-            // Room common
-            implementation(libs.androidx.room.runtime)
-            implementation(libs.androidx.room.paging)
-            implementation(libs.androidx.sqlite.bundled)
             // Koin common
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
-            //Ktor for networking
-            implementation(libs.bundles.ktor)
             // Paging
             implementation(libs.androidx.paging.common)
             implementation(libs.androidx.paging.compose)
@@ -154,14 +146,11 @@ kotlin {
             implementation(libs.kotlin.test)
         }
         iosMain.dependencies {
-            // Ktor iOS
-            implementation(libs.ktor.client.darwin)
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
             // Ktor Desktop
-            implementation(libs.ktor.client.okhttp)
             implementation("org.openjfx:javafx-base:21:$javafxPlatform")
             implementation("org.openjfx:javafx-graphics:21:$javafxPlatform")
             implementation("org.openjfx:javafx-controls:21:$javafxPlatform")
@@ -222,22 +211,10 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
-
-/*room {
-    schemaDirectory("$projectDir/schemas")
-}
-
-dependencies {
-    add("kspAndroid", libs.androidx.room.compiler)
-    add("kspJvm", libs.androidx.room.compiler)
-    add("kspIosArm64", libs.androidx.room.compiler)
-    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
-    debugImplementation(libs.ui.tooling)
-}*/
 
 compose.desktop {
     application {

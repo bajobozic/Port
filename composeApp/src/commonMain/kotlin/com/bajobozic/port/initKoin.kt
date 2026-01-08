@@ -13,6 +13,6 @@ import org.koin.dsl.KoinAppDeclaration
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) {
     startKoin {
         appDeclaration()
-        modules(platformModule() + storageModule + networkModule + homeComponentModule + homeModule + detailModule + mapModule + signInModule)
+        modules(storageModule + networkModule + homeComponentModule + homeModule + detailModule + mapModule + signInModule)
     }
 }

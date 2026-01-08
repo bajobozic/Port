@@ -12,12 +12,15 @@ import com.bajobozic.network.domain.usecase.GetGenresUseCase
 import com.bajobozic.network.domain.usecase.GetMovieDetailUseCase
 import com.bajobozic.network.domain.usecase.GetMovieVideoUseCase
 import com.bajobozic.network.domain.usecase.GetMoviesUseCase
+import com.bajobozic.network.getClientEngine
 import com.bajobozic.shared_component.ErrorHandler
+import io.ktor.client.engine.HttpClientEngine
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 internal val protectedNetworkModule = module {
+    single { getClientEngine() }.bind<HttpClientEngine>()
     single<ApiClient> {
         MoviesApiClient(
             createHttpClient(get())

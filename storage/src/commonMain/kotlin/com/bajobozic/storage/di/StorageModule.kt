@@ -6,6 +6,7 @@ import com.bajobozic.storage.data.db.MovieDao
 import com.bajobozic.storage.data.repository.StorageRepositoryImpl
 import com.bajobozic.storage.data.source.LocalDataSource
 import com.bajobozic.storage.data.source.LocalDataSourceImpl
+import com.bajobozic.storage.databaseModule
 import com.bajobozic.storage.domain.repository.StorageRepository
 import com.bajobozic.storage.domain.usecase.BatchTransactionUseCase
 import com.bajobozic.storage.domain.usecase.ClearRemoteKeysUseCase
@@ -29,6 +30,7 @@ internal val protectedStorageModule = module {
 
 @OptIn(ExperimentalPagingApi::class)
 val storageModule = module {
+    includes(databaseModule())
     includes(protectedStorageModule)
     single<GetAllGenresUseCase> { GetAllGenresUseCase(get<StorageRepository>()::getAllGenres) }
     single<DeleteThenInsertAllMoviesUseCase> { DeleteThenInsertAllMoviesUseCase(get<StorageRepository>()::deleteThenInsertAllMovies) }

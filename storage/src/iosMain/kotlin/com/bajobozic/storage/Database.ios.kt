@@ -1,4 +1,4 @@
-package com.bajobozic.port
+package com.bajobozic.storage
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
