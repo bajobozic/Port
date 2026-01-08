@@ -54,10 +54,10 @@ import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.bajobozic.network.domain.model.Genre
+import com.bajobozic.network.domain.model.MovieDetail
 import com.bajobozic.port.VideoPlayer
-import com.bajobozic.port.network.domain.model.MovieDetail
-import com.bajobozic.port.shared_ui.Routes
-import com.bajobozic.port.storage.domain.model.Genre
+import com.bajobozic.shared_ui.Routes
 import com.mmk.kmpnotifier.notification.NotificationImage
 import com.mmk.kmpnotifier.notification.NotifierManager
 import kotlinx.datetime.LocalDate

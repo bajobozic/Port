@@ -2,10 +2,10 @@ package com.bajobozic.port.detail_ui.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bajobozic.port.network.domain.usecase.GetMovieDetailUseCase
-import com.bajobozic.port.network.domain.usecase.GetMovieVideoUseCase
-import com.bajobozic.port.shared_component.domain.onError
-import com.bajobozic.port.shared_component.domain.onSuccess
+import com.bajobozic.network.domain.usecase.GetMovieDetailUseCase
+import com.bajobozic.network.domain.usecase.GetMovieVideoUseCase
+import com.bajobozic.shared_component.onError
+import com.bajobozic.shared_component.onSuccess
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

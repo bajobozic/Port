@@ -26,8 +26,8 @@ import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.bajobozic.port.storage.domain.model.Genre
-import com.bajobozic.port.storage.domain.model.Movie
+import com.bajobozic.storage.domain.model.Genre
+import com.bajobozic.storage.domain.model.Movie
 import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)

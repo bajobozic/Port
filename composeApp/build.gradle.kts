@@ -1,5 +1,4 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import com.google.devtools.ksp.gradle.KspTask
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -9,8 +8,6 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.androidx.room)
     alias(libs.plugins.google.gms)
 }
 
@@ -110,6 +107,10 @@ kotlin {
         }
         commonMain.dependencies {
             // Compose Multiplatform defaults, added by the plugin
+            implementation(project(":shared_component"))
+            implementation(project(":shared_ui"))
+            implementation(project(":storage"))
+            implementation(project(":network"))
             implementation(libs.runtime)
             implementation(libs.foundation)
             implementation(libs.material3)
@@ -172,9 +173,9 @@ kotlin {
     compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
 }
 
-tasks.withType<KspTask> {
+/*tasks.withType<KspTask> {
     dependsOn(generateConfig)
-}
+}*/
 
 android {
     namespace = "com.bajobozic.port"
@@ -226,7 +227,7 @@ android {
     }
 }
 
-room {
+/*room {
     schemaDirectory("$projectDir/schemas")
 }
 
@@ -236,7 +237,7 @@ dependencies {
     add("kspIosArm64", libs.androidx.room.compiler)
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)
     debugImplementation(libs.ui.tooling)
-}
+}*/
 
 compose.desktop {
     application {

@@ -63,6 +63,10 @@ coil = "3.3.0"
 # third party versions
 gms = "4.4.4"
 kmp-notifier = "1.6.0"
+kotlinStdlib = "2.2.21"
+runner = "1.7.0"
+core = "1.7.0"
+jetbrainsKotlinJvm = "2.2.21"
 # end of third party versions
 
 [libraries]
@@ -135,6 +139,9 @@ coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.re
 
 # notification
 notifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmp-notifier" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlinStdlib" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 # end of notification
 
 [plugins]
@@ -147,6 +154,9 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidx-room = { id = "androidx.room", version.ref = "room" }
 google-gms = { id = "com.google.gms.google-services", version.ref = "gms" }
+android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+android-lint = { id = "com.android.lint", version.ref = "agp" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 
 [bundles]
 ktor = ["ktor-client-core", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]

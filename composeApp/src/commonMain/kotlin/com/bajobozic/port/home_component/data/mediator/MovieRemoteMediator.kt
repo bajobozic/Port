@@ -4,21 +4,22 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.bajobozic.port.network.domain.model.initRemoteKeys
-import com.bajobozic.port.network.domain.usecase.GetGenresUseCase
-import com.bajobozic.port.network.domain.usecase.GetMoviesUseCase
-import com.bajobozic.port.shared_component.domain.BaseError
-import com.bajobozic.port.shared_component.domain.Outcome
-import com.bajobozic.port.storage.domain.model.Genre
-import com.bajobozic.port.storage.domain.model.GetMovieWithGenres
-import com.bajobozic.port.storage.domain.model.MovieRemoteKeysModel
-import com.bajobozic.port.storage.domain.usecase.BatchTransactionUseCase
-import com.bajobozic.port.storage.domain.usecase.ClearRemoteKeysUseCase
-import com.bajobozic.port.storage.domain.usecase.DeleteThenInsertAllMoviesUseCase
-import com.bajobozic.port.storage.domain.usecase.GetAllGenresUseCase
-import com.bajobozic.port.storage.domain.usecase.GetRemoteKeysByMovieIdUseCase
-import com.bajobozic.port.storage.domain.usecase.InsertAllMoviesUseCase
-import com.bajobozic.port.storage.domain.usecase.RemoteKeysInsertAllUseCase
+import com.bajobozic.network.domain.model.initRemoteKeys
+import com.bajobozic.network.domain.usecase.GetGenresUseCase
+import com.bajobozic.network.domain.usecase.GetMoviesUseCase
+import com.bajobozic.shared_component.BaseError
+import com.bajobozic.shared_component.Outcome
+import com.bajobozic.storage.domain.model.Genre
+import com.bajobozic.storage.domain.model.GetMovieWithGenres
+import com.bajobozic.storage.domain.model.MovieDetail
+import com.bajobozic.storage.domain.model.MovieRemoteKeysModel
+import com.bajobozic.storage.domain.usecase.BatchTransactionUseCase
+import com.bajobozic.storage.domain.usecase.ClearRemoteKeysUseCase
+import com.bajobozic.storage.domain.usecase.DeleteThenInsertAllMoviesUseCase
+import com.bajobozic.storage.domain.usecase.GetAllGenresUseCase
+import com.bajobozic.storage.domain.usecase.GetRemoteKeysByMovieIdUseCase
+import com.bajobozic.storage.domain.usecase.InsertAllMoviesUseCase
+import com.bajobozic.storage.domain.usecase.RemoteKeysInsertAllUseCase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 
@@ -61,9 +62,74 @@ internal class MovieRemoteMediator(
             batchTransactionUseCase {
                 if (loadType == LoadType.REFRESH) {
                     clearRemoteKeysUseCase()
-                    deleteThenInsertAllMoviesUseCase(movies, genres, movies.map { it.genreIds })
+                    deleteThenInsertAllMoviesUseCase(
+                        movies.map { movieDetail ->
+                            MovieDetail(
+                                id = movieDetail.id,
+                                adult = movieDetail.adult,
+                                backdropPath = movieDetail.backdropPath,
+                                genreIds = movieDetail.genreIds.map { genre ->
+                                    Genre(
+                                        id = genre.id,
+                                        name = genre.name
+                                    )
+                                },
+                                originalLanguage = movieDetail.originalLanguage,
+                                overview = movieDetail.overview,
+                                popularity = movieDetail.popularity,
+                                posterPath = movieDetail.posterPath,
+                                releaseDate = movieDetail.releaseDate,
+                                title = movieDetail.title,
+                                video = movieDetail.video,
+                                voteAverage = movieDetail.voteAverage,
+                                voteCount = movieDetail.voteCount,
+                                key = movieDetail.key,
+                                site = movieDetail.site,
+                                size = movieDetail.size
+                            )
+                        },
+                        genres,
+                        movies.map {
+                            it.genreIds.map { genre ->
+                                Genre(
+                                    id = genre.id,
+                                    name = genre.name
+                                )
+                            }
+                        })
                 } else {
-                    insertAllMoviesUseCase(movies, genres, movies.map { it.genreIds })
+                    insertAllMoviesUseCase(movies.map { movieDetail ->
+                        MovieDetail(
+                            id = movieDetail.id,
+                            adult = movieDetail.adult,
+                            backdropPath = movieDetail.backdropPath,
+                            genreIds = movieDetail.genreIds.map { genre ->
+                                Genre(
+                                    id = genre.id,
+                                    name = genre.name
+                                )
+                            },
+                            originalLanguage = movieDetail.originalLanguage,
+                            overview = movieDetail.overview,
+                            popularity = movieDetail.popularity,
+                            posterPath = movieDetail.posterPath,
+                            releaseDate = movieDetail.releaseDate,
+                            title = movieDetail.title,
+                            video = movieDetail.video,
+                            voteAverage = movieDetail.voteAverage,
+                            voteCount = movieDetail.voteCount,
+                            key = movieDetail.key,
+                            site = movieDetail.site,
+                            size = movieDetail.size
+                        )
+                    }, genres, movies.map {
+                        it.genreIds.map { genre ->
+                            Genre(
+                                id = genre.id,
+                                name = genre.name
+                            )
+                        }
+                    })
                 }
                 remoteKeysInsertAllUseCase(remoteKeys)
             }

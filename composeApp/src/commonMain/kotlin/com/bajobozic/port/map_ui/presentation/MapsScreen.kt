@@ -9,7 +9,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.bajobozic.port.PortMapView
-import com.bajobozic.port.shared_ui.Routes
+import com.bajobozic.shared_ui.Routes
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable

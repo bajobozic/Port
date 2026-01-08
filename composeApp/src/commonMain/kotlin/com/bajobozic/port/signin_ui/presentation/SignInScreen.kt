@@ -43,7 +43,7 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.bajobozic.port.PlatformButton
 import com.bajobozic.port.rememberCameraManager
-import com.bajobozic.port.shared_ui.Routes
+import com.bajobozic.shared_ui.Routes
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
 import port.composeapp.generated.resources.Res

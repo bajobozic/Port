@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.bajobozic.port.home_component.domain.usecase.GetPagingDataUseCase
-import com.bajobozic.port.storage.domain.model.Movie
+import com.bajobozic.storage.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 

@@ -1,6 +1,7 @@
 package com.bajobozic.port.detail_ui.presentation
 
-import com.bajobozic.port.network.domain.model.MovieDetail
+import com.bajobozic.network.domain.model.MovieDetail
+
 
 internal data class DetailUiState(
     val data: MovieDetail = MovieDetail(),

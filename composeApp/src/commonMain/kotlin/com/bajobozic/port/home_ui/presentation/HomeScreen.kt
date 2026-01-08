@@ -40,8 +40,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.bajobozic.port.PlatformProgressIndicator
-import com.bajobozic.port.shared_ui.Routes
-import com.bajobozic.port.storage.domain.model.Movie
+import com.bajobozic.shared_ui.Routes
+import com.bajobozic.storage.domain.model.Movie
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource

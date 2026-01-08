@@ -29,10 +29,10 @@ import androidx.savedstate.serialization.SavedStateConfiguration
 import com.bajobozic.port.detail_ui.presentation.detailScreen
 import com.bajobozic.port.home_ui.presentation.homeScreen
 import com.bajobozic.port.map_ui.presentation.mapsScreen
-import com.bajobozic.port.shared_ui.Routes
-import com.bajobozic.port.shared_ui.presentation.components.BottomBarTab
-import com.bajobozic.port.shared_ui.presentation.theme.PortAppTheme
 import com.bajobozic.port.signin_ui.presentation.signInScreen
+import com.bajobozic.shared_ui.Routes
+import com.bajobozic.shared_ui.presentation.components.BottomBarTab
+import com.bajobozic.shared_ui.presentation.theme.PortAppTheme
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import port.composeapp.generated.resources.Res

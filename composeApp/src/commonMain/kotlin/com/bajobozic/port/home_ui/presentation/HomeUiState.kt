@@ -1,6 +1,7 @@
 package com.bajobozic.port.home_ui.presentation
 
-import com.bajobozic.port.storage.domain.model.Movie
+import com.bajobozic.storage.domain.model.Movie
+
 
 internal data class HomeUiState(
     val data: List<Movie> = emptyList(),

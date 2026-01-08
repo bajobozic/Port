@@ -29,3 +29,7 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":network")
+include(":shared_component")
+include(":storage")
+include(":shared_ui")
