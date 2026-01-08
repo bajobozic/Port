@@ -22,12 +22,16 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-@OptIn(ExperimentalPagingApi::class)
-val storageModule = module {
+internal val protectedStorageModule = module {
     single<MovieDao> { get<AppDatabase>().getMovieDao() }
     singleOf(::LocalDataSourceImpl).bind<LocalDataSource>()
     singleOf(::RemoteDataSourceImpl).bind<RemoteDataSource>()
     singleOf(::StorageRepositoryImpl).bind<StorageRepository>()
+}
+
+@OptIn(ExperimentalPagingApi::class)
+val storageModule = module {
+    includes(protectedStorageModule)
     single<GetAllGenresUseCase> { GetAllGenresUseCase(get<StorageRepository>()::getAllGenres) }
     single<DeleteThenInsertAllMoviesUseCase> { DeleteThenInsertAllMoviesUseCase(get<StorageRepository>()::deleteThenInsertAllMovies) }
     single<InsertAllMoviesUseCase> { InsertAllMoviesUseCase(get<StorageRepository>()::insertAllMovies) }

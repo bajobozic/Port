@@ -17,11 +17,15 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val networkModule = module {
+internal val protectedNetworkModule = module {
     single<ApiClient> { MoviesApiClient(createHttpClient(get())) }
     singleOf(::NetworkErrorHandler).bind<ErrorHandler>()
     singleOf(::RemoteDataSourceImpl).bind<RemoteDataSource>()
     singleOf(::NetworkRepositoryImpl).bind<NetworkRepository>()
+}
+
+val networkModule = module {
+    includes(protectedNetworkModule)
     single<GetMovieDetailUseCase> { GetMovieDetailUseCase(get<NetworkRepository>()::getMovieDetail) }
     single<GetMovieVideoUseCase> { GetMovieVideoUseCase(get<NetworkRepository>()::getMovieVideos) }
     single<GetGenresUseCase> { GetGenresUseCase(get<NetworkRepository>()::getGenres) }
