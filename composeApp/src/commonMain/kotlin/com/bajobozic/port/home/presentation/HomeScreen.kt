@@ -53,7 +53,7 @@ import port.composeapp.generated.resources.retry
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
     uiState: LazyPagingItems<Movie>,
-    action: (HomeAction) -> Unit
+    action: (HomeEvent) -> Unit
 ) {
     Box(
         modifier = modifier
@@ -93,7 +93,7 @@ internal fun HomeScreen(
                     val movie = uiState[index]
                     if (movie != null)
                         MovieCardRow(modifier = Modifier, movie = movie, onClick = {
-                            action(HomeAction.NavigateToDetailsScreen(it))
+                            action(HomeEvent.NavigateToDetailsScreen(it))
                         })
                 }
                 if (mediatorLoadState?.append is LoadState.Loading)
@@ -115,7 +115,7 @@ internal fun HomeScreen(
 
         if (mediatorLoadState?.append is LoadState.Error && mediatorLoadState.hasError && endOfList) {
             LaunchedEffect(uiState.loadState.append) {
-                action(HomeAction.ShowSnackbar(message = "Loading error") { uiState.retry() })
+                action(HomeEvent.ShowSnackbar(message = "Loading error") { uiState.retry() })
             }
         }
     }
@@ -146,27 +146,27 @@ fun EntryProviderScope<NavKey>.homeScreen(
             uiState = homePaginationData,
             action = { homeAction ->
                 when (homeAction) {
-                    is HomeAction.NavigateToDetailsScreen -> {
+                    is HomeEvent.NavigateToDetailsScreen -> {
                         backStack.addDetail(Routes.Details(homeAction.movieId))
                     }
 
-                    HomeAction.OnBackPressed -> homeViewModel.actionHandler(
+                    HomeEvent.OnBackPressed -> homeViewModel.actionHandler(
                         homeAction
                     )
 
-                    HomeAction.PullToRefresh -> homeViewModel.actionHandler(
+                    HomeEvent.PullToRefresh -> homeViewModel.actionHandler(
                         homeAction
                     )
 
-                    is HomeAction.DeleteMove -> homeViewModel.actionHandler(
+                    is HomeEvent.DeleteMove -> homeViewModel.actionHandler(
                         homeAction
                     )
 
-                    is HomeAction.Init -> homeViewModel.actionHandler(
+                    is HomeEvent.Init -> homeViewModel.actionHandler(
                         homeAction
                     )
 
-                    is HomeAction.ShowSnackbar -> {
+                    is HomeEvent.ShowSnackbar -> {
                         coroutineScope.launch {
                             snackbarHostState.showSnackbar(
                                 message = homeAction.message.orEmpty(),

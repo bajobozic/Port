@@ -19,22 +19,22 @@ class HomeViewModel(
     val homePagingData: Flow<PagingData<Movie>> = getPagingDataUseCase("en-US")
         .cachedIn(viewModelScope)//extremely important to cache in to viewModelScope also despite being also cached in db, this way we avoid losing scroll position when returning to the screen
 
-    fun actionHandler(action: HomeAction) {
+    fun actionHandler(action: HomeEvent) {
         when (action) {
-            is HomeAction.Init -> {}
-            HomeAction.OnBackPressed -> {
+            is HomeEvent.Init -> {}
+            HomeEvent.OnBackPressed -> {
                 TODO()
             }
 
-            HomeAction.PullToRefresh -> {
+            HomeEvent.PullToRefresh -> {
                 TODO()
             }
 
-            is HomeAction.Toggle -> {
+            is HomeEvent.Toggle -> {
                 TODO()
             }
 
-            is HomeAction.ShowSnackbar -> {
+            is HomeEvent.ShowSnackbar -> {
                 viewModelScope.launch {
                     snackbarHostState.showSnackbar(
                         message = action.message ?: "Snackbar is here",
@@ -55,16 +55,16 @@ class HomeViewModel(
                 }
             }
 
-            is HomeAction.DeleteMove -> {
+            is HomeEvent.DeleteMove -> {
                 viewModelScope.launch {
                 }
             }
 
-            is HomeAction.NavigateToDetailsScreen -> {
+            is HomeEvent.NavigateToDetailsScreen -> {
                 //no op, handled in navController
             }
 
-            HomeAction.NavigateToSignInScreen -> {
+            HomeEvent.NavigateToSignInScreen -> {
                 //no op, handled in navController
             }
         }
