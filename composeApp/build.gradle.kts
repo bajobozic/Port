@@ -134,7 +134,7 @@ kotlin {
             implementation(libs.androidx.room.paging)
             implementation(libs.androidx.sqlite.bundled)
             // Koin common
-            api(libs.koin.core)
+            implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             //Ktor for networking
@@ -145,7 +145,7 @@ kotlin {
             // Coil image loading
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
-            //KMP Notifications
+            //KMP Notifications, must be api otherwise iOS will not compile
             api(libs.notifier)
 
         }
@@ -197,22 +197,19 @@ android {
         create("release") {
             //for CI/CD use environment variables, for local development use the local.properties file
             val localProperties = gradleLocalProperties(rootDir, providers)
-            storeFile = if (localProperties.isEmpty)
+            storeFile = if (localProperties.getProperty("storeFilePath").isEmpty())
                 file(System.getenv("STORE_FILE_PATH"))
             else
                 file(localProperties.getProperty("storeFilePath")) // Path to your keystore file
-            storePassword = if (localProperties.isEmpty)
-                System.getenv("STORE_PASSWORD")
-            else
-                localProperties.getProperty("storePassword") // Password for your keystore
-            keyAlias = if (localProperties.isEmpty)
-                System.getenv("KEY_ALIAS")
-            else
-                localProperties.getProperty("keyAlias") // Alias of the key within the keystore
-            keyPassword = if (localProperties.isEmpty)
-                System.getenv("KEY_PASSWORD")
-            else
-                localProperties.getProperty("keyPassword") // Password for the key
+            storePassword =
+                localProperties.getProperty("storePassword")
+                    .ifEmpty { System.getenv("STORE_PASSWORD") } // Password for your keystore
+            keyAlias =
+                localProperties.getProperty("keyAlias")
+                    .ifEmpty { System.getenv("KEY_ALIAS") } // Alias of the key within the keystore
+            keyPassword =
+                localProperties.getProperty("keyPassword")
+                    .ifEmpty { System.getenv("KEY_PASSWORD") } // Password for the key
         }
     }
 
