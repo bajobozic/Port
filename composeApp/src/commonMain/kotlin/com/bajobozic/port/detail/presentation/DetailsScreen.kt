@@ -314,7 +314,7 @@ fun EntryProviderScope<NavKey>.detailScreen(
 
 @Preview
 @Composable
-fun DetailsScreenPreview() {
+internal fun DetailsScreenPreview() {
     DetailsScreen(
         state = DetailUiState(
             data = MovieDetail(

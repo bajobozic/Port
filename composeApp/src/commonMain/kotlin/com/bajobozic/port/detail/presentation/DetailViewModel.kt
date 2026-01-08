@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DetailViewModel(
+internal class DetailViewModel(
     val movieId: Int,
     private val getMovieDetailUseCase: GetMovieDetailUseCase,
     private val getMovieVideoUseCase: GetMovieVideoUseCase
