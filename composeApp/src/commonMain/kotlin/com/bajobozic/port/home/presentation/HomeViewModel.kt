@@ -12,7 +12,7 @@ import com.bajobozic.port.storage.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
+internal class HomeViewModel(
     getPagingDataUseCase: GetPagingDataUseCase,
 ) : ViewModel() {
     val snackbarHostState = SnackbarHostState()

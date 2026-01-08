@@ -32,7 +32,7 @@ import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun MovieCardRow(
+internal fun MovieCardRow(
     movie: Movie,
     onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -103,7 +103,7 @@ fun MovieCardRow(
 
 @Preview
 @Composable
-fun MovieCardRowPreview() {
+internal fun MovieCardRowPreview() {
     MovieCardRow(
         movie = Movie(
             genreIds = listOf(
