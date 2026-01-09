@@ -78,6 +78,8 @@ internal class DetailViewModel(
             is DetailScreenEvent.ResetNotification -> {
                 _movie.update { it.copy(notificationTitle = null) }
             }
+
+            else -> {}
         }
     }
 }
