@@ -1,4 +1,4 @@
-package com.bajobozic.port
+package com.bajobozic.map_ui
 
 import androidx.compose.runtime.Composable
 

@@ -103,8 +103,10 @@ kotlin {
             implementation(project(":shared_ui"))
             implementation(project(":storage"))
             implementation(project(":network"))
+            implementation(project(":map_ui"))
             //must be api because of access scope
             api(project(":signin_ui"))
+
             implementation(libs.runtime)
             implementation(libs.foundation)
             implementation(libs.material3)

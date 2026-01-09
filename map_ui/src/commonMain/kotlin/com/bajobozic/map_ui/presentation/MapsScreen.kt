@@ -1,4 +1,4 @@
-package com.bajobozic.port.map_ui.presentation
+package com.bajobozic.map_ui.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import com.bajobozic.port.PortMapView
+import com.bajobozic.map_ui.PortMapView
 import com.bajobozic.shared_ui.Routes
 import org.koin.compose.viewmodel.koinViewModel
 

@@ -1,4 +1,4 @@
-package com.bajobozic.port.map_ui.presentation
+package com.bajobozic.map_ui.presentation
 
 internal data class MapsUIState(
     val isLoading: Boolean = false,

@@ -26,9 +26,9 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
+import com.bajobozic.map_ui.presentation.mapsScreen
 import com.bajobozic.port.detail_ui.presentation.detailScreen
 import com.bajobozic.port.home_ui.presentation.homeScreen
-import com.bajobozic.port.map_ui.presentation.mapsScreen
 import com.bajobozic.shared_ui.Routes
 import com.bajobozic.shared_ui.presentation.components.BottomBarTab
 import com.bajobozic.shared_ui.presentation.theme.PortAppTheme

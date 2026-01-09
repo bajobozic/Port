@@ -1,4 +1,4 @@
-package com.bajobozic.port.map_ui.presentation
+package com.bajobozic.map_ui.presentation
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
