@@ -1,4 +1,4 @@
-package com.bajobozic.port.home_component.data.repository
+package com.bajobozic.home_component.data.repository
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -6,7 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.RemoteMediator
 import androidx.paging.map
-import com.bajobozic.port.home_component.domain.repository.HomeRepository
+import com.bajobozic.home_component.domain.repository.HomeRepository
 import com.bajobozic.storage.domain.model.GetMovieWithGenres
 import com.bajobozic.storage.domain.model.Movie
 import com.bajobozic.storage.domain.usecase.GetPagingSourceUseCase

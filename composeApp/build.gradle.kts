@@ -105,6 +105,7 @@ kotlin {
             implementation(project(":network"))
             implementation(project(":map_ui"))
             implementation(project(":detail_ui"))
+            implementation(project(":home_component"))
             //must be api because of access scope
             api(project(":signin_ui"))
 

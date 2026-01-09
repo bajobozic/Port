@@ -1,9 +1,9 @@
-package com.bajobozic.port.home_component.domain.repository
+package com.bajobozic.home_component.domain.repository
 
 import androidx.paging.PagingData
 import com.bajobozic.storage.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 
-interface HomeRepository {
+internal interface HomeRepository {
     fun getPagingData(language: String): Flow<PagingData<Movie>>
 }

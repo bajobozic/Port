@@ -1,4 +1,4 @@
-package com.bajobozic.port.home_component.domain.usecase
+package com.bajobozic.home_component.domain.usecase
 
 import androidx.paging.PagingData
 import com.bajobozic.storage.domain.model.Movie

@@ -1,4 +1,4 @@
-package com.bajobozic.port.home_component.data.mediator
+package com.bajobozic.home_component.data.mediator
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
