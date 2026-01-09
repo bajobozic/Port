@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalResourceApi::class)
 
-package com.bajobozic.port.detail_ui.presentation
+package com.bajobozic.detail_ui.presentation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -54,9 +54,9 @@ import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.bajobozic.detail_ui.VideoPlayer
 import com.bajobozic.network.domain.model.Genre
 import com.bajobozic.network.domain.model.MovieDetail
-import com.bajobozic.port.VideoPlayer
 import com.bajobozic.shared_ui.Routes
 import com.mmk.kmpnotifier.notification.NotificationImage
 import com.mmk.kmpnotifier.notification.NotifierManager
@@ -66,10 +66,10 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import port.composeapp.generated.resources.Res
-import port.composeapp.generated.resources.compose_multiplatform
-import port.composeapp.generated.resources.map
-import port.composeapp.generated.resources.notification
+import port.detail_ui.generated.resources.Res
+import port.detail_ui.generated.resources.compose_multiplatform
+import port.detail_ui.generated.resources.map
+import port.detail_ui.generated.resources.notification
 import kotlin.random.Random
 
 private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"

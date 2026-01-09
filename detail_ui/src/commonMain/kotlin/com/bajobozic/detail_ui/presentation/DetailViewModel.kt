@@ -1,4 +1,4 @@
-package com.bajobozic.port.detail_ui.presentation
+package com.bajobozic.detail_ui.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

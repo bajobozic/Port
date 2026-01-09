@@ -1,4 +1,4 @@
-package com.bajobozic.port
+package com.bajobozic.detail_ui
 
 
 import android.annotation.SuppressLint

@@ -1,4 +1,4 @@
-package com.bajobozic.port.detail_ui.presentation
+package com.bajobozic.detail_ui.presentation
 
 import com.bajobozic.network.domain.model.MovieDetail
 
