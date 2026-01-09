@@ -1,6 +1,6 @@
 package com.bajobozic.network.data.client
 
-//import com.bajobozic.port.AppConfig
+import com.bajobozic.shared_component.SharedConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.DefaultRequest
@@ -51,8 +51,7 @@ internal fun createHttpClient(engine: HttpClientEngine): HttpClient {
             header(HttpHeaders.ContentType, ContentType.Application.Json)
             header(
                 HttpHeaders.Authorization,
-                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZDM4ZWIyN2I0YTdmZmEwNDQ4YzA5NmU2OGNlNWRlOCIsIm5iZiI6MTQ4NDc0NzUyOS42MTMsInN1YiI6IjU4N2Y3MzA3YzNhMzY4MmU5ZjAwOTY4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.86JWx4S7qvwVx1harR3nMQpCGlq9v4q4vNih6GGAf5M"
-//                "Bearer ${AppConfig.API_KEY}"
+                "Bearer ${SharedConfig.API_KEY}"
             )
         }
 

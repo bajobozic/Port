@@ -1,7 +1,53 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.android.lint)
+}
+
+// 1. Define the Task to generate the Config file
+abstract class GenerateConfigTask : DefaultTask() {
+    @get:Input
+    abstract val apiKey: Property<String>
+
+    @get:OutputDirectory
+    abstract val outputDir: DirectoryProperty
+
+    @TaskAction
+    fun generate() {
+        // We generate the file into the network module's package
+        val fileContent = """
+            package com.bajobozic.shared_component
+            
+            object SharedConfig {
+                const val API_KEY = "${apiKey.get()}"
+            }
+        """.trimIndent()
+
+        val dir = outputDir.get().asFile
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        File(dir, "SharedConfig.kt").writeText(fileContent)
+    }
+}
+
+// 2. Register the task and read from local.properties
+val buildConfigDir = layout.buildDirectory.dir("generated/kotlin/config")
+
+val generateConfig by tasks.registering(GenerateConfigTask::class) {
+    // Read local.properties from the root project
+    val localProps = Properties().apply {
+        val propsFile = rootProject.file("local.properties")
+        if (propsFile.exists()) load(propsFile.inputStream())
+    }
+
+    // Try to get API_KEY from local.properties, or fallback to System Env (CI/CD)
+    val keyProperty = localProps.getProperty("API_KEY") ?: System.getenv("API_KEY") ?: ""
+
+    apiKey.set(keyProperty)
+    outputDir.set(buildConfigDir)
 }
 
 kotlin {
@@ -58,6 +104,9 @@ kotlin {
     // See: https://kotlinlang.org/docs/multiplatform-hierarchy.html
     sourceSets {
         commonMain {
+            // 3. Add the generated source directory to commonMain
+            // This makes 'NetworkConfig.API_KEY' available to all targets (Android, iOS, etc.)
+            kotlin.srcDir(generateConfig)
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
