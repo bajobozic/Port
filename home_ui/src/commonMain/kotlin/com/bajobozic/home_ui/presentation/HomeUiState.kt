@@ -1,4 +1,4 @@
-package com.bajobozic.port.home_ui.presentation
+package com.bajobozic.home_ui.presentation
 
 import com.bajobozic.storage.domain.model.Movie
 

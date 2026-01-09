@@ -1,4 +1,4 @@
-package com.bajobozic.port.home_ui.presentation
+package com.bajobozic.home_ui.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

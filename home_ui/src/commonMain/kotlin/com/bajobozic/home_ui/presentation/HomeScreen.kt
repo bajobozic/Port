@@ -1,4 +1,4 @@
-package com.bajobozic.port.home_ui.presentation
+package com.bajobozic.home_ui.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -39,15 +39,15 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.bajobozic.port.PlatformProgressIndicator
+import com.bajobozic.home_ui.PlatformProgressIndicator
 import com.bajobozic.shared_ui.Routes
 import com.bajobozic.storage.domain.model.Movie
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import port.composeapp.generated.resources.Res
-import port.composeapp.generated.resources.retry
+import port.home_ui.generated.resources.Res
+import port.home_ui.generated.resources.retry
 
 @Composable
 internal fun HomeScreen(

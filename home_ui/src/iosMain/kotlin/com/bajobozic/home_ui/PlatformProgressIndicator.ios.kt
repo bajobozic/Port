@@ -1,4 +1,4 @@
-package com.bajobozic.port
+package com.bajobozic.home_ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

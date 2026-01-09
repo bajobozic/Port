@@ -1,4 +1,4 @@
-package com.bajobozic.port
+package com.bajobozic.home_ui
 
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
