@@ -26,6 +26,7 @@ kotlin {
         }
     }
 
+    jvm()
     // For iOS targets, this is also where you should
     // configure native binary output. For more information, see:
     // https://kotlinlang.org/docs/multiplatform-build-native-binaries.html#build-xcframeworks
@@ -71,6 +72,9 @@ kotlin {
                 implementation(libs.components.resources)
                 implementation(libs.ui.tooling.preview)
                 implementation(libs.material.icons.core)
+                // jetpack libraries  equivalents for androidx in common
+                implementation(libs.androidx.lifecycle.viewmodelCompose)
+                implementation(libs.androidx.lifecycle.runtimeCompose)
                 // Compose Navigation
                 implementation(libs.navigation3.ui)
                 // Koin common
@@ -99,6 +103,11 @@ kotlin {
                 implementation(libs.androidx.runner)
                 implementation(libs.androidx.core)
                 implementation(libs.androidx.testExt.junit)
+            }
+        }
+
+        val jvmMain by getting {
+            dependencies {
             }
         }
 

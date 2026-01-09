@@ -1,4 +1,4 @@
-package com.bajobozic.port
+package com.bajobozic.signin_ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ImageBitmap

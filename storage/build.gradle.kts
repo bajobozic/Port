@@ -26,6 +26,7 @@ kotlin {
         }
     }
 
+    jvm()
     // For iOS targets, this is also where you should
     // configure native binary output. For more information, see:
     // https://kotlinlang.org/docs/multiplatform-build-native-binaries.html#build-xcframeworks
@@ -97,6 +98,11 @@ kotlin {
             }
         }
 
+        val jvmMain by getting {
+            dependencies {
+            }
+        }
+
         iosMain {
             dependencies {
                 // Add iOS-specific dependencies here. This a source set created by Kotlin Gradle
@@ -116,7 +122,7 @@ room {
 
 dependencies {
     add("kspAndroid", libs.androidx.room.compiler)
-//    add("kspJvm", libs.androidx.room.compiler)
+    add("kspJvm", libs.androidx.room.compiler)
     add("kspIosArm64", libs.androidx.room.compiler)
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)
 }

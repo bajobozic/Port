@@ -5,6 +5,13 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.android.lint)
 }
+val os = org.gradle.internal.os.OperatingSystem.current()
+val javafxPlatform = when {
+    os.isMacOsX -> "mac-aarch64"
+    os.isWindows -> "win"
+    os.isLinux -> "linux"
+    else -> error("Unsupported OS")
+}
 
 kotlin {
 
@@ -28,6 +35,7 @@ kotlin {
         experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
     }
 
+    jvm()
     // For iOS targets, this is also where you should
     // configure native binary output. For more information, see:
     // https://kotlinlang.org/docs/multiplatform-build-native-binaries.html#build-xcframeworks
@@ -75,6 +83,9 @@ kotlin {
                 implementation(libs.components.resources)
                 implementation(libs.ui.tooling.preview)
                 implementation(libs.material.icons.core)
+                // jetpack libraries  equivalents for androidx in common
+                implementation(libs.androidx.lifecycle.viewmodelCompose)
+                implementation(libs.androidx.lifecycle.runtimeCompose)
                 // Kotlin datetime
                 implementation(libs.kotlinx.datetime)
                 // Compose Navigation
@@ -113,6 +124,20 @@ kotlin {
                 implementation(libs.androidx.runner)
                 implementation(libs.androidx.core)
                 implementation(libs.androidx.testExt.junit)
+            }
+        }
+
+        val jvmMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+                implementation(libs.kotlinx.coroutinesSwing)
+                // Ktor Desktop
+                implementation("org.openjfx:javafx-base:21:$javafxPlatform")
+                implementation("org.openjfx:javafx-graphics:21:$javafxPlatform")
+                implementation("org.openjfx:javafx-controls:21:$javafxPlatform")
+                implementation("org.openjfx:javafx-swing:21:$javafxPlatform")
+                implementation("org.openjfx:javafx-web:21:$javafxPlatform")
+                implementation("org.openjfx:javafx-media:21:$javafxPlatform")
             }
         }
 

@@ -11,14 +11,6 @@ plugins {
     alias(libs.plugins.google.gms)
 }
 
-
-val os = org.gradle.internal.os.OperatingSystem.current()
-val javafxPlatform = when {
-    os.isMacOsX -> "mac-aarch64"
-    os.isWindows -> "win"
-    os.isLinux -> "linux"
-    else -> error("Unsupported OS")
-}
 kotlin {
     androidTarget {
         compilerOptions {
@@ -96,15 +88,6 @@ kotlin {
         iosMain.dependencies {
         }
         jvmMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutinesSwing)
-            // Ktor Desktop
-            implementation("org.openjfx:javafx-base:21:$javafxPlatform")
-            implementation("org.openjfx:javafx-graphics:21:$javafxPlatform")
-            implementation("org.openjfx:javafx-controls:21:$javafxPlatform")
-            implementation("org.openjfx:javafx-swing:21:$javafxPlatform")
-            implementation("org.openjfx:javafx-web:21:$javafxPlatform")
-            implementation("org.openjfx:javafx-media:21:$javafxPlatform")
         }
     }
     compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
