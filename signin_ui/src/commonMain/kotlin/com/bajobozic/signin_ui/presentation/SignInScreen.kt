@@ -1,4 +1,4 @@
-package com.bajobozic.port.signin_ui.presentation
+package com.bajobozic.signin_ui.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -41,15 +41,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import com.bajobozic.port.PlatformButton
-import com.bajobozic.port.rememberCameraManager
 import com.bajobozic.shared_ui.Routes
+import com.bajobozic.signin_ui.PlatformButton
+import com.bajobozic.signin_ui.rememberCameraManager
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
-import port.composeapp.generated.resources.Res
-import port.composeapp.generated.resources.camera
-import port.composeapp.generated.resources.visibility
-import port.composeapp.generated.resources.visibility_off
+import port.signin_ui.generated.resources.Res
+import port.signin_ui.generated.resources.cam
+import port.signin_ui.generated.resources.visibility
+import port.signin_ui.generated.resources.visibility_off
 
 @Composable
 internal fun SignInScreen(
@@ -60,7 +60,7 @@ internal fun SignInScreen(
 
     var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
 
-    // Initialize the camera manager
+    // Initialize the cam manager
     val cameraLauncher = rememberCameraManager { result ->
         imageBitmap = result
     }
@@ -70,7 +70,7 @@ internal fun SignInScreen(
 
 
     // In a real app, you would use an ActivityResultLauncher
-    // for camera and image picking permissions and results.
+    // for cam and image picking permissions and results.
     val onCameraButtonClick: () -> Unit = {
         cameraLauncher.capture()
     }
@@ -159,7 +159,7 @@ internal fun UserImagePicker(
             containerColor = MaterialTheme.colorScheme.secondary
         ) {
             Icon(
-                imageVector = vectorResource(Res.drawable.camera),
+                imageVector = vectorResource(Res.drawable.cam),
                 contentDescription = "Take Photo",
                 modifier = Modifier.size(20.dp)
             )

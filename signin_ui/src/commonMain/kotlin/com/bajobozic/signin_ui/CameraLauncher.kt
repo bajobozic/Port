@@ -1,10 +1,10 @@
-package com.bajobozic.port
+package com.bajobozic.signin_ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ImageBitmap
 
 /**
- * A wrapper interface to trigger the camera.
+ * A wrapper interface to trigger the cam.
  */
 interface CameraLauncher {
     fun capture()

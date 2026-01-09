@@ -1,4 +1,4 @@
-package com.bajobozic.port
+package com.bajobozic.signin_ui
 
 import android.Manifest
 import android.content.Context
@@ -70,7 +70,7 @@ actual fun rememberCameraManager(onPhotoCaptured: (ImageBitmap?) -> Unit): Camer
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            // Permission granted, create file and launch camera
+            // Permission granted, create file and launch cam
             val (uri, file) = getFileProviderUri(context)
             tempImageUri = uri
             tempFile = file

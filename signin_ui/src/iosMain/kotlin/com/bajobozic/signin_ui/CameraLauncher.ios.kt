@@ -1,4 +1,4 @@
-package com.bajobozic.port
+package com.bajobozic.signin_ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -66,7 +66,7 @@ actual fun rememberCameraManager(onPhotoCaptured: (ImageBitmap?) -> Unit): Camer
 }
 
 private fun launchCamera(delegate: CameraDelegate) {
-    // 1. Check if camera is available on device (e.g. simulator has no camera)
+    // 1. Check if cam is available on device (e.g. simulator has no cam)
     if (!UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.UIImagePickerControllerSourceTypeCamera)) {
         return
     }
@@ -76,7 +76,7 @@ private fun launchCamera(delegate: CameraDelegate) {
     picker.allowsEditing = false
     picker.delegate = delegate
 
-    // 2. Find the top-most view controller to present the camera
+    // 2. Find the top-most view controller to present the cam
     // This traverses the view hierarchy to find the active controller
     val keyWindow = UIApplication.sharedApplication.keyWindow
     var topController = keyWindow?.rootViewController

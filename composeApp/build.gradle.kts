@@ -82,6 +82,8 @@ kotlin {
             baseName = "ComposeApp"
             isStatic = true
             export(libs.notifier)
+            //to be able to access NativeViewFactory from iosApp
+            export(project(":signin_ui"))
         }
     }
     jvm()
@@ -94,14 +96,6 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
-            //CameraX for camera functionality
-            implementation(libs.androidx.camera.core)
-            implementation(libs.androidx.camera.camera2)
-            implementation(libs.androidx.camera.lifecycle)
-            implementation(libs.androidx.camera.video)
-            implementation(libs.androidx.camera.view)
-            implementation(libs.androidx.camera.extensions)
-            implementation(libs.androidx.exifinterface)
         }
         commonMain.dependencies {
             // Compose Multiplatform defaults, added by the plugin
@@ -109,6 +103,8 @@ kotlin {
             implementation(project(":shared_ui"))
             implementation(project(":storage"))
             implementation(project(":network"))
+            //must be api because of access scope
+            api(project(":signin_ui"))
             implementation(libs.runtime)
             implementation(libs.foundation)
             implementation(libs.material3)

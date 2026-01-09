@@ -1,4 +1,4 @@
-package com.bajobozic.port
+package com.bajobozic.signin_ui
 
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module

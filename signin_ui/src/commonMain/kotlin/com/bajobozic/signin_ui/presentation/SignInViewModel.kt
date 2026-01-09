@@ -1,4 +1,4 @@
-package com.bajobozic.port.signin_ui.presentation
+package com.bajobozic.signin_ui.presentation
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
