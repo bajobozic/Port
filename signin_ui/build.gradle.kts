@@ -118,6 +118,10 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
+                implementation(libs.javacv.platform)
+
+                // You likely already have this, but ensure coroutines swing is there for dispatchers
+                implementation(libs.kotlinx.coroutinesSwing)
             }
         }
 

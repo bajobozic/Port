@@ -1,5 +1,6 @@
 [versions]
 # Must use the same version for Kotlin and KSP(first 3 numbers)
+javacvPlatform = "1.5.12"
 kotlin = "2.2.21"
 ksp = "2.2.21-2.0.4"
 #end of same version for Kotlin and KSP
@@ -94,6 +95,7 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 # jetbrains
 components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-Multiplatform" }
 foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-Multiplatform" }
+javacv-platform = { module = "org.bytedeco:javacv-platform", version.ref = "javacvPlatform" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-Multiplatform" }
 ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-Multiplatform" }
