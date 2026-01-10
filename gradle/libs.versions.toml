@@ -1,6 +1,5 @@
 [versions]
 # Must use the same version for Kotlin and KSP(first 3 numbers)
-javacvPlatform = "1.5.12"
 kotlin = "2.2.21"
 ksp = "2.2.21-2.0.4"
 #end of same version for Kotlin and KSP
@@ -70,6 +69,10 @@ core = "1.7.0"
 jetbrainsKotlinJvm = "2.2.21"
 # end of third party versions
 
+# jvm camera launcher
+javacvPlatform = "1.5.12"
+# end of jvm camera launcher
+
 [libraries]
 # androidx
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
@@ -95,7 +98,6 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 # jetbrains
 components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-Multiplatform" }
 foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-Multiplatform" }
-javacv-platform = { module = "org.bytedeco:javacv-platform", version.ref = "javacvPlatform" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-Multiplatform" }
 ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-Multiplatform" }
@@ -145,6 +147,10 @@ kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", versio
 androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 # end of notification
+
+# jvm camera
+javacv-platform = { module = "org.bytedeco:javacv-platform", version.ref = "javacvPlatform" }
+# end of jvm camera
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
