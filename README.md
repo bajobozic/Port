@@ -1,35 +1,44 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# Kotlin Multiplatform Project
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
+This is a Kotlin Multiplatform project targeting Android, iOS, and Desktop (JVM).
+
+## Screenshots
+
+|                                    Android                                     |                                    iOS                                     |                                    Desktop                                     |
+|:------------------------------------------------------------------------------:|:--------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|
+|    <img src="./screenshots/android_view_1.png" width="250"><br>*Main View*     |    <img src="./screenshots/ios_view_1.png" width="250"><br>*Main View*     |    <img src="./screenshots/desktop_view_1.png" width="400"><br>*Main View*     |
+| <img src="./screenshots/android_view_2.png" width="250"><br>*Camera/Secondary* | <img src="./screenshots/ios_view_2.png" width="250"><br>*Camera/Secondary* | <img src="./screenshots/desktop_view_2.png" width="400"><br>*Camera/Secondary* |
+
+## Project Structure
+
+* **[/composeApp](./composeApp/src)** is for code that will be shared across your Compose
+  Multiplatform applications.
   It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+    - **[commonMain](./composeApp/src/commonMain/kotlin)**: Code that is common for all targets.
+    - **Other folders**: Platform-specific Kotlin code (
+      e.g., [iosMain](./composeApp/src/iosMain/kotlin) for iOS-specific calls
+      or [jvmMain](./composeApp/src/jvmMain/kotlin) for Desktop specifics).
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+* **[/iosApp](./iosApp/iosApp)**: Contains the iOS application entry point and SwiftUI code.
 
-### Build and Run Android Application
+## Build and Run
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+### Android Application
 
-### Build and Run iOS Application
+To build and run the development version of the Android app, use your IDE's run configuration or the
+terminal:
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+- **macOS/Linux**: `./gradlew :composeApp:assembleDebug`
+- **Windows**: `.\gradlew.bat :composeApp:assembleDebug`
 
----
+### iOS Application
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+To build and run the development version of the iOS app, use the IDE run configuration or open the *
+*[/iosApp](./iosApp)** directory in Xcode.
+
+### Desktop (JVM) Application
+
+To build and run the desktop application, use the following terminal command:
+
+```shell
+./gradlew :composeApp:run
