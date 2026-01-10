@@ -23,7 +23,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -54,6 +53,7 @@ import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.bajobozic.detail_ui.BackIcon
 import com.bajobozic.detail_ui.VideoPlayer
 import com.bajobozic.network.domain.model.Genre
 import com.bajobozic.network.domain.model.MovieDetail
@@ -121,20 +121,7 @@ internal fun DetailsScreen(
         visible = !state.isVideoFullscreen, // Hide when fullscreen
         modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
     ) {
-        Column(modifier = Modifier) {
-            onEvent
-            Row(
-                modifier = Modifier.fillMaxWidth().height(48.dp).clickable(onClick = {
-                    onEvent(DetailScreenEvent.OnNavigateUp)
-                }).background(MaterialTheme.colorScheme.primaryContainer)
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "")
-                Text("Detail")
-            }
-
+        Box(modifier = Modifier.fillMaxSize()) {
             // Use LazyColumn to allow scrolling of the entire screen content
             LazyColumn(modifier = Modifier.fillMaxSize()) {
 
@@ -281,6 +268,19 @@ internal fun DetailsScreen(
                         )
                     }
                 }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth().height(48.dp)
+                    .background(color = Color.Transparent)
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                BackIcon {
+                    onEvent(DetailScreenEvent.OnNavigateUp)
+                }
+                Text(text = "Detail", fontWeight = FontWeight.SemiBold)
             }
         }
     }
