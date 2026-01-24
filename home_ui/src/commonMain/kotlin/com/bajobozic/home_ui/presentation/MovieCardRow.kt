@@ -17,7 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +42,8 @@ internal fun MovieCardRow(
     onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var imageLoading by remember { mutableStateOf(true) }
+    //when image is once loaded don't show shimmer effect
+    var imageLoading by rememberSaveable { mutableStateOf(true) }
     Card(
         onClick = { onClick(movie.id) },
         modifier = modifier,
