@@ -35,6 +35,10 @@ import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
@@ -58,16 +62,15 @@ import com.bajobozic.detail_ui.VideoPlayer
 import com.bajobozic.network.domain.model.Genre
 import com.bajobozic.network.domain.model.MovieDetail
 import com.bajobozic.shared_ui.Routes
+import com.bajobozic.shared_ui.presentation.components.shimmerReveal
 import com.mmk.kmpnotifier.notification.NotificationImage
 import com.mmk.kmpnotifier.notification.NotifierManager
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import port.detail_ui.generated.resources.Res
-import port.detail_ui.generated.resources.compose_multiplatform
 import port.detail_ui.generated.resources.map
 import port.detail_ui.generated.resources.notification
 import kotlin.random.Random
@@ -80,7 +83,7 @@ internal fun DetailsScreen(
     state: DetailUiState,
     onEvent: (DetailScreenEvent) -> Unit
 ) {
-
+    var imageLoading by remember { mutableStateOf(true) }
     LaunchedEffect(state.notificationTitle) {
         state.notificationTitle?.let { notificationTitle ->
             val notifier = NotifierManager.getLocalNotifier()
@@ -136,12 +139,23 @@ internal fun DetailsScreen(
                         AsyncImage(
                             model = ImageRequest.Builder(LocalPlatformContext.current)
                                 .data(POSTER_BASE_URL + state.data.posterPath)
-                                .crossfade(true)
+                                .listener(
+                                    onSuccess = { _, _ ->
+                                        // The image is ready. Trigger the Shimmer Reveal.
+                                        imageLoading = false
+                                    },
+                                    onError = { _, _ ->
+                                        // Stop shimmer even if it failed (so we don't show infinite loading)
+                                        imageLoading = false
+                                    }
+                                )
+                                // Disable Coil's built-in crossfade so it doesn't conflict with our shimmer reveal
+                                .crossfade(false)
                                 .build(),
-                            error = painterResource(Res.drawable.compose_multiplatform),
                             contentDescription = "Movie Poster",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.fillMaxSize()
+                                .shimmerReveal(isLoading = imageLoading)
                         )
 
                         // Scrim (Gradient Overlay for text readability)

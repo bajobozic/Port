@@ -15,6 +15,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -26,6 +30,7 @@ import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.bajobozic.shared_ui.presentation.components.shimmerReveal
 import com.bajobozic.storage.domain.model.Genre
 import com.bajobozic.storage.domain.model.Movie
 import kotlinx.datetime.LocalDate
@@ -37,6 +42,7 @@ internal fun MovieCardRow(
     onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var imageLoading by remember { mutableStateOf(true) }
     Card(
         onClick = { onClick(movie.id) },
         modifier = modifier,
@@ -47,13 +53,25 @@ internal fun MovieCardRow(
             AsyncImage(
                 model = ImageRequest.Builder(LocalPlatformContext.current)
                     .data("https://image.tmdb.org/t/p/w500" + movie.posterPath)
-                    .crossfade(true)
+                    .listener(
+                        onSuccess = { _, _ ->
+                            // The image is ready. Trigger the Shimmer Reveal.
+                            imageLoading = false
+                        },
+                        onError = { _, _ ->
+                            // Stop shimmer even if it failed (so we don't show infinite loading)
+                            imageLoading = false
+                        }
+                    )
+                    // Disable Coil's built-in crossfade so it doesn't conflict with our shimmer reveal
+                    .crossfade(false)
                     .build(), // Assuming your model has 'posterUrl'
                 contentDescription = movie.title,
                 contentScale = ContentScale.Crop, // Fills the width and crops height
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(220.dp) // Give image a more consistent height
+                    .shimmerReveal(isLoading = imageLoading)
             )
 
             // Content Area
