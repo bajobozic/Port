@@ -110,7 +110,13 @@ fun Modifier.shimmerReveal(
         val splitPoint = xPos + (shimmerWidthPx / 2)
 
         val shimmerBrush = Brush.linearGradient(
-            colors = listOf(backgroundColor, shimmerColor, backgroundColor),
+            colors = listOf(
+                backgroundColor,
+                shimmerColor,
+                backgroundColor,
+                shimmerColor,
+                backgroundColor
+            ),
             start = Offset(xPos, 0f),
             end = Offset(xPos + shimmerWidthPx, 0f)
         )

@@ -77,6 +77,7 @@ kotlin {
                 implementation(libs.material3)
                 implementation(libs.ui)
                 implementation(libs.components.resources)
+                implementation(libs.ui.tooling)
                 implementation(libs.ui.tooling.preview)
                 implementation(libs.material.icons.core)
                 // Compose Navigation
