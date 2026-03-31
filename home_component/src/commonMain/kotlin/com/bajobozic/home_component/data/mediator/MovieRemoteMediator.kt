@@ -20,6 +20,7 @@ import com.bajobozic.storage.domain.usecase.GetAllGenresUseCase
 import com.bajobozic.storage.domain.usecase.GetRemoteKeysByMovieIdUseCase
 import com.bajobozic.storage.domain.usecase.InsertAllMoviesUseCase
 import com.bajobozic.storage.domain.usecase.RemoteKeysInsertAllUseCase
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 
@@ -136,7 +137,10 @@ internal class MovieRemoteMediator(
 
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {
-            MediatorResult.Error(e)
+            if (e is CancellationException)
+                throw e
+            else
+                MediatorResult.Error(e)
         }
     }
 
