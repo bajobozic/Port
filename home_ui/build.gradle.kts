@@ -77,7 +77,6 @@ kotlin {
                 implementation(libs.material3)
                 implementation(libs.ui)
                 implementation(libs.components.resources)
-                implementation(libs.ui.tooling)
                 implementation(libs.ui.tooling.preview)
                 implementation(libs.material.icons.core)
                 // Compose Navigation
@@ -111,6 +110,7 @@ kotlin {
                 // Add Android-specific dependencies here. Note that this source set depends on
                 // commonMain by default and will correctly pull the Android artifacts of any KMP
                 // dependencies declared in commonMain.
+                implementation(libs.ui.tooling)
             }
         }
 
