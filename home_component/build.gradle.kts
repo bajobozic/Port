@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.android.kotlin.multiplatform.library)
-    alias(libs.plugins.composeMultiplatform)
-    alias(libs.plugins.composeCompiler)
     alias(libs.plugins.android.lint)
 }
 
@@ -74,7 +72,6 @@ kotlin {
                 implementation(libs.koin.core)
                 // Paging
                 implementation(libs.androidx.paging.common)
-                implementation(libs.androidx.paging.compose)
             }
         }
 

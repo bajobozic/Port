@@ -67,8 +67,6 @@ kotlin {
                 // Add KMP dependencies here
                 // Koin common
                 implementation(libs.koin.core)
-                implementation(libs.koin.compose)
-                implementation(libs.koin.compose.viewmodel)
                 //Ktor for networking
                 implementation(libs.bundles.ktor)
                 // Serialization
