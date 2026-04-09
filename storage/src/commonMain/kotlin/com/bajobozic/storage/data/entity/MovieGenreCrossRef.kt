@@ -9,7 +9,7 @@ import androidx.room.Index
         Index(value = ["genre_id"])
     ]
 )
-data class MovieGenreCrossRef(
+internal data class MovieGenreCrossRef(
     @ColumnInfo(name = "movie_id")
     val movieId: Int,
     @ColumnInfo(name = "genre_id")

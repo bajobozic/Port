@@ -8,7 +8,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MoviesResponse(
+internal data class MoviesResponse(
     @SerialName(value = "id")
     val id: Int,
     @SerialName(value = "adult")
@@ -51,7 +51,7 @@ internal fun MoviesResponse.initKeys(
     this.nextPage = if (page < 1) 1 else page + 1
 }
 
-fun MoviesResponse.toMovieDetail(): MovieDetail {
+internal fun MoviesResponse.toMovieDetail(): MovieDetail {
     return MovieDetail(
         id = id,
         adult = adult,

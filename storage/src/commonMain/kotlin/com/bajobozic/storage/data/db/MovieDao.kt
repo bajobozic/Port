@@ -15,7 +15,7 @@ import com.bajobozic.storage.data.entity.MovieWithGenres
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MovieDao {
+internal interface MovieDao {
     //**********************************************************************************************
     //PAGING 3 start
     @Insert(onConflict = OnConflictStrategy.IGNORE)

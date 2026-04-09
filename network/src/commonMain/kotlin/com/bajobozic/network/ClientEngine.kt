@@ -10,4 +10,4 @@ import io.ktor.client.engine.HttpClientEngine
  *
  * @return The [HttpClientEngine] for the current platform.
  */
-expect fun getClientEngine(): HttpClientEngine
+internal expect fun getClientEngine(): HttpClientEngine

@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PopularMoviesResponse(
+internal data class PopularMoviesResponse(
     val page: Int,
     @SerialName(value = "results")
     val movies: List<com.bajobozic.network.data.dto.MoviesResponse> = emptyList(),
@@ -15,10 +15,10 @@ data class PopularMoviesResponse(
     val totalResults: Int
 )
 
-fun PopularMoviesResponse.initRemoteKeys() =
+internal fun PopularMoviesResponse.initRemoteKeys() =
     this.apply { movies.forEach { movie -> movie.initKeys(this.page) } }
 
-fun PopularMoviesResponse.toModel() =
+internal fun PopularMoviesResponse.toModel() =
     PopularMovies(
         page = page,
         movies = movies.map { it.toMovieDetail() },

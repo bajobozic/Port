@@ -16,13 +16,13 @@ import com.bajobozic.storage.data.entity.MovieRemoteKeys
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 @TypeConverters(Converters::class)
-abstract class AppDatabase : RoomDatabase() {
+internal abstract class AppDatabase : RoomDatabase() {
     abstract fun getMovieDao(): MovieDao
     abstract fun getMovieRemoteKeysDao(): MovieRemoteKeysDao
 }
 
 // The Room compiler generates the `actual` implementations.
 @Suppress("KotlinNoActualForExpect")
-expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase> {
+internal expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase> {
     override fun initialize(): AppDatabase
 }

@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.bajobozic.storage.data.entity.MovieRemoteKeys
 
 @Dao
-interface MovieRemoteKeysDao {
+internal interface MovieRemoteKeysDao {
 
     @Query("SELECT * FROM movie_remote_keys WHERE movieId = :id")
     suspend fun remoteKeysByMovieId(id: Int): MovieRemoteKeys?

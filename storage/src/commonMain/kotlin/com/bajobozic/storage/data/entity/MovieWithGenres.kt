@@ -6,7 +6,7 @@ import androidx.room.Relation
 import com.bajobozic.storage.domain.model.GetMovieWithGenres
 import com.bajobozic.storage.domain.model.Movie
 
-data class MovieWithGenres(
+internal data class MovieWithGenres(
     @Embedded
     val movie: MovieEntity,
     @Relation(

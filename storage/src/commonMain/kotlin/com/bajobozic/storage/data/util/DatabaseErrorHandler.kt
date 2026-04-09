@@ -5,7 +5,7 @@ import com.bajobozic.shared_component.BaseError
 import com.bajobozic.shared_component.ErrorHandler
 import kotlin.coroutines.cancellation.CancellationException
 
-class DatabaseErrorHandler : ErrorHandler {
+internal class DatabaseErrorHandler : ErrorHandler {
     override fun handleError(throwable: Throwable): BaseError {
         return when (throwable) {
             is CancellationException -> throw throwable

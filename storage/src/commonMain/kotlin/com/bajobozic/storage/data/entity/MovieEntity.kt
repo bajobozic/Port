@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import kotlinx.datetime.LocalDate
 
 @Entity(tableName = "movies")
-data class MovieEntity(
+internal data class MovieEntity(
     @PrimaryKey
     @ColumnInfo(name = "movie_id")
     val id: Int,

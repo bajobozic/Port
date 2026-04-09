@@ -6,13 +6,13 @@ import androidx.room.PrimaryKey
 import com.bajobozic.storage.domain.model.Genre
 
 @Entity(tableName = "genres")
-data class GenreEntity(
+internal data class GenreEntity(
     @PrimaryKey
     @ColumnInfo(name = "genre_id")
     val id: Int,
     val name: String
 )
 
-fun GenreEntity.toModel(): Genre {
+internal fun GenreEntity.toModel(): Genre {
     return Genre(id, name)
 }

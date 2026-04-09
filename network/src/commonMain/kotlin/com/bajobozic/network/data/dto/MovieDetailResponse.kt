@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MovieDetailResponse(
+internal data class MovieDetailResponse(
     @SerialName(value = "id")
     val id: Int,
     @SerialName(value = "adult")
@@ -37,7 +37,7 @@ data class MovieDetailResponse(
     val voteCount: Int
 )
 
-fun MovieDetailResponse.toMovieDetail(): MovieDetail {
+internal fun MovieDetailResponse.toMovieDetail(): MovieDetail {
     return MovieDetail(
         id = id,
         adult = adult,
@@ -59,7 +59,7 @@ fun MovieDetailResponse.toMovieDetail(): MovieDetail {
     )
 }
 
-fun MovieDetailResponse.toMoviesResponse(): MoviesResponse {
+internal fun MovieDetailResponse.toMoviesResponse(): MoviesResponse {
     return MoviesResponse(
         adult = adult,
         backdropPath = backdropPath,

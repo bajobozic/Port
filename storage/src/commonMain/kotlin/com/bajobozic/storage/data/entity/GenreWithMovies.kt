@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 
-data class GenreWithMovies(
+internal data class GenreWithMovies(
     @Embedded
     val genre: GenreEntity,
     @Relation(

@@ -4,13 +4,13 @@ import com.bajobozic.network.domain.model.MovieVideo
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MovieVideoDto(
+internal data class MovieVideoDto(
     val key: String? = null,
     val site: String? = null,
     val size: Int? = null
 )
 
-fun MovieVideoDto.toMovieVideo(): MovieVideo {
+internal fun MovieVideoDto.toMovieVideo(): MovieVideo {
     return MovieVideo(
         key = this.key.orEmpty(),
         site = this.site.orEmpty(),

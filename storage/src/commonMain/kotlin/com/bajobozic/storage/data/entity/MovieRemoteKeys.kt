@@ -5,14 +5,14 @@ import androidx.room.PrimaryKey
 import com.bajobozic.storage.domain.model.MovieRemoteKeysModel
 
 @Entity(tableName = "movie_remote_keys")
-data class MovieRemoteKeys(
+internal data class MovieRemoteKeys(
     @PrimaryKey(autoGenerate = false)
     val movieId: Int,
     val prevKey: Int?,
     val nextKey: Int?
 )
 
-fun MovieRemoteKeys.toModel() = MovieRemoteKeysModel(
+internal fun MovieRemoteKeys.toModel() = MovieRemoteKeysModel(
     movieId = movieId,
     prevKey = prevKey,
     nextKey = nextKey
