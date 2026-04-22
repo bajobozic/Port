@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -114,32 +113,32 @@ android {
         }
     }
 
-    signingConfigs {
-        create("release") {
-            //for CI/CD use environment variables, for local development use the local.properties file
-            val localProperties = gradleLocalProperties(rootDir, providers)
-            storeFile = if (localProperties.getProperty("storeFilePath").isEmpty())
-                file(System.getenv("STORE_FILE_PATH"))
-            else
-                file(localProperties.getProperty("storeFilePath")) // Path to your keystore file
-            storePassword =
-                localProperties.getProperty("storePassword")
-                    .ifEmpty { System.getenv("STORE_PASSWORD") } // Password for your keystore
-            keyAlias =
-                localProperties.getProperty("keyAlias")
-                    .ifEmpty { System.getenv("KEY_ALIAS") } // Alias of the key within the keystore
-            keyPassword =
-                localProperties.getProperty("keyPassword")
-                    .ifEmpty { System.getenv("KEY_PASSWORD") } // Password for the key
-        }
-    }
-
-    buildTypes {
-        getByName("release") {
-            signingConfig = signingConfigs.getByName("release")
-            isMinifyEnabled = true
-        }
-    }
+//    signingConfigs {
+//        create("release") {
+//            //for CI/CD use environment variables, for local development use the local.properties file
+//            val localProperties = gradleLocalProperties(rootDir, providers)
+//            storeFile = if (localProperties.getProperty("storeFilePath").isEmpty())
+//                file(System.getenv("STORE_FILE_PATH"))
+//            else
+//                file(localProperties.getProperty("storeFilePath")) // Path to your keystore file
+//            storePassword =
+//                localProperties.getProperty("storePassword")
+//                    .ifEmpty { System.getenv("STORE_PASSWORD") } // Password for your keystore
+//            keyAlias =
+//                localProperties.getProperty("keyAlias")
+//                    .ifEmpty { System.getenv("KEY_ALIAS") } // Alias of the key within the keystore
+//            keyPassword =
+//                localProperties.getProperty("keyPassword")
+//                    .ifEmpty { System.getenv("KEY_PASSWORD") } // Password for the key
+//        }
+//    }
+//
+//    buildTypes {
+//        getByName("release") {
+//            signingConfig = signingConfigs.getByName("release")
+//            isMinifyEnabled = true
+//        }
+//    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21

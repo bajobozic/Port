@@ -21,6 +21,12 @@ This is a Kotlin Multiplatform project targeting Android, iOS, and Desktop (JVM)
 
 * **[/iosApp](./iosApp/iosApp)**: Contains the iOS application entry point and SwiftUI code.
 
+## Architecture Documentation
+
+- **[Architecture Agent Guide](./docs/ARCHITECTURE_AGENT_GUIDE.md)**: High-level module
+  architecture, dependency direction rules, data flow, and reusable structure conventions for new
+  KMP + Compose projects.
+
 ## Build and Run
 
 ### Android Application

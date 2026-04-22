@@ -24,6 +24,8 @@ kotlin {
         }.configure {
             instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
+        // Required so Compose resources are correctly wired for Android/KMP source sets.
+        experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
     }
 
     jvm()

@@ -1,11 +1,11 @@
 [versions]
 # Must use the same version for Kotlin and KSP(first 3 numbers)
-kotlin = "2.2.21"
-ksp = "2.2.21-2.0.4"
+kotlin = "2.4.0-Beta2"
+ksp = "2.3.6"
 #end of same version for Kotlin and KSP
 
 # pure android versions
-agp = "8.13.2"
+agp = "9.1.1"
 android-compileSdk = "36"
 android-minSdk = "29"
 android-targetSdk = "36"
@@ -63,10 +63,10 @@ coil = "3.3.0"
 # third party versions
 gms = "4.4.4"
 kmp-notifier = "1.6.0"
-kotlinStdlib = "2.2.21"
+kotlinStdlib = "2.4.0-Beta2"
 runner = "1.7.0"
 core = "1.7.0"
-jetbrainsKotlinJvm = "2.2.21"
+jetbrainsKotlinJvm = "2.4.0-Beta2"
 # end of third party versions
 
 # jvm camera launcher
