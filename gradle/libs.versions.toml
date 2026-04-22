@@ -6,14 +6,14 @@ ksp = "2.3.6"
 
 # pure android versions
 agp = "9.1.1"
-android-compileSdk = "36"
+android-compileSdk = "37"
 android-minSdk = "29"
-android-targetSdk = "36"
-androidx-activity = "1.12.2"
+android-targetSdk = "37"
+androidx-activity = "1.13.0"
 androidx-appcompat = "1.7.1"
-androidx-core = "1.17.0"
+androidx-core = "1.18.0"
 androidx-espresso = "3.7.0"
-androidx-lifecycle = "2.9.6"
+androidx-lifecycle = "2.10.0"
 # end of pure android versions
 
 # test versions
@@ -22,18 +22,18 @@ androidx-testExt = "1.3.0"
 # test versions
 
 # camera versions
-cameraCore = "1.6.0-alpha02"
+cameraCore = "1.6.0"
 exifinterface = "1.4.2"
 # end of camera versions
 
 # jetbraines versions
-compose-Multiplatform = "1.10.0-rc02"
+compose-Multiplatform = "1.10.3"
 material3 = "1.9.0"
 materialIconsCore = "1.7.3"
-nav3 = "1.0.0-alpha06"
-nav3-adaptive = "1.3.0-alpha03"
-nav3-view-model = "2.10.0-alpha07"
-kotlinxSerializationJson = "1.9.0"
+nav3 = "1.1.0"
+nav3-adaptive = "1.3.0-alpha07"
+nav3-view-model = "2.10.0"
+kotlinxSerializationJson = "1.11.0"
 kotlinx-coroutines = "1.10.2"
 kotlinxDatetime = "0.7.1"
 # end of jetbraines versions
@@ -44,25 +44,25 @@ sqlite = "2.6.2"
 # end of room versions
 
 # di versions
-koin = "4.2.0-beta2"
+koin = "4.2.1"
 # end of versions
 
 # network versions
-ktor = "3.3.3"
+ktor = "3.4.3"
 # end of network versions
 
 # multiplatform paging versions
-paging = "3.4.0-beta01"
+paging = "3.4.2"
 # end of multiplatform paging versions
 
 # image load versions
-coil = "3.3.0"
+coil = "3.4.0"
 # end of image load versions
 
 
 # third party versions
 gms = "4.4.4"
-kmp-notifier = "1.6.0"
+kmp-notifier = "1.6.1"
 kotlinStdlib = "2.4.0-Beta2"
 runner = "1.7.0"
 core = "1.7.0"
@@ -70,7 +70,7 @@ jetbrainsKotlinJvm = "2.4.0-Beta2"
 # end of third party versions
 
 # jvm camera launcher
-javacvPlatform = "1.5.12"
+javacvPlatform = "1.5.13"
 # end of jvm camera launcher
 
 [libraries]

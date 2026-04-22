@@ -20,6 +20,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -53,34 +54,30 @@ fun App() {
             }
         }
     }
-    val backStack = rememberNavBackStack(config, Routes.Home)
+    val backStack = rememberNavBackStack(config, Routes.Home as NavKey)
     val listDetailStrategy = rememberListDetailSceneStrategy<NavKey>()
+    val entryDecorators = listOf<NavEntryDecorator<NavKey>>(
+        rememberSaveableStateHolderNavEntryDecorator(),
+        rememberViewModelStoreNavEntryDecorator()
+    )
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
     PortAppTheme {
         // A surface container using the 'background' color from the theme
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-
-
-            val snackbarHostState = remember { SnackbarHostState() }
-            val coroutineScope = rememberCoroutineScope()
             Scaffold(
                 modifier = Modifier,
                 content = { paddingValues ->
                     NavDisplay(
                         backStack = backStack,
-                        sceneStrategy = listDetailStrategy,
-                        // In order to add the `ViewModelStoreNavEntryDecorator` (see comment below for why)
-                        // we also need to add the default `NavEntryDecorator`s as well. These provide
-                        // extra information to the entry's content to enable it to display correctly
-                        // and save its state.
-                        entryDecorators = listOf(
-                            rememberSaveableStateHolderNavEntryDecorator(),
-                            rememberViewModelStoreNavEntryDecorator()
-                        ),
                         onBack = { backStack.removeLastOrNull() },
                         modifier = Modifier.padding(paddingValues = paddingValues),
+                        entryDecorators = entryDecorators,
+                        sceneStrategies = listOf(listDetailStrategy),
                         entryProvider = entryProvider {
                             homeScreen(backStack, coroutineScope, snackbarHostState)
                             detailScreen(backStack)
@@ -97,7 +94,7 @@ fun App() {
                             slideInHorizontally(initialOffsetX = { -it }) togetherWith
                                     slideOutHorizontally(targetOffsetX = { it })
                         },
-                        predictivePopTransitionSpec = {
+                        predictivePopTransitionSpec = { _: Int ->
                             // Slide in from left when navigating back
                             slideInHorizontally(initialOffsetX = { -it }) togetherWith
                                     slideOutHorizontally(targetOffsetX = { it })

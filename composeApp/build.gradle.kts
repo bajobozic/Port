@@ -17,18 +17,7 @@ kotlin {
         }
     }
 
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-            export(libs.notifier)
-            //to be able to access NativeViewFactory from iosApp
-            export(project(":signin_ui"))
-        }
-    }
+
     jvm()
     sourceSets {
         androidMain.dependencies {
