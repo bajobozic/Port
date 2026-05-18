@@ -19,7 +19,7 @@ internal data class MovieWithGenres(
     override fun toModel(): Movie {
         return Movie(
             id = movie.id,
-            posterPath = movie.backdropPath,
+            posterPath = movie.posterPath,
             title = movie.title,
             overview = movie.overview,
             genreIds = genres.map { it.toModel() },

@@ -9,16 +9,20 @@ import com.bajobozic.storage.data.entity.GenreEntity
 import com.bajobozic.storage.data.entity.MovieEntity
 import com.bajobozic.storage.data.entity.MovieGenreCrossRef
 import com.bajobozic.storage.data.entity.MovieRemoteKeys
+import com.bajobozic.storage.data.entity.TvShowEntity
+import com.bajobozic.storage.data.entity.TvShowRemoteKeys
 
 @Database(
-    entities = [MovieEntity::class, GenreEntity::class, MovieGenreCrossRef::class, MovieRemoteKeys::class],
-    version = 1
+    entities = [MovieEntity::class, GenreEntity::class, MovieGenreCrossRef::class, MovieRemoteKeys::class, TvShowEntity::class, TvShowRemoteKeys::class],
+    version = 2
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 @TypeConverters(Converters::class)
 internal abstract class AppDatabase : RoomDatabase() {
     abstract fun getMovieDao(): MovieDao
     abstract fun getMovieRemoteKeysDao(): MovieRemoteKeysDao
+    abstract fun getTvShowDao(): TvShowDao
+    abstract fun getTvShowRemoteKeysDao(): TvShowRemoteKeysDao
 }
 
 // The Room compiler generates the `actual` implementations.

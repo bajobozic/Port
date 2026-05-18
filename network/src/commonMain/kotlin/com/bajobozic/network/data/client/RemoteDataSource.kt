@@ -7,9 +7,12 @@ import com.bajobozic.network.data.dto.MovieGenresIds
 import com.bajobozic.network.data.dto.MovieVideoDto
 import com.bajobozic.network.data.dto.MoviesResponse
 import com.bajobozic.network.data.dto.PopularMoviesResponse
+import com.bajobozic.network.data.dto.PopularTvShowsResponse
 
 internal interface RemoteDataSource {
     suspend fun getMovies(language: String, page: Int): PopularMoviesResponse
+
+    suspend fun getTvShows(language: String, page: Int): PopularTvShowsResponse
 
     suspend fun getGenres(language: String): GenreResponse
 

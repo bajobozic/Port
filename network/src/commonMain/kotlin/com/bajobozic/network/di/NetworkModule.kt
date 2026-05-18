@@ -12,6 +12,7 @@ import com.bajobozic.network.domain.usecase.GetGenresUseCase
 import com.bajobozic.network.domain.usecase.GetMovieDetailUseCase
 import com.bajobozic.network.domain.usecase.GetMovieVideoUseCase
 import com.bajobozic.network.domain.usecase.GetMoviesUseCase
+import com.bajobozic.network.domain.usecase.GetTvShowsUseCase
 import com.bajobozic.network.getClientEngine
 import com.bajobozic.shared_component.ErrorHandler
 import io.ktor.client.engine.HttpClientEngine
@@ -49,6 +50,11 @@ val networkModule = module {
     single<GetMoviesUseCase> {
         GetMoviesUseCase(
             get<NetworkRepository>()::getMovies
+        )
+    }
+    single<GetTvShowsUseCase> {
+        GetTvShowsUseCase(
+            get<NetworkRepository>()::getTvShows
         )
     }
 }

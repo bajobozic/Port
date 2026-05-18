@@ -34,6 +34,7 @@ import com.bajobozic.shared_ui.Routes
 import com.bajobozic.shared_ui.presentation.components.BottomBarTab
 import com.bajobozic.shared_ui.presentation.theme.PortAppTheme
 import com.bajobozic.signin_ui.presentation.signInScreen
+import com.bajobozic.tv_ui.presentation.tvShowsScreen
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import port.composeapp.generated.resources.Res
@@ -51,6 +52,7 @@ fun App() {
                 subclass(Routes.Home::class, Routes.Home.serializer())
                 subclass(Routes.SignIn::class, Routes.SignIn.serializer())
                 subclass(Routes.Details::class, Routes.Details.serializer())
+                subclass(Routes.TvShows::class, Routes.TvShows.serializer())
             }
         }
     }
@@ -80,6 +82,7 @@ fun App() {
                         sceneStrategies = listOf(listDetailStrategy),
                         entryProvider = entryProvider {
                             homeScreen(backStack, coroutineScope, snackbarHostState)
+                            tvShowsScreen(backStack)
                             detailScreen(backStack)
                             signInScreen()
                             mapsScreen()
@@ -120,7 +123,7 @@ fun App() {
                             drawableResource = Res.drawable.tv,
                             title = "Tv Shows"
                         ) {
-                            //no op
+                            backStack.add(Routes.TvShows)
                         }
                         BottomBarTab(
                             Modifier.weight(1f),

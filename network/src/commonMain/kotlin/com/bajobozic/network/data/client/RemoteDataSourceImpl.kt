@@ -7,6 +7,7 @@ import com.bajobozic.network.data.dto.MovieGenresIds
 import com.bajobozic.network.data.dto.MovieVideoDto
 import com.bajobozic.network.data.dto.MoviesResponse
 import com.bajobozic.network.data.dto.PopularMoviesResponse
+import com.bajobozic.network.data.dto.PopularTvShowsResponse
 import com.bajobozic.network.data.dto.initKeys
 import com.bajobozic.network.data.dto.toMoviesResponse
 
@@ -16,6 +17,12 @@ internal class RemoteDataSourceImpl(private val apiClient: ApiClient) :
         val moviesResponse = apiClient.getMovies(language, page)
         moviesResponse.movies.forEach { it.initKeys(page) }
         return moviesResponse
+    }
+
+    override suspend fun getTvShows(language: String, page: Int): PopularTvShowsResponse {
+        val tvShowsResponse = apiClient.getTvShows(language, page)
+        tvShowsResponse.tvShows.forEach { it.initKeys(page) }
+        return tvShowsResponse
     }
 
     override suspend fun getGenres(language: String): GenreResponse {

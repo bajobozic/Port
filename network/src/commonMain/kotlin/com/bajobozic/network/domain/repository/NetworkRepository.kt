@@ -7,12 +7,14 @@ import com.bajobozic.network.domain.model.Genre
 import com.bajobozic.network.domain.model.MovieDetail
 import com.bajobozic.network.domain.model.MovieVideo
 import com.bajobozic.network.domain.model.PopularMovies
+import com.bajobozic.network.domain.model.PopularTvShows
 import com.bajobozic.shared_component.BaseError
 import com.bajobozic.shared_component.Outcome
 
 
 internal interface NetworkRepository {
     suspend fun getMovies(language: String, page: Int): Outcome<PopularMovies, BaseError>
+    suspend fun getTvShows(language: String, page: Int): Outcome<PopularTvShows, BaseError>
     suspend fun getGenres(language: String): Outcome<List<Genre>, BaseError>
     suspend fun getMovie(
         language: String,

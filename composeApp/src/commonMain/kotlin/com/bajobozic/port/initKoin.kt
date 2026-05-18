@@ -7,12 +7,14 @@ import com.bajobozic.map_ui.di.mapModule
 import com.bajobozic.network.di.networkModule
 import com.bajobozic.signin_ui.di.signInModule
 import com.bajobozic.storage.di.storageModule
+import com.bajobozic.tv_component.di.tvComponentModule
+import com.bajobozic.tv_ui.di.tvUiModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) {
     startKoin {
         appDeclaration()
-        modules(storageModule + networkModule + homeComponentModule + homeModule + detailModule + mapModule + signInModule)
+        modules(storageModule + networkModule + homeComponentModule + homeModule + detailModule + mapModule + signInModule + tvComponentModule + tvUiModule)
     }
 }

@@ -4,6 +4,7 @@ import com.bajobozic.network.data.dto.GenreResponse
 import com.bajobozic.network.data.dto.MovieDetailResponse
 import com.bajobozic.network.data.dto.MovieVideoResponse
 import com.bajobozic.network.data.dto.PopularMoviesResponse
+import com.bajobozic.network.data.dto.PopularTvShowsResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -16,6 +17,13 @@ internal class MoviesApiClient(private val client: HttpClient) :
             parameter("language", language)
             parameter("page", page)
         }.body<PopularMoviesResponse>()
+    }
+
+    override suspend fun getTvShows(language: String, page: Int): PopularTvShowsResponse {
+        return client.get(urlString = "https://api.themoviedb.org/3/tv/popular") {
+            parameter("language", language)
+            parameter("page", page)
+        }.body<PopularTvShowsResponse>()
     }
 
     override suspend fun getGenres(): GenreResponse {

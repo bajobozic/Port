@@ -5,6 +5,7 @@ import com.bajobozic.network.data.dto.toModel
 import com.bajobozic.network.data.dto.toMovieDetail
 import com.bajobozic.network.data.dto.toMovieVideo
 import com.bajobozic.network.domain.model.PopularMovies
+import com.bajobozic.network.domain.model.PopularTvShows
 import com.bajobozic.shared_component.BaseError
 import com.bajobozic.shared_component.Outcome
 
@@ -19,6 +20,17 @@ internal class NetworkRepositoryImpl(
     ): Outcome<PopularMovies, BaseError> {
         return try {
             Outcome.Success(remoteDataSource.getMovies(language, page).toModel())
+        } catch (t: Throwable) {
+            Outcome.Error(networkErrorHandler.handleError(t))
+        }
+    }
+
+    override suspend fun getTvShows(
+        language: String,
+        page: Int
+    ): Outcome<PopularTvShows, BaseError> {
+        return try {
+            Outcome.Success(remoteDataSource.getTvShows(language, page).toModel())
         } catch (t: Throwable) {
             Outcome.Error(networkErrorHandler.handleError(t))
         }

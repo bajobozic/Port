@@ -34,6 +34,8 @@ kotlin {
             implementation(project(":detail_ui"))
             implementation(project(":home_component"))
             implementation(project(":home_ui"))
+            implementation(project(":tv_component"))
+            implementation(project(":tv_ui"))
             //must be api because of access scope
             api(project(":signin_ui"))
 

@@ -7,14 +7,26 @@ import com.bajobozic.home_component.data.repository.HomeRepositoryImp
 import com.bajobozic.home_component.domain.repository.HomeRepository
 import com.bajobozic.home_component.domain.usecase.GetPagingDataUseCase
 import com.bajobozic.storage.domain.model.GetMovieWithGenres
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 @OptIn(ExperimentalPagingApi::class)
 internal val protectedHomeComponentModule = module {
-    singleOf(::HomeRepositoryImp).bind<HomeRepository>()
-    singleOf(::MovieRemoteMediator).bind<RemoteMediator<Int, GetMovieWithGenres>>()
+    single<HomeRepository> { HomeRepositoryImp(get(named("movieRemoteMediator")), get()) }
+    single(named("movieRemoteMediator")) {
+        MovieRemoteMediator(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }.bind<RemoteMediator<Int, GetMovieWithGenres>>()
     single<GetPagingDataUseCase> { GetPagingDataUseCase(get<HomeRepository>()::getPagingData) }
 }
 

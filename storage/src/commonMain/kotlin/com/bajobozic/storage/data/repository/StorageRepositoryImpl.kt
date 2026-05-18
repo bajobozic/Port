@@ -5,13 +5,18 @@ import androidx.paging.PagingSource
 import com.bajobozic.storage.data.entity.GenreEntity
 import com.bajobozic.storage.data.entity.MovieEntity
 import com.bajobozic.storage.data.entity.MovieRemoteKeys
+import com.bajobozic.storage.data.entity.TvShowEntity
+import com.bajobozic.storage.data.entity.TvShowRemoteKeys
 import com.bajobozic.storage.data.entity.toModel
 import com.bajobozic.storage.data.source.LocalDataSource
 import com.bajobozic.storage.domain.model.Genre
 import com.bajobozic.storage.domain.model.GetMovieWithGenres
+import com.bajobozic.storage.domain.model.GetTvShow
 import com.bajobozic.storage.domain.model.Movie
 import com.bajobozic.storage.domain.model.MovieDetail
 import com.bajobozic.storage.domain.model.MovieRemoteKeysModel
+import com.bajobozic.storage.domain.model.TvShowDetail
+import com.bajobozic.storage.domain.model.TvShowRemoteKeysModel
 import com.bajobozic.storage.domain.repository.StorageRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -24,6 +29,11 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
         return localDataSource.getPagingSource() as PagingSource<Int, GetMovieWithGenres>
     }
 
+    @Suppress("UNCHECKED_CAST")
+    override fun getTvShowPagingSource(): PagingSource<Int, GetTvShow> {
+        return localDataSource.getTvShowPagingSource() as PagingSource<Int, GetTvShow>
+    }
+
 
     override suspend fun getAllGenres(): List<Genre> {
         return localDataSource.getAllGenres().map { genreEntity -> genreEntity.toModel() }
@@ -31,6 +41,10 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
 
     override suspend fun getMaxCurrentPage(): Int {
         return localDataSource.getMaxCurrentPage() ?: 0
+    }
+
+    override suspend fun getTvShowMaxCurrentPage(): Int {
+        return localDataSource.getTvShowMaxCurrentPage() ?: 0
     }
 
     override fun getMovie(movieId: Int): Flow<Movie> {
@@ -45,44 +59,25 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
     ) {
         localDataSource.insertAllMovies(
             list = list.map { movieDetail ->
-                Movie(
+                MovieEntity(
                     id = movieDetail.id,
-                    genreIds = movieDetail.genreIds
-                        .map { genre -> Genre(id = genre.id, name = genre.name) },
-                    overview = movieDetail.overview,
-                    releaseDate = movieDetail.releaseDate,
-                    posterPath = movieDetail.posterPath,
-                    title = movieDetail.title,
-                    currentPage = movieDetail.currentPage,
                     adult = movieDetail.adult,
                     backdropPath = movieDetail.backdropPath,
                     originalLanguage = movieDetail.originalLanguage,
+                    originalTitle = "", // MovieDetail doesn't have it
+                    overview = movieDetail.overview,
                     popularity = movieDetail.popularity,
+                    posterPath = movieDetail.posterPath,
+                    releaseDate = movieDetail.releaseDate,
+                    title = movieDetail.title,
                     video = movieDetail.video,
                     voteAverage = movieDetail.voteAverage,
                     voteCount = movieDetail.voteCount,
+                    currentPage = movieDetail.currentPage
                 )
-            }
-                .map { movie ->
-                    MovieEntity(
-                        id = movie.id,
-                        overview = movie.overview,
-                        releaseDate = movie.releaseDate,
-                        posterPath = movie.posterPath,
-                        title = movie.title,
-                        currentPage = movie.currentPage,
-                        adult = movie.adult,
-                        backdropPath = movie.backdropPath,
-                        originalLanguage = movie.originalLanguage,
-                        popularity = movie.popularity,
-                        video = movie.video,
-                        voteAverage = movie.voteAverage,
-                        voteCount = movie.voteCount,
-                        originalTitle = movie.originalTitle
-                    )
-                },
+            },
             genreList = genreList.map { genre -> GenreEntity(id = genre.id, name = genre.name) },
-            genreIdsPerMovie = genreIdsPerMovie.map({ genres -> genres.map { genre -> genre.id } })
+            genreIdsPerMovie = genreIdsPerMovie.map { genres -> genres.map { it.id } }
         )
     }
 
@@ -93,44 +88,67 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
     ) {
         localDataSource.deleteThenInsertAllMovies(
             list = list.map { movieDetail ->
-                Movie(
+                MovieEntity(
                     id = movieDetail.id,
-                    genreIds = movieDetail.genreIds
-                        .map { genre -> Genre(id = genre.id, name = genre.name) },
-                    overview = movieDetail.overview,
-                    releaseDate = movieDetail.releaseDate,
-                    posterPath = movieDetail.posterPath,
-                    title = movieDetail.title,
-                    currentPage = movieDetail.currentPage,
                     adult = movieDetail.adult,
                     backdropPath = movieDetail.backdropPath,
                     originalLanguage = movieDetail.originalLanguage,
+                    originalTitle = "", // MovieDetail doesn't have it
+                    overview = movieDetail.overview,
                     popularity = movieDetail.popularity,
+                    posterPath = movieDetail.posterPath,
+                    releaseDate = movieDetail.releaseDate,
+                    title = movieDetail.title,
                     video = movieDetail.video,
                     voteAverage = movieDetail.voteAverage,
                     voteCount = movieDetail.voteCount,
+                    currentPage = movieDetail.currentPage
+                )
+            },
+            genreList = genreList.map { genre -> GenreEntity(id = genre.id, name = genre.name) },
+            genreIdsPerMovie = genreIdsPerMovie.map { genres -> genres.map { it.id } }
+        )
+    }
+
+    override suspend fun insertAllTvShows(list: List<TvShowDetail>) {
+        localDataSource.insertAllTvShows(
+            list.map { tvShowDetail ->
+                TvShowEntity(
+                    id = tvShowDetail.id,
+                    backdropPath = tvShowDetail.backdropPath,
+                    originalLanguage = tvShowDetail.originalLanguage,
+                    originalName = tvShowDetail.originalName,
+                    overview = tvShowDetail.overview,
+                    popularity = tvShowDetail.popularity,
+                    posterPath = tvShowDetail.posterPath,
+                    firstAirDate = tvShowDetail.firstAirDate,
+                    name = tvShowDetail.name,
+                    voteAverage = tvShowDetail.voteAverage,
+                    voteCount = tvShowDetail.voteCount,
+                    currentPage = tvShowDetail.currentPage
                 )
             }
-                .map { movie ->
-                    MovieEntity(
-                        id = movie.id,
-                        overview = movie.overview,
-                        releaseDate = movie.releaseDate,
-                        posterPath = movie.posterPath,
-                        title = movie.title,
-                        currentPage = movie.currentPage,
-                        adult = movie.adult,
-                        backdropPath = movie.backdropPath,
-                        originalLanguage = movie.originalLanguage,
-                        popularity = movie.popularity,
-                        video = movie.video,
-                        voteAverage = movie.voteAverage,
-                        voteCount = movie.voteCount,
-                        originalTitle = movie.originalTitle
-                    )
-                },
-            genreList = genreList.map { genre -> GenreEntity(id = genre.id, name = genre.name) },
-            genreIdsPerMovie = genreIdsPerMovie.map({ genres -> genres.map { genre -> genre.id } })
+        )
+    }
+
+    override suspend fun deleteThenInsertAllTvShows(list: List<TvShowDetail>) {
+        localDataSource.deleteThenInsertAllTvShows(
+            list.map { tvShowDetail ->
+                TvShowEntity(
+                    id = tvShowDetail.id,
+                    backdropPath = tvShowDetail.backdropPath,
+                    originalLanguage = tvShowDetail.originalLanguage,
+                    originalName = tvShowDetail.originalName,
+                    overview = tvShowDetail.overview,
+                    popularity = tvShowDetail.popularity,
+                    posterPath = tvShowDetail.posterPath,
+                    firstAirDate = tvShowDetail.firstAirDate,
+                    name = tvShowDetail.name,
+                    voteAverage = tvShowDetail.voteAverage,
+                    voteCount = tvShowDetail.voteCount,
+                    currentPage = tvShowDetail.currentPage
+                )
+            }
         )
     }
 
@@ -148,8 +166,22 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
         )
     }
 
+    override suspend fun getTvShowWithRemoteKeys(tvShowId: Int): TvShowRemoteKeysModel {
+        return localDataSource.getTvShowWithRemoteKeys(tvShowId)?.let { remoteKeysEntity ->
+            return remoteKeysEntity.toModel()
+        } ?: TvShowRemoteKeysModel(
+            tvShowId = tvShowId,
+            prevKey = null,
+            nextKey = null
+        )
+    }
+
     override suspend fun clearRemoteKeys() {
         localDataSource.clearRemoteKeys()
+    }
+
+    override suspend fun clearTvShowRemoteKeys() {
+        localDataSource.clearTvShowRemoteKeys()
     }
 
     override suspend fun insertAllRemoteKeys(keys: List<MovieRemoteKeysModel>) {
@@ -163,4 +195,14 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
         localDataSource.insertAllRemoteKeys(localKeys)
     }
 
+    override suspend fun insertAllTvShowRemoteKeys(keys: List<TvShowRemoteKeysModel>) {
+        val localKeys = keys.map { remoteKeyModel ->
+            TvShowRemoteKeys(
+                tvShowId = remoteKeyModel.tvShowId,
+                prevKey = remoteKeyModel.prevKey,
+                nextKey = remoteKeyModel.nextKey
+            )
+        }
+        localDataSource.insertAllTvShowRemoteKeys(localKeys)
+    }
 }
