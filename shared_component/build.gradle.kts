@@ -70,6 +70,9 @@ kotlin {
         }
     }
 
+    iosArm64()
+    iosSimulatorArm64()
+
     jvm()
 
     // For iOS targets, this is also where you should

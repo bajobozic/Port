@@ -35,6 +35,7 @@ internal interface StorageRepository {
     suspend fun deleteThenInsertAllTvShows(
         list: List<TvShowDetail>
     )
+    suspend fun deleteMovie(movieId: Int)
     suspend fun batchTransaction(block: suspend () -> Unit)
     suspend fun getMovieWithRemoteKeys(movieId: Int): MovieRemoteKeysModel
     suspend fun getTvShowWithRemoteKeys(tvShowId: Int): TvShowRemoteKeysModel

@@ -25,6 +25,9 @@ kotlin {
         }
     }
 
+    iosArm64()
+    iosSimulatorArm64()
+
     jvm()
 
     // For iOS targets, this is also where you should
@@ -75,6 +78,10 @@ kotlin {
                 // Ktor Android
                 implementation(libs.ktor.client.okhttp)
             }
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
 
         getByName("androidDeviceTest") {

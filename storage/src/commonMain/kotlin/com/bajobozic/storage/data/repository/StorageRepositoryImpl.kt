@@ -152,6 +152,10 @@ internal class StorageRepositoryImpl @OptIn(ExperimentalPagingApi::class) constr
         )
     }
 
+    override suspend fun deleteMovie(movieId: Int) {
+        localDataSource.deleteMovie(movieId)
+    }
+
     override suspend fun batchTransaction(block: suspend () -> Unit) {
         localDataSource.batchTransaction { block() }
     }

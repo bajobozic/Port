@@ -17,6 +17,17 @@ kotlin {
         }
     }
 
+    listOf(
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
+            export(project(":signin_ui"))
+            export(libs.notifier)
+        }
+    }
 
     jvm()
     sourceSets {
@@ -32,8 +43,8 @@ kotlin {
             implementation(project(":network"))
             implementation(project(":map_ui"))
             implementation(project(":detail_ui"))
-            implementation(project(":home_component"))
-            implementation(project(":home_ui"))
+            implementation(project(":movies_component"))
+            implementation(project(":movies_ui"))
             implementation(project(":tv_component"))
             implementation(project(":tv_ui"))
             //must be api because of access scope

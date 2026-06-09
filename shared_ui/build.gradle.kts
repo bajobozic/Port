@@ -29,6 +29,9 @@ kotlin {
         experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
     }
 
+    iosArm64()
+    iosSimulatorArm64()
+
     jvm()
     // For iOS targets, this is also where you should
     // configure native binary output. For more information, see:

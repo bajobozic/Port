@@ -11,6 +11,7 @@ import com.bajobozic.storage.domain.repository.StorageRepository
 import com.bajobozic.storage.domain.usecase.BatchTransactionUseCase
 import com.bajobozic.storage.domain.usecase.ClearRemoteKeysUseCase
 import com.bajobozic.storage.domain.usecase.ClearTvShowRemoteKeysUseCase
+import com.bajobozic.storage.domain.usecase.DeleteMovieUseCase
 import com.bajobozic.storage.domain.usecase.DeleteThenInsertAllMoviesUseCase
 import com.bajobozic.storage.domain.usecase.DeleteThenInsertAllTvShowsUseCase
 import com.bajobozic.storage.domain.usecase.GetAllGenresUseCase
@@ -41,6 +42,7 @@ val storageModule = module {
     includes(protectedStorageModule)
     single<GetAllGenresUseCase> { GetAllGenresUseCase(get<StorageRepository>()::getAllGenres) }
     single<DeleteThenInsertAllMoviesUseCase> { DeleteThenInsertAllMoviesUseCase(get<StorageRepository>()::deleteThenInsertAllMovies) }
+    single<DeleteMovieUseCase> { DeleteMovieUseCase(get<StorageRepository>()) }
     single<DeleteThenInsertAllTvShowsUseCase> { DeleteThenInsertAllTvShowsUseCase(get<StorageRepository>()::deleteThenInsertAllTvShows) }
     single<InsertAllMoviesUseCase> { InsertAllMoviesUseCase(get<StorageRepository>()::insertAllMovies) }
     single<InsertAllTvShowsUseCase> { InsertAllTvShowsUseCase(get<StorageRepository>()::insertAllTvShows) }

@@ -79,7 +79,7 @@ Every UI module must strictly implement the MVI pattern:
   from `shared_component` for all repository operations.
 - **Error Handling:** Catch network and database exceptions in their respective layers and map them
   to domain-specific `BaseError` sealed classes using unified error handlers.
-- **Paging:** For paginated data, use the Multiplatform Paging library (`app.cash.paging`). If
+- **Paging:** For paginated data, use the Multiplatform Paging library. If
   offline support is needed, implement `RemoteMediator` in the component module to coordinate Ktor
   fetching and Room caching.
 

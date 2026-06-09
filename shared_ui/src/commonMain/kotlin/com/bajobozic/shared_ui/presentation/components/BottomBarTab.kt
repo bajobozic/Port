@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,8 +22,15 @@ fun BottomBarTab(
     modifier: Modifier,
     drawableResource: DrawableResource,
     title: String,
+    selected: Boolean = false,
     onClick: () -> Unit
 ) {
+    val color = if (selected) {
+        MaterialTheme.colorScheme.primary
+    } else {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    }
+
     Column(
         modifier = modifier.clickable { onClick() },
         verticalArrangement = Arrangement.Center,
@@ -31,7 +39,8 @@ fun BottomBarTab(
         Icon(
             modifier = Modifier.size(24.dp),
             imageVector = vectorResource(drawableResource),
-            contentDescription = null
+            contentDescription = null,
+            tint = color
         )
         Text(
             modifier = Modifier
@@ -39,6 +48,7 @@ fun BottomBarTab(
             fontSize = 12.sp,
             textAlign = TextAlign.Center,
             text = title,
+            color = color
         )
     }
 }

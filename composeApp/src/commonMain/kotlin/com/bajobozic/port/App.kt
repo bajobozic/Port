@@ -28,8 +28,8 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import com.bajobozic.detail_ui.presentation.detailScreen
-import com.bajobozic.home_ui.presentation.homeScreen
 import com.bajobozic.map_ui.presentation.mapsScreen
+import com.bajobozic.movies_ui.presentation.moviesScreen
 import com.bajobozic.shared_ui.Routes
 import com.bajobozic.shared_ui.presentation.components.BottomBarTab
 import com.bajobozic.shared_ui.presentation.theme.PortAppTheme
@@ -64,6 +64,7 @@ fun App() {
     )
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+    val currentRoute = backStack.lastOrNull()
 
     PortAppTheme {
         // A surface container using the 'background' color from the theme
@@ -81,7 +82,7 @@ fun App() {
                         entryDecorators = entryDecorators,
                         sceneStrategies = listOf(listDetailStrategy),
                         entryProvider = entryProvider {
-                            homeScreen(backStack, coroutineScope, snackbarHostState)
+                            moviesScreen(backStack, coroutineScope, snackbarHostState)
                             tvShowsScreen(backStack)
                             detailScreen(backStack)
                             signInScreen()
@@ -113,7 +114,8 @@ fun App() {
                         BottomBarTab(
                             Modifier.weight(1f),
                             drawableResource = Res.drawable.movie,
-                            title = "Movies"
+                            title = "Movies",
+                            selected = currentRoute is Routes.Home
                         ) {
                             if (backStack.size > 1)
                                 backStack.removeLastOrNull()
@@ -121,14 +123,16 @@ fun App() {
                         BottomBarTab(
                             Modifier.weight(1f),
                             drawableResource = Res.drawable.tv,
-                            title = "Tv Shows"
+                            title = "Tv Shows",
+                            selected = currentRoute is Routes.TvShows
                         ) {
                             backStack.add(Routes.TvShows)
                         }
                         BottomBarTab(
                             Modifier.weight(1f),
                             drawableResource = Res.drawable.account,
-                            title = "Profile"
+                            title = "Profile",
+                            selected = currentRoute is Routes.SignIn
                         ) {
                             backStack.add(Routes.SignIn)
                         }
@@ -138,4 +142,3 @@ fun App() {
         }
     }
 }
-
