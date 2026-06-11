@@ -4,11 +4,11 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.bajobozic.core_component.BaseError
+import com.bajobozic.core_component.Outcome
 import com.bajobozic.network.domain.model.initRemoteKeys
 import com.bajobozic.network.domain.usecase.GetGenresUseCase
 import com.bajobozic.network.domain.usecase.GetMoviesUseCase
-import com.bajobozic.shared_component.BaseError
-import com.bajobozic.shared_component.Outcome
 import com.bajobozic.storage.domain.model.Genre
 import com.bajobozic.storage.domain.model.GetMovieWithGenres
 import com.bajobozic.storage.domain.model.MovieDetail

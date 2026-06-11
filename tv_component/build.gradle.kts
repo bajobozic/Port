@@ -30,7 +30,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.kotlin.stdlib)
-                implementation(project(":shared_component"))
+                implementation(project(":core_component"))
                 implementation(project(":storage"))
                 implementation(project(":network"))
                 implementation(libs.kotlinx.datetime)

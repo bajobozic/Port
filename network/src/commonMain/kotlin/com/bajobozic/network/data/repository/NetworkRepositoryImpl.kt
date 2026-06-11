@@ -1,13 +1,13 @@
 package com.bajobozic.network.data.repository
 
+import com.bajobozic.core_component.BaseError
+import com.bajobozic.core_component.Outcome
 import com.bajobozic.network.data.dto.toGenreList
 import com.bajobozic.network.data.dto.toModel
 import com.bajobozic.network.data.dto.toMovieDetail
 import com.bajobozic.network.data.dto.toMovieVideo
 import com.bajobozic.network.domain.model.PopularMovies
 import com.bajobozic.network.domain.model.PopularTvShows
-import com.bajobozic.shared_component.BaseError
-import com.bajobozic.shared_component.Outcome
 
 
 internal class NetworkRepositoryImpl(

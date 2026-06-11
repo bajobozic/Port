@@ -48,7 +48,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(project(":shared_component"))
+                implementation(project(":core_component"))
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
                 // Kotlin datetime

@@ -35,8 +35,8 @@ kotlin {
         }
         commonMain.dependencies {
             // Compose Multiplatform defaults, added by the plugin
-            implementation(project(":shared_component"))
-            implementation(project(":shared_ui"))
+            implementation(project(":core_component"))
+            implementation(project(":core_ui"))
             implementation(project(":storage"))
             implementation(project(":network"))
             implementation(project(":map_ui"))

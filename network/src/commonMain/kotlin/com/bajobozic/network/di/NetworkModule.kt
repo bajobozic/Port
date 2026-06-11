@@ -1,5 +1,6 @@
 package com.bajobozic.network.di
 
+import com.bajobozic.core_component.ErrorHandler
 import com.bajobozic.network.data.client.ApiClient
 import com.bajobozic.network.data.client.MoviesApiClient
 import com.bajobozic.network.data.client.RemoteDataSource
@@ -14,7 +15,6 @@ import com.bajobozic.network.domain.usecase.GetMovieVideoUseCase
 import com.bajobozic.network.domain.usecase.GetMoviesUseCase
 import com.bajobozic.network.domain.usecase.GetTvShowsUseCase
 import com.bajobozic.network.getClientEngine
-import com.bajobozic.shared_component.ErrorHandler
 import io.ktor.client.engine.HttpClientEngine
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind

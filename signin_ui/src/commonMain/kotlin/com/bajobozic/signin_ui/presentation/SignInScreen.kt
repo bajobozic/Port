@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import com.bajobozic.shared_ui.Routes
+import com.bajobozic.core_ui.Routes
 import com.bajobozic.signin_ui.PlatformButton
 import com.bajobozic.signin_ui.rememberCameraManager
 import org.jetbrains.compose.resources.vectorResource

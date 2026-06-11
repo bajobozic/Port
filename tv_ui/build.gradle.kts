@@ -33,8 +33,8 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.kotlin.stdlib)
-                implementation(project(":shared_component"))
-                implementation(project(":shared_ui"))
+                implementation(project(":core_component"))
+                implementation(project(":core_ui"))
                 implementation(project(":storage"))
                 implementation(project(":tv_component"))
 

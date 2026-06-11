@@ -28,8 +28,8 @@ The project uses a modularized, layered architecture:
     - `network`: remote data access
     - `storage`: local data access
 - Shared modules:
-    - `shared_component`: shared core abstractions/utilities (errors, outcomes, config)
-    - `shared_ui`: shared routes, theme, and reusable UI primitives
+    - `core_component`: shared core abstractions/utilities (errors, outcomes, config)
+    - `core_ui`: shared routes, theme, and reusable UI primitives
 
 This gives us vertical features + horizontal shared infrastructure.
 
@@ -49,8 +49,8 @@ Root modules from `settings.gradle.kts`:
 - `:home_component`
 - `:network`
 - `:storage`
-- `:shared_component`
-- `:shared_ui`
+- `:core_component`
+- `:core_ui`
 
 ### Practical role of each module
 
@@ -62,8 +62,8 @@ Root modules from `settings.gradle.kts`:
 - `*_component`: feature repository + use cases + mediator/orchestration logic.
 - `network`: Ktor client, API clients/DTOs, remote data source, repository impl, remote use cases.
 - `storage`: Room DB, DAOs/entities, local data source, repository impl, local use cases.
-- `shared_component`: `Outcome`, `BaseError`, `ErrorHandler`, generated `SharedConfig`.
-- `shared_ui`: `Routes`, theme tokens, shared UI components/extensions.
+- `core_component`: `Outcome`, `BaseError`, `ErrorHandler`, generated `SharedConfig`.
+- `core_ui`: `Routes`, theme tokens, shared UI components/extensions.
 
 ---
 
@@ -76,7 +76,7 @@ Keep these rules for new projects.
 - Presentation module: `<feature>_ui`
 - Domain/data-orchestration module: `<feature>_component`
 - Infrastructure modules: `network`, `storage`
-- Shared modules: `shared_ui`, `shared_component`
+- Shared modules: `core_ui`, `core_component`
 - App shell: `shared`
 
 Examples:
@@ -107,15 +107,15 @@ Observed concrete patterns:
 ### 5.1 Actual current project dependencies
 
 - `shared` -> all feature + shared + infra modules
-- `home_ui` -> `home_component`, `shared_ui`, `shared_component`, `storage`
-- `detail_ui` -> `network`, `shared_ui`, `shared_component`
-- `map_ui` -> `shared_ui`
-- `signin_ui` -> `shared_ui`
-- `home_component` -> `network`, `storage`, `shared_component`
-- `network` -> `shared_component`
-- `storage` -> `shared_component`
-- `shared_ui` -> (no project module dependencies)
-- `shared_component` -> (no project module dependencies)
+- `home_ui` -> `home_component`, `core_ui`, `core_component`, `storage`
+- `detail_ui` -> `network`, `core_ui`, `core_component`
+- `map_ui` -> `core_ui`
+- `signin_ui` -> `core_ui`
+- `home_component` -> `network`, `storage`, `core_component`
+- `network` -> `core_component`
+- `storage` -> `core_component`
+- `core_ui` -> (no project module dependencies)
+- `core_component` -> (no project module dependencies)
 
 ### 5.2 Direction policy to preserve
 
@@ -124,16 +124,16 @@ Only allow dependencies to point inward/downward:
 1. `shared` can depend on everything.
 2. `*_ui` modules may depend on:
     - their own `*_component`
-    - `shared_ui`
-    - `shared_component`
+   - `core_ui`
+   - `core_component`
     - infra modules only when truly needed by that UI.
 3. `*_component` modules may depend on:
     - infra modules (`network`, `storage`)
-    - `shared_component`
-4. infra modules (`network`, `storage`) may depend on `shared_component` only.
+   - `core_component`
+4. infra modules (`network`, `storage`) may depend on `core_component` only.
 5. shared modules should not depend on feature modules.
 
-Do not create reverse dependencies (for example `network` -> feature or `shared_*` -> feature).
+Do not create reverse dependencies (for example `network` -> feature or `core_*` -> feature).
 
 ---
 
@@ -235,14 +235,14 @@ Navigation is part of the architecture and should be treated as a first-class ru
 ### 9.1 Current pattern in this codebase
 
 - Navigation is centralized in `shared` (`App.kt`) using Navigation3.
-- Route definitions are shared in `shared_ui/Routes.kt` as a sealed `NavKey` hierarchy.
+- Route definitions are shared in `core_ui/Routes.kt` as a sealed `NavKey` hierarchy.
 - Feature UI modules expose navigation entry registration functions (for example `homeScreen`,
   `detailScreen`, `signInScreen`, `mapsScreen`) and `shared` composes them in one
   `entryProvider`.
 
 ### 9.2 Ownership and responsibilities
 
-- `shared_ui`: owns route contracts (`Routes`) only.
+- `core_ui`: owns route contracts (`Routes`) only.
 - `shared`: owns back stack and navigation container (`NavDisplay`, transitions, global scene
   strategy).
 - `*_ui`: owns route-specific UI and emits navigation intents/events, but should not own global
@@ -260,7 +260,7 @@ Keep route transitions at the app shell level, not duplicated inside each featur
 
 ### 9.4 Rules for new projects
 
-- Add new routes in `shared_ui/Routes.kt`.
+- Add new routes in `core_ui/Routes.kt`.
 - Register the route entry in the relevant `*_ui` module.
 - Wire route entry from `shared/App.kt` `entryProvider`.
 - Keep navigation arguments in route objects (strongly typed route models).
@@ -270,7 +270,7 @@ Keep route transitions at the app shell level, not duplicated inside each featur
 
 ## 10. Error and Result Model
 
-Shared result/error handling lives in `shared_component`:
+Shared result/error handling lives in `core_component`:
 
 - `Outcome.Success` / `Outcome.Error`
 - `BaseError` hierarchy
@@ -305,7 +305,7 @@ Then wire:
 1. Add modules to `settings.gradle.kts`
 2. Add project dependencies following direction rules
 3. Register Koin module in `shared/initKoin.kt`
-4. Register navigation route in `shared_ui/Routes.kt` and in `shared/App.kt`
+4. Register navigation route in `core_ui/Routes.kt` and in `shared/App.kt`
 
 ---
 
@@ -317,7 +317,7 @@ Then wire:
 - Use `expect/actual` for platform APIs.
 - Keep DI per module and compose at app root.
 - Keep feature UI and feature component separate.
-- Keep shared abstractions in `shared_component`/`shared_ui`.
+- Keep shared abstractions in `core_component`/`core_ui`.
 - Prefer `internal` by default inside modules; make types/functions public only when they are part
   of cross-module API.
 
@@ -359,7 +359,7 @@ Per layer:
 - `network` / `storage`:
     - Keep client/data source/repository impl `internal`.
     - Expose only domain models/use cases/contracts needed by consumers.
-- `shared_component` / `shared_ui`:
+- `core_component` / `core_ui`:
     - Public only for intentionally shared APIs (error/result contracts, routes, theme/components
       meant for reuse).
     - Keep helper internals `internal`.
@@ -395,12 +395,12 @@ These are compatible improvements and can be applied incrementally:
 
 Use this as the default dependency mental model for new projects:
 
-`shared` -> (`*_ui`, `*_component`, `network`, `storage`, `shared_*`)
+`shared` -> (`*_ui`, `*_component`, `network`, `storage`, `core_*`)
 
-`*_ui` -> (`*_component`, `shared_ui`, `shared_component`, optional infra)
+`*_ui` -> (`*_component`, `core_ui`, `core_component`, optional infra)
 
-`*_component` -> (`network`, `storage`, `shared_component`)
+`*_component` -> (`network`, `storage`, `core_component`)
 
-`network` / `storage` -> `shared_component`
+`network` / `storage` -> `core_component`
 
-`shared_ui` and `shared_component` -> no feature dependencies
+`core_ui` and `core_component` -> no feature dependencies

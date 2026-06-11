@@ -16,18 +16,18 @@ maximize build caching, maintainability, and clear dependency graphs.
 Each feature must be split into two distinct modules to separate presentation from business logic:
 
 - `{feature}_ui`: Contains ONLY UI-related code (Compose screens, ViewModels, UI State, Events).
-    - *Depends on*: `{feature}_component`, `shared_ui`.
+  - *Depends on*: `{feature}_component`, `core_ui`.
 - `{feature}_component`: Contains business logic (Domain models, UseCases, Repository Interfaces,
   Data Sources).
-    - *Depends on*: `network`, `storage`, `shared_component`.
+  - *Depends on*: `network`, `storage`, `core_component`.
 
 ### Core/Shared Modules
 
 - `network`: Centralized Ktor HTTP client, remote data sources, DTOs, and API definitions.
 - `storage`: Local persistence logic, Room KMP database setup, DAOs, and Entities.
-- `shared_ui`: Common Compose components, Theme (Colors, Typography, Shapes), Compose Resources, and
+- `core_ui`: Common Compose components, Theme (Colors, Typography, Shapes), Compose Resources, and
   Navigation Routes.
-- `shared_component`: Shared business logic, core wrappers (`Outcome`, `BaseError`), and utility
+- `core_component`: Shared business logic, core wrappers (`Outcome`, `BaseError`), and utility
   mappers.
 - `shared`: The main composition root. Wires up the Navigation graph and initializes Dependency
   Injection.
@@ -78,7 +78,7 @@ Every UI module must strictly implement the MVI pattern:
   `storage`) into pure Domain Models before returning them to UseCases. UI modules should never see
   a DTO or Entity.
 - **Outcome Wrapper:** Use the centralized `Outcome<T, E>` (or standard Kotlin `Result`) pattern
-  from `shared_component` for all repository operations.
+  from `core_component` for all repository operations.
 - **Error Handling:** Catch network and database exceptions in their respective layers and map them
   to domain-specific `BaseError` sealed classes using unified error handlers.
 - **Paging:** For paginated data, use the Multiplatform Paging library. If
@@ -106,14 +106,14 @@ Minimize platform-specific code. When integrating native SDKs or complex native 
 
 - **Resources**: Use the official JetBrains `Compose Resources` library. Reference them via
   type-safe generated accessors.
-- **Theming**: Centralize all styling in `shared_ui/presentation/theme`. Define a strict
+- **Theming**: Centralize all styling in `core_ui/presentation/theme`. Define a strict
   `MaterialTheme` encompassing custom `Color`, `Shape`, and `Typography`. Do not hardcode colors in
   feature modules.
 
 ## 8. Navigation
 
 - Use type-safe navigation (Serialization).
-- Define all `@Serializable` routes/destinations inside `shared_ui`.
+- Define all `@Serializable` routes/destinations inside `core_ui`.
 - Each feature module must provide an extension function on `NavGraphBuilder` to encapsulate its own
   screens, isolating navigation logic from the core app module.
 

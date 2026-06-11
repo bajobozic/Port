@@ -50,7 +50,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(project(":shared_ui"))
+                implementation(project(":core_ui"))
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
                 implementation(libs.runtime)

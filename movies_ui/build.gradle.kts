@@ -52,8 +52,8 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
-                implementation(project(":shared_component"))
-                implementation(project(":shared_ui"))
+                implementation(project(":core_component"))
+                implementation(project(":core_ui"))
                 implementation(project(":storage"))
                 implementation(project(":movies_component"))
 

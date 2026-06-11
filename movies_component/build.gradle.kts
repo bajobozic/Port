@@ -49,7 +49,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
-                implementation(project(":shared_component"))
+                implementation(project(":core_component"))
                 implementation(project(":storage"))
                 implementation(project(":network"))
                 // Kotlin datetime

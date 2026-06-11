@@ -1,0 +1,134 @@
+import java.util.Properties
+
+plugins {
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.android.kotlin.multiplatform.library)
+    alias(libs.plugins.android.lint)
+}
+
+// 1. Define the Task to generate the Config file
+abstract class GenerateConfigTask : DefaultTask() {
+    @get:Input
+    abstract val apiKey: Property<String>
+
+    @get:OutputDirectory
+    abstract val outputDir: DirectoryProperty
+
+    @TaskAction
+    fun generate() {
+        // We generate the file into the network module's package
+        val fileContent = """
+            package com.bajobozic.core_component
+            
+            object SharedConfig {
+                const val API_KEY = "${apiKey.get()}"
+            }
+        """.trimIndent()
+
+        val dir = outputDir.get().asFile
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        File(dir, "SharedConfig.kt").writeText(fileContent)
+    }
+}
+
+// 2. Register the task and read from local.properties
+val buildConfigDir = layout.buildDirectory.dir("generated/kotlin/config")
+
+val generateConfig by tasks.registering(GenerateConfigTask::class) {
+    // Read local.properties from the root project
+    val localProps = Properties().apply {
+        val propsFile = rootProject.file("local.properties")
+        if (propsFile.exists()) load(propsFile.inputStream())
+    }
+
+    // Try to get API_KEY from local.properties, or fallback to System Env (CI/CD)
+    val keyProperty = localProps.getProperty("API_KEY") ?: System.getenv("API_KEY") ?: ""
+
+    apiKey.set(keyProperty)
+    outputDir.set(buildConfigDir)
+}
+
+kotlin {
+
+    // Target declarations - add or remove as needed below. These define
+    // which platforms this KMP module supports.
+    // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
+    androidLibrary {
+        namespace = "com.bajobozic.core_component"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        withHostTestBuilder {
+        }
+
+        withDeviceTestBuilder {
+            sourceSetTreeName = "test"
+        }.configure {
+            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        }
+    }
+
+    iosArm64()
+    iosSimulatorArm64()
+
+    jvm()
+
+    // For iOS targets, this is also where you should
+    // configure native binary output. For more information, see:
+    // https://kotlinlang.org/docs/multiplatform-build-native-binaries.html#build-xcframeworks
+
+    // A step-by-step guide on how to include this library in an XCode
+    // project can be found here:
+    // https://developer.android.com/kotlin/multiplatform/migrate
+    val xcfName = "core_componentKit"
+
+
+    // Source set declarations.
+    // Declaring a target automatically creates a source set with the same name. By default, the
+    // Kotlin Gradle Plugin creates additional source sets that depend on each other, since it is
+    // common to share sources between related targets.
+    // See: https://kotlinlang.org/docs/multiplatform-hierarchy.html
+    sourceSets {
+        commonMain {
+            // 3. Add the generated source directory to commonMain
+            // This makes 'NetworkConfig.API_KEY' available to all targets (Android, iOS, etc.)
+            kotlin.srcDir(generateConfig)
+            dependencies {
+                implementation(libs.kotlin.stdlib)
+                // Add KMP dependencies here
+            }
+        }
+
+        commonTest {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
+        }
+
+        androidMain {
+            dependencies {
+                // Add Android-specific dependencies here. Note that this source set depends on
+                // commonMain by default and will correctly pull the Android artifacts of any KMP
+                // dependencies declared in commonMain.
+            }
+        }
+
+        getByName("androidDeviceTest") {
+            dependencies {
+                implementation(libs.androidx.runner)
+                implementation(libs.androidx.core)
+                implementation(libs.androidx.testExt.junit)
+            }
+        }
+
+        val jvmMain by getting {
+            dependencies {
+            }
+        }
+
+
+    }
+
+}

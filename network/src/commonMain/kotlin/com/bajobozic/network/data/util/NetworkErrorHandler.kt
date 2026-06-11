@@ -1,8 +1,8 @@
 package com.bajobozic.network.data.util
 
 
-import com.bajobozic.shared_component.BaseError
-import com.bajobozic.shared_component.ErrorHandler
+import com.bajobozic.core_component.BaseError
+import com.bajobozic.core_component.ErrorHandler
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.ServerResponseException

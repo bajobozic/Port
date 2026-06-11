@@ -1,6 +1,6 @@
 package com.bajobozic.network.data.client
 
-import com.bajobozic.shared_component.SharedConfig
+import com.bajobozic.core_component.SharedConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.DefaultRequest

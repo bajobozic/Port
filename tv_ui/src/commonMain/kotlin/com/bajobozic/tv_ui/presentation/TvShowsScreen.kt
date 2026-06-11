@@ -28,7 +28,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.bajobozic.shared_ui.Routes
+import com.bajobozic.core_ui.Routes
 import com.bajobozic.storage.domain.model.TvShow
 import org.koin.compose.viewmodel.koinViewModel
 

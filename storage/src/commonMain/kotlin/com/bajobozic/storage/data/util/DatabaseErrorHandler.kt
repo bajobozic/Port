@@ -1,8 +1,8 @@
 package com.bajobozic.storage.data.util
 
 import androidx.sqlite.SQLiteException
-import com.bajobozic.shared_component.BaseError
-import com.bajobozic.shared_component.ErrorHandler
+import com.bajobozic.core_component.BaseError
+import com.bajobozic.core_component.ErrorHandler
 import kotlin.coroutines.cancellation.CancellationException
 
 internal class DatabaseErrorHandler : ErrorHandler {

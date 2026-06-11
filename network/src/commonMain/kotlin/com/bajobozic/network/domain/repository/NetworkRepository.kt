@@ -1,5 +1,7 @@
 package com.bajobozic.network.domain.repository
 
+import com.bajobozic.core_component.BaseError
+import com.bajobozic.core_component.Outcome
 import com.bajobozic.network.data.dto.GenreDto
 import com.bajobozic.network.data.dto.MovieGenresIds
 import com.bajobozic.network.data.dto.MoviesResponse
@@ -8,8 +10,6 @@ import com.bajobozic.network.domain.model.MovieDetail
 import com.bajobozic.network.domain.model.MovieVideo
 import com.bajobozic.network.domain.model.PopularMovies
 import com.bajobozic.network.domain.model.PopularTvShows
-import com.bajobozic.shared_component.BaseError
-import com.bajobozic.shared_component.Outcome
 
 
 internal interface NetworkRepository {
