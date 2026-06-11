@@ -28,7 +28,9 @@ dependencyResolutionManagement {
     }
 }
 
-include(":composeApp")
+include(":shared")
+include(":androidApp")
+include(":desktopApp")
 include(":network")
 include(":shared_component")
 include(":storage")

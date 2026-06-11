@@ -18,7 +18,9 @@ Target stack to preserve:
 
 The project uses a modularized, layered architecture:
 
-- `composeApp` is the composition root and app shell.
+- `shared` is the composition root and app shell.
+- `androidApp`: Android entry point.
+- `desktopApp`: Desktop entry point.
 - Feature modules are split by responsibility:
     - `feature_name_ui`: presentation layer for a feature
     - `feature_name_component`: domain + data orchestration for a feature
@@ -37,7 +39,9 @@ This gives us vertical features + horizontal shared infrastructure.
 
 Root modules from `settings.gradle.kts`:
 
-- `:composeApp`
+- `:shared`
+- `:androidApp`
+- `:desktopApp`
 - `:home_ui`
 - `:detail_ui`
 - `:map_ui`
@@ -50,7 +54,9 @@ Root modules from `settings.gradle.kts`:
 
 ### Practical role of each module
 
-- `composeApp`: app entrypoint, navigation graph, DI bootstrap (`initKoin`), platform startup hooks.
+- `shared`: app entrypoint, navigation graph, DI bootstrap (`initKoin`), platform startup hooks.
+- `androidApp`: Android application entry point.
+- `desktopApp`: Desktop application entry point.
 - `*_ui`: Compose screens, UI state/events/view models, feature DI module for VMs, expect/actual UI
   bridges.
 - `*_component`: feature repository + use cases + mediator/orchestration logic.
@@ -71,7 +77,7 @@ Keep these rules for new projects.
 - Domain/data-orchestration module: `<feature>_component`
 - Infrastructure modules: `network`, `storage`
 - Shared modules: `shared_ui`, `shared_component`
-- App shell: `composeApp`
+- App shell: `shared`
 
 Examples:
 
@@ -100,7 +106,7 @@ Observed concrete patterns:
 
 ### 5.1 Actual current project dependencies
 
-- `composeApp` -> all feature + shared + infra modules
+- `shared` -> all feature + shared + infra modules
 - `home_ui` -> `home_component`, `shared_ui`, `shared_component`, `storage`
 - `detail_ui` -> `network`, `shared_ui`, `shared_component`
 - `map_ui` -> `shared_ui`
@@ -115,7 +121,7 @@ Observed concrete patterns:
 
 Only allow dependencies to point inward/downward:
 
-1. `composeApp` can depend on everything.
+1. `shared` can depend on everything.
 2. `*_ui` modules may depend on:
     - their own `*_component`
     - `shared_ui`
@@ -164,7 +170,7 @@ DI is centralized using Koin.
 
 ### 7.1 Current bootstrap
 
-- `composeApp/initKoin.kt` starts Koin and loads modules.
+- `shared/initKoin.kt` starts Koin and loads modules.
 - Platform app entrypoints call `initKoin()`:
     - Android: `PortApplication`
     - iOS: `MainViewController` (with Swift callback to register iOS native factory)
@@ -228,16 +234,16 @@ Navigation is part of the architecture and should be treated as a first-class ru
 
 ### 9.1 Current pattern in this codebase
 
-- Navigation is centralized in `composeApp` (`App.kt`) using Navigation3.
+- Navigation is centralized in `shared` (`App.kt`) using Navigation3.
 - Route definitions are shared in `shared_ui/Routes.kt` as a sealed `NavKey` hierarchy.
 - Feature UI modules expose navigation entry registration functions (for example `homeScreen`,
-  `detailScreen`, `signInScreen`, `mapsScreen`) and `composeApp` composes them in one
+  `detailScreen`, `signInScreen`, `mapsScreen`) and `shared` composes them in one
   `entryProvider`.
 
 ### 9.2 Ownership and responsibilities
 
 - `shared_ui`: owns route contracts (`Routes`) only.
-- `composeApp`: owns back stack and navigation container (`NavDisplay`, transitions, global scene
+- `shared`: owns back stack and navigation container (`NavDisplay`, transitions, global scene
   strategy).
 - `*_ui`: owns route-specific UI and emits navigation intents/events, but should not own global
   navigation state.
@@ -248,7 +254,7 @@ Use this direction:
 
 1. UI emits event/intention (for example: `NavigateToDetails(id)`).
 2. Screen entry handler in feature UI maps that event to route action.
-3. `composeApp` back stack applies `add/remove` operations.
+3. `shared` back stack applies `add/remove` operations.
 
 Keep route transitions at the app shell level, not duplicated inside each feature.
 
@@ -256,7 +262,7 @@ Keep route transitions at the app shell level, not duplicated inside each featur
 
 - Add new routes in `shared_ui/Routes.kt`.
 - Register the route entry in the relevant `*_ui` module.
-- Wire route entry from `composeApp/App.kt` `entryProvider`.
+- Wire route entry from `shared/App.kt` `entryProvider`.
 - Keep navigation arguments in route objects (strongly typed route models).
 - Keep cross-feature navigation explicit through shared routes (no hidden string route constants).
 
@@ -298,8 +304,8 @@ Then wire:
 
 1. Add modules to `settings.gradle.kts`
 2. Add project dependencies following direction rules
-3. Register Koin module in `composeApp/initKoin.kt`
-4. Register navigation route in `shared_ui/Routes.kt` and in `composeApp/App.kt`
+3. Register Koin module in `shared/initKoin.kt`
+4. Register navigation route in `shared_ui/Routes.kt` and in `shared/App.kt`
 
 ---
 
@@ -389,7 +395,7 @@ These are compatible improvements and can be applied incrementally:
 
 Use this as the default dependency mental model for new projects:
 
-`composeApp` -> (`*_ui`, `*_component`, `network`, `storage`, `shared_*`)
+`shared` -> (`*_ui`, `*_component`, `network`, `storage`, `shared_*`)
 
 `*_ui` -> (`*_component`, `shared_ui`, `shared_component`, optional infra)
 

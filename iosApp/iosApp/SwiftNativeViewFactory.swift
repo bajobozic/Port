@@ -4,7 +4,7 @@
 
 import Foundation
 import SwiftUI
-import ComposeApp
+import Shared
 
 class SwiftNativeViewFactory: NativeViewFactory {
     static let shared = SwiftNativeViewFactory()

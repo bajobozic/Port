@@ -24,12 +24,18 @@ ehthumbs.db
 # IntelliJ IDEA/Android Studio/CLion IDE Files
 .idea/
 
+# Jetpack Compose-specific
+.compose-cache/
+
 # Android-specific
 local.properties
 .externalNativeBuild/
 buildSrcTmp/
 distTmp/
 outTmp/
+captures/
+release/
+output.json
 
 # Gradle
 gradle-app.setting
@@ -80,3 +86,10 @@ clionSDK/
 # Personal/Local Configurations
 workspace.xml
 *.versionsBackup
+
+# Firebase/Google Services
+google-services.json
+
+# Temporary Migration/Instruction files
+Migration_Agent.md
+INSTRUCTIONS.md

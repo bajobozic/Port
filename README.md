@@ -11,15 +11,17 @@ This is a Kotlin Multiplatform project targeting Android, iOS, and Desktop (JVM)
 
 ## Project Structure
 
-* **[/composeApp](./composeApp/src)** is for code that will be shared across your Compose
+* **[/shared](./shared/src)** is for code that will be shared across your Compose
   Multiplatform applications.
   It contains several subfolders:
-    - **[commonMain](./composeApp/src/commonMain/kotlin)**: Code that is common for all targets.
+    - **[commonMain](./shared/src/commonMain/kotlin)**: Code that is common for all targets.
     - **Other folders**: Platform-specific Kotlin code (
-      e.g., [iosMain](./composeApp/src/iosMain/kotlin) for iOS-specific calls
-      or [jvmMain](./composeApp/src/jvmMain/kotlin) for Desktop specifics).
+      e.g., [iosMain](./shared/src/iosMain/kotlin) for iOS-specific calls
+      or [jvmMain](./shared/src/jvmMain/kotlin) for JVM-specific logic).
 
+* **[/androidApp](./androidApp)**: The Android application module.
 * **[/iosApp](./iosApp/iosApp)**: Contains the iOS application entry point and SwiftUI code.
+* **[/desktopApp](./desktopApp)**: The Desktop application module.
 
 ## Architecture Documentation
 
@@ -34,8 +36,8 @@ This is a Kotlin Multiplatform project targeting Android, iOS, and Desktop (JVM)
 To build and run the development version of the Android app, use your IDE's run configuration or the
 terminal:
 
-- **macOS/Linux**: `./gradlew :composeApp:assembleDebug`
-- **Windows**: `.\gradlew.bat :composeApp:assembleDebug`
+- **macOS/Linux**: `./gradlew :androidApp:assembleDebug`
+- **Windows**: `.\gradlew.bat :androidApp:assembleDebug`
 
 ### iOS Application
 
@@ -47,4 +49,5 @@ To build and run the development version of the iOS app, use the IDE run configu
 To build and run the desktop application, use the following terminal command:
 
 ```shell
-./gradlew :composeApp:run
+./gradlew :desktopApp:run
+```

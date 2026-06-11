@@ -29,8 +29,10 @@ Each feature must be split into two distinct modules to separate presentation fr
   Navigation Routes.
 - `shared_component`: Shared business logic, core wrappers (`Outcome`, `BaseError`), and utility
   mappers.
-- `composeApp`: The main entry point. Wires up the Navigation graph and initializes Dependency
+- `shared`: The main composition root. Wires up the Navigation graph and initializes Dependency
   Injection.
+- `androidApp`: The Android application entry point.
+- `desktopApp`: The Desktop application entry point.
 
 ## 2. Visibilities & Encapsulation (Strict Rules)
 
@@ -97,7 +99,7 @@ Minimize platform-specific code. When integrating native SDKs or complex native 
 - Prefer constructor injection utilities like `factoryOf(::MyUseCase)`,
   `singleOf(::MyRepositoryImpl)`, and `viewModelOf(::MyViewModel)` to reduce boilerplate.
 - Each feature module exports a single aggregated Koin module.
-- `composeApp` aggregates all feature, network, storage, and shared modules in its `initKoin`
+- `shared` aggregates all feature, network, storage, and shared modules in its `initKoin`
   function.
 
 ## 7. Resources & Theming
