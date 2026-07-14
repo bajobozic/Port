@@ -1,7 +1,5 @@
 // swift-tools-version: 5.9
-
 import PackageDescription
-
 let package = Package(
     name: "io_github_mirzemehdi_kmpnotifier_push_firebase_2_0_0",
     platforms: [
