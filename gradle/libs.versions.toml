@@ -1,7 +1,7 @@
 [versions]
 # Must use the same version for Kotlin and KSP(first 3 numbers)
 kotlin = "2.4.10"
-ksp = "2.3.6"
+ksp = "2.3.10"
 #end of same version for Kotlin and KSP
 
 # pure android versions
