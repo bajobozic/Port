@@ -24,6 +24,7 @@ kotlin {
             isStatic = true
             export(project(":signin_ui"))
             export(libs.notifier)
+            linkerOpts("-Wl,-U,_OBJC_CLASS_\$_UIViewLayoutRegion")
         }
     }
 

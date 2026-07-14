@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		410F9A752EDDACE400180BCA /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 410F9A742EDDACE400180BCA /* FirebaseAnalytics */; };
 		410F9A772EDDACE400180BCA /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 410F9A762EDDACE400180BCA /* FirebaseMessaging */; };
+		B6979832E905B223C75B6442 /* KotlinMultiplatformLinkedPackage in Frameworks */ = {isa = PBXBuildFile; productRef = B3F5555BED04BCF1D12C5D36 /* KotlinMultiplatformLinkedPackage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 			files = (
 				410F9A772EDDACE400180BCA /* FirebaseMessaging in Frameworks */,
 				410F9A752EDDACE400180BCA /* FirebaseAnalytics in Frameworks */,
+				B6979832E905B223C75B6442 /* KotlinMultiplatformLinkedPackage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +96,7 @@
 			packageProductDependencies = (
 				410F9A742EDDACE400180BCA /* FirebaseAnalytics */,
 				410F9A762EDDACE400180BCA /* FirebaseMessaging */,
+				B3F5555BED04BCF1D12C5D36 /* KotlinMultiplatformLinkedPackage */,
 			);
 			productName = iosApp;
 			productReference = 926D45E4D66AD612808611DB /* Port.app */;
@@ -125,6 +128,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				410F9A732EDDACE400180BCA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				7261AE322DA62B4EA6A3171C /* XCLocalSwiftPackageReference "KotlinMultiplatformLinkedPackage" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 80ACF504A1BD8A67188F536A /* Products */;
@@ -231,6 +235,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				"OTHER_LDFLAGS[arch=*]" = " -Wl,-U,_OBJC_CLASS_$$_UIViewLayoutRegion";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
@@ -329,6 +334,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				"OTHER_LDFLAGS[arch=*]" = " -Wl,-U,_OBJC_CLASS_$$_UIViewLayoutRegion";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -391,6 +397,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		7261AE322DA62B4EA6A3171C /* XCLocalSwiftPackageReference "KotlinMultiplatformLinkedPackage" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = KotlinMultiplatformLinkedPackage;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		410F9A732EDDACE400180BCA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -412,6 +425,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 410F9A732EDDACE400180BCA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		B3F5555BED04BCF1D12C5D36 /* KotlinMultiplatformLinkedPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KotlinMultiplatformLinkedPackage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

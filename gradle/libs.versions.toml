@@ -1,6 +1,6 @@
 [versions]
 # Must use the same version for Kotlin and KSP(first 3 numbers)
-kotlin = "2.4.0"
+kotlin = "2.4.10"
 ksp = "2.3.6"
 #end of same version for Kotlin and KSP
 
@@ -13,7 +13,7 @@ androidx-activity = "1.13.0"
 androidx-appcompat = "1.7.1"
 androidx-core = "1.19.0"
 androidx-espresso = "3.7.0"
-androidx-lifecycle = "2.10.0"
+androidx-lifecycle = "2.11.0"
 # end of pure android versions
 
 # test versions
@@ -27,12 +27,12 @@ exifinterface = "1.4.2"
 # end of camera versions
 
 # jetbraines versions
-compose-Multiplatform = "1.10.3"
+compose-Multiplatform = "1.11.1"
 material3 = "1.9.0"
 materialIconsCore = "1.7.3"
 nav3 = "1.1.1"
-nav3-adaptive = "1.3.0-beta01"
-nav3-view-model = "2.10.0"
+nav3-adaptive = "1.3.0-beta02"
+nav3-view-model = "2.11.0"
 kotlinxSerializationJson = "1.11.0"
 kotlinx-coroutines = "1.11.0"
 kotlinxDatetime = "0.8.0"
@@ -40,15 +40,15 @@ kotlinxDatetime = "0.8.0"
 
 # room versions
 room = "2.8.4"
-sqlite = "2.6.2"
+sqlite = "2.7.0"
 # end of room versions
 
 # di versions
-koin = "4.2.1"
+koin = "4.2.2"
 # end of versions
 
 # network versions
-ktor = "3.5.0"
+ktor = "3.5.1"
 # end of network versions
 
 # multiplatform paging versions
@@ -56,17 +56,17 @@ paging = "3.5.0"
 # end of multiplatform paging versions
 
 # image load versions
-coil = "3.4.0"
+coil = "3.5.0"
 # end of image load versions
 
 
 # third party versions
-gms = "4.4.4"
-kmp-notifier = "1.6.1"
-kotlinStdlib = "2.4.0"
+gms = "4.5.0"
+kmp-notifier = "2.0.0"
+kotlinStdlib = "2.4.10"
 runner = "1.7.0"
 core = "1.7.0"
-jetbrainsKotlinJvm = "2.4.0"
+jetbrainsKotlinJvm = "2.4.10"
 # end of third party versions
 
 # jvm camera launcher

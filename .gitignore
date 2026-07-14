@@ -67,6 +67,8 @@ tmp/
 *.orig
 *.hprof
 *.log
+*.swp
+*~
 
 # Exceptions for Build/Test Directories
 !**/src/**/build
@@ -89,6 +91,7 @@ workspace.xml
 
 # Firebase/Google Services
 google-services.json
+GoogleService-Info.plist
 
 # Temporary Migration/Instruction files
 Migration_Agent.md
