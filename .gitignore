@@ -96,3 +96,6 @@ GoogleService-Info.plist
 # Temporary Migration/Instruction files
 Migration_Agent.md
 INSTRUCTIONS.md
+
+# Kotlin SwiftPM Integration
+iosApp/KotlinMultiplatformLinkedPackage/
