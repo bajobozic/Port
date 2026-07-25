@@ -99,4 +99,5 @@ INSTRUCTIONS.md
 
 # Kotlin SwiftPM Integration
 iosApp/KotlinMultiplatformLinkedPackage/
-main-pull.sh
+scripts/main-pull.sh
+scripts/main-pull.sh
