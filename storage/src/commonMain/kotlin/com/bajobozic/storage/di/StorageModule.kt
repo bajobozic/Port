@@ -1,11 +1,7 @@
 package com.bajobozic.storage.di
 
 import androidx.paging.ExperimentalPagingApi
-import com.bajobozic.storage.data.db.AppDatabase
-import com.bajobozic.storage.data.db.MovieDao
 import com.bajobozic.storage.data.repository.StorageRepositoryImpl
-import com.bajobozic.storage.data.source.LocalDataSource
-import com.bajobozic.storage.data.source.LocalDataSourceImpl
 import com.bajobozic.storage.databaseModule
 import com.bajobozic.storage.domain.repository.StorageRepository
 import com.bajobozic.storage.domain.usecase.BatchTransactionUseCase
@@ -25,14 +21,11 @@ import com.bajobozic.storage.domain.usecase.InsertAllMoviesUseCase
 import com.bajobozic.storage.domain.usecase.InsertAllTvShowsUseCase
 import com.bajobozic.storage.domain.usecase.RemoteKeysInsertAllUseCase
 import com.bajobozic.storage.domain.usecase.TvShowRemoteKeysInsertAllUseCase
-
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 internal val protectedStorageModule = module {
-    single<MovieDao> { get<AppDatabase>().getMovieDao() }
-    singleOf(::LocalDataSourceImpl).bind<LocalDataSource>()
     singleOf(::StorageRepositoryImpl).bind<StorageRepository>()
 }
 

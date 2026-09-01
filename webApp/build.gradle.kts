@@ -1,25 +1,20 @@
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
 }
 
+val resourcesPath = layout.projectDirectory.dir("src/wasmJsMain/resources").asFile.path
+
 kotlin {
     @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "webApp"
+        compilerOptions {
+            moduleName.set("webApp")
+        }
         browser {
-            val rootDirPath = project.rootDir.path
-            projectDirectory = file(rootDirPath)
             commonWebpackConfig {
                 outputFileName = "webApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        add(project.projectDir.resolve("src/wasmJsMain/resources").path)
-                    }
-                }
             }
         }
         binaries.executable()
@@ -36,3 +31,8 @@ kotlin {
         }
     }
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack>().configureEach {
+    notCompatibleWithConfigurationCache("KotlinWebpack dev server tasks do not support Gradle configuration cache yet")
+}
+

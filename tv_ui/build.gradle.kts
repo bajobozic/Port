@@ -28,6 +28,10 @@ kotlin {
     iosSimulatorArm64()
 
     jvm()
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+    }
 
     sourceSets {
         commonMain {

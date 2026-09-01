@@ -10,8 +10,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.graphics.toColorInt
+import com.mmk.kmpnotifier.KMPNotifier
 import com.mmk.kmpnotifier.extensions.onCreateOrOnNewIntent
-import com.mmk.kmpnotifier.notification.NotifierManager
 import com.mmk.kmpnotifier.permission.permissionUtil
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val permissionUtil by permissionUtil()
         permissionUtil.askNotificationPermission() //this will ask permission in Android 13(API Level 33) or above, otherwise permission will be granted.
-        NotifierManager.onCreateOrOnNewIntent(intent)
+        KMPNotifier.onCreateOrOnNewIntent(intent)
         setContent {
             App()
         }
@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onNewIntent(intent: Intent, caller: ComponentCaller) {
         super.onNewIntent(intent, caller)
-        NotifierManager.onCreateOrOnNewIntent(intent)
+        KMPNotifier.onCreateOrOnNewIntent(intent)
     }
 }
 

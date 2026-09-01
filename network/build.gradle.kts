@@ -29,6 +29,9 @@ kotlin {
     iosSimulatorArm64()
 
     jvm()
+    wasmJs {
+        browser()
+    }
 
     // For iOS targets, this is also where you should
     // configure native binary output. For more information, see:
@@ -95,6 +98,12 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(libs.ktor.client.okhttp)
+            }
+        }
+
+        val wasmJsMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.js)
             }
         }
 

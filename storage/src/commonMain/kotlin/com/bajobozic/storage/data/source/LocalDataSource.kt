@@ -2,33 +2,35 @@ package com.bajobozic.storage.data.source
 
 
 import androidx.paging.PagingSource
-import com.bajobozic.storage.data.entity.GenreEntity
-import com.bajobozic.storage.data.entity.MovieEntity
-import com.bajobozic.storage.data.entity.MovieRemoteKeys
-import com.bajobozic.storage.data.entity.MovieWithGenres
-import com.bajobozic.storage.data.entity.TvShowEntity
-import com.bajobozic.storage.data.entity.TvShowRemoteKeys
+import com.bajobozic.storage.domain.model.Genre
+import com.bajobozic.storage.domain.model.GetMovieWithGenres
+import com.bajobozic.storage.domain.model.GetTvShow
+import com.bajobozic.storage.domain.model.Movie
+import com.bajobozic.storage.domain.model.MovieDetail
+import com.bajobozic.storage.domain.model.MovieRemoteKeysModel
+import com.bajobozic.storage.domain.model.TvShowDetail
+import com.bajobozic.storage.domain.model.TvShowRemoteKeysModel
 import kotlinx.coroutines.flow.Flow
 
 internal interface LocalDataSource {
     suspend fun insertAllMovies(
-        list: List<MovieEntity>,
-        genreList: List<GenreEntity>,
-        genreIdsPerMovie: List<List<Int>>
+        list: List<MovieDetail>,
+        genreList: List<Genre>,
+        genreIdsPerMovie: List<List<Genre>>
     )
 
     suspend fun deleteThenInsertAllMovies(
-        list: List<MovieEntity>,
-        genreList: List<GenreEntity>,
-        genreIdsPerMovie: List<List<Int>>
+        list: List<MovieDetail>,
+        genreList: List<Genre>,
+        genreIdsPerMovie: List<List<Genre>>
     )
 
     suspend fun insertAllTvShows(
-        list: List<TvShowEntity>
+        list: List<TvShowDetail>
     )
 
     suspend fun deleteThenInsertAllTvShows(
-        list: List<TvShowEntity>
+        list: List<TvShowDetail>
     )
 
     suspend fun deleteMovie(movieId: Int)
@@ -40,18 +42,18 @@ internal interface LocalDataSource {
     suspend fun getMaxCurrentPage(): Int?
     suspend fun getTvShowMaxCurrentPage(): Int?
 
-    fun getPagingSource(): PagingSource<Int, MovieWithGenres>
-    fun getTvShowPagingSource(): PagingSource<Int, TvShowEntity>
+    fun getPagingSource(): PagingSource<Int, GetMovieWithGenres>
+    fun getTvShowPagingSource(): PagingSource<Int, GetTvShow>
 
-    fun getMovie(movieId: Int): Flow<MovieWithGenres>
+    fun getMovie(movieId: Int): Flow<Movie>
 
-    suspend fun getAllGenres(): List<GenreEntity>
+    suspend fun getAllGenres(): List<Genre>
 
-    suspend fun getMovieWithRemoteKeys(movieId: Int): MovieRemoteKeys?
+    suspend fun getMovieWithRemoteKeys(movieId: Int): MovieRemoteKeysModel?
     suspend fun clearRemoteKeys(): Unit
-    suspend fun insertAllRemoteKeys(localKeys: List<MovieRemoteKeys>)
+    suspend fun insertAllRemoteKeys(localKeys: List<MovieRemoteKeysModel>)
 
-    suspend fun getTvShowWithRemoteKeys(tvShowId: Int): TvShowRemoteKeys?
+    suspend fun getTvShowWithRemoteKeys(tvShowId: Int): TvShowRemoteKeysModel?
     suspend fun clearTvShowRemoteKeys(): Unit
-    suspend fun insertAllTvShowRemoteKeys(localKeys: List<TvShowRemoteKeys>)
+    suspend fun insertAllTvShowRemoteKeys(localKeys: List<TvShowRemoteKeysModel>)
 }

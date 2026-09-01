@@ -11,6 +11,19 @@ kotlin {
     // Target declarations - add or remove as needed below. These define
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
+    applyHierarchyTemplate {
+        common {
+            group("nonWasm") {
+                withAndroidTarget()
+                withJvm()
+                group("ios") {
+                    withIos()
+                }
+            }
+            withWasmJs()
+        }
+    }
+
     androidLibrary {
         namespace = "com.bajobozic.storage"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -30,49 +43,33 @@ kotlin {
     iosSimulatorArm64()
 
     jvm()
-    // For iOS targets, this is also where you should
-    // configure native binary output. For more information, see:
-    // https://kotlinlang.org/docs/multiplatform-build-native-binaries.html#build-xcframeworks
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+    }
 
-    // A step-by-step guide on how to include this library in an XCode
-    // project can be found here:
-    // https://developer.android.com/kotlin/multiplatform/migrate
-    val xcfName = "storageKit"
-
-
-    // Source set declarations.
-    // Declaring a target automatically creates a source set with the same name. By default, the
-    // Kotlin Gradle Plugin creates additional source sets that depend on each other, since it is
-    // common to share sources between related targets.
-    // See: https://kotlinlang.org/docs/multiplatform-hierarchy.html
     sourceSets {
         commonMain {
             dependencies {
                 implementation(project(":core_component"))
                 implementation(libs.kotlin.stdlib)
-                // Add KMP dependencies here
-                // Kotlin datetime
                 implementation(libs.kotlinx.datetime)
-                // Room common
+                implementation(libs.androidx.paging.common)
+                implementation(libs.koin.core)
+            }
+        }
+
+        val nonWasmMain by getting {
+            dependencies {
                 implementation(libs.androidx.room.runtime)
                 implementation(libs.androidx.room.paging)
                 implementation(libs.androidx.sqlite.bundled)
-                // Koin common
-                implementation(libs.koin.core)
             }
         }
 
         commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
-            }
-        }
-
-        androidMain {
-            dependencies {
-                // Add Android-specific dependencies here. Note that this source set depends on
-                // commonMain by default and will correctly pull the Android artifacts of any KMP
-                // dependencies declared in commonMain.
             }
         }
 
@@ -83,15 +80,7 @@ kotlin {
                 implementation(libs.androidx.testExt.junit)
             }
         }
-
-        val jvmMain by getting {
-            dependencies {
-            }
-        }
-
-
     }
-
 }
 
 room {
