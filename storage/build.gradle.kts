@@ -10,20 +10,6 @@ kotlin {
 
     // Target declarations - add or remove as needed below. These define
     // which platforms this KMP module supports.
-    // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
-    applyHierarchyTemplate {
-        common {
-            group("nonWasm") {
-                withAndroidTarget()
-                withJvm()
-                group("ios") {
-                    withIos()
-                }
-            }
-            withWasmJs()
-        }
-    }
-
     androidLibrary {
         namespace = "com.bajobozic.storage"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -59,12 +45,33 @@ kotlin {
             }
         }
 
-        val nonWasmMain by getting {
+        val nonWasmMain by creating {
+            dependsOn(commonMain.get())
             dependencies {
                 implementation(libs.androidx.room.runtime)
                 implementation(libs.androidx.room.paging)
                 implementation(libs.androidx.sqlite.bundled)
             }
+        }
+
+        androidMain {
+            dependsOn(nonWasmMain)
+        }
+
+        jvmMain {
+            dependsOn(nonWasmMain)
+        }
+
+        val iosMain by creating {
+            dependsOn(nonWasmMain)
+        }
+
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
         }
 
         commonTest {
